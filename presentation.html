@@ -1,0 +1,2035 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>感控不踩雷指南｜病房最優雅的守護神 — 核心簡報教材 (P&P 最新完整版)</title>
+  <meta name="description" content="臺大醫院感染管制中心最新版 P&P 臨床指引：隔離防護規範、抗藥菌管制措施、困難梭狀桿菌、手部衛生核心規範、導管血流感染(CLABSI)、尿管泌尿道感染(CAUTI)、肺炎預防(VAP/HAP)、傷口照護原則與負壓檢查室管理細則。">
+  <link rel="icon" href="assets/avatar.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;800;900&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
+  
+  <style>
+    /* 仿雜誌書封風格 (對標 ai-cobot-course 雜誌美學，高對比醫療翡翠與暖金配色) */
+    :root {
+      --ink: #0f172a;
+      --ink-dark: #020617;
+      --soft: #475569;
+      --line: #cbd5e1;
+      --accent: #085446;
+      --accent-2: #04382e;
+      --accent-soft: #e8f5f1;
+      --gold: #b45309;
+      --gold-soft: #fef3c7;
+      --danger: #b91c1c;
+      --danger-soft: #fee2e2;
+      --paper: #ffffff;
+      --bg: #f8fafc;
+      --radius: 16px;
+      --radius-sm: 8px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Noto Sans TC", system-ui, -apple-system, sans-serif;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .wrap {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 clamp(18px, 3.5vw, 56px);
+    }
+
+    /* 頂部跑馬燈 (沉穩醫療深灰藍風格) */
+    .ticker {
+      background: #0f172a;
+      color: #e2e8f0;
+      overflow: hidden;
+      font-size: 14.5px;
+      font-weight: 600;
+      padding: 8px 0;
+      border-bottom: 1px solid #1e293b;
+    }
+    .ticker-track {
+      display: flex;
+      width: max-content;
+      animation: roll 85s linear infinite; /* 放慢速度，舒適好讀 */
+    }
+    /* 滑鼠懸停時自動暫停跑馬燈，方便同仁閱讀 */
+    .ticker:hover .ticker-track {
+      animation-play-state: paused;
+    }
+    .ticker-group {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      padding-right: 22px;
+      white-space: nowrap;
+    }
+    .ticker .sep { color: #64748b; }
+    .ticker strong { color: #5eead4; font-weight: 700; }
+    @keyframes roll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ticker-track { animation: none; }
+    }
+
+    /* 頂端導航 */
+    .site-nav {
+      background: rgba(255, 255, 255, 0.98);
+      border-bottom: 1.5px solid var(--line);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      padding: 0.9rem 0;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      font-weight: 900;
+      font-size: 1.15rem;
+      color: var(--accent);
+    }
+    .nav-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--accent);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+    }
+    .nav-btn {
+      padding: 0.5rem 1.1rem;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      transition: all 0.15s;
+    }
+    .nav-btn-outline {
+      background: #fff;
+      border: 1.5px solid var(--line);
+      color: var(--ink);
+    }
+    .nav-btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+    .nav-btn-primary {
+      background: var(--accent);
+      color: #fff !important;
+      box-shadow: 0 3px 10px rgba(8, 84, 70, 0.25);
+    }
+    .nav-btn-primary:hover {
+      background: var(--accent-2);
+      transform: translateY(-1px);
+    }
+    .nav-btn-gold {
+      background: #d97706;
+      color: #fff !important;
+      box-shadow: 0 3px 10px rgba(217, 119, 6, 0.3);
+    }
+    .nav-btn-gold:hover {
+      background: #b45309;
+    }
+
+    /* Hero 雜誌書封風格 */
+    .hero {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 48px;
+      align-items: center;
+      padding: 56px 0 44px;
+    }
+    .badge {
+      display: inline-block;
+      background: var(--accent-soft);
+      color: var(--accent-2);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      padding: 6px 16px;
+      border-radius: 999px;
+      border: 1.5px solid rgba(8, 84, 70, 0.3);
+    }
+    .hero h1 {
+      font-family: "Noto Serif TC", serif;
+      font-size: clamp(38px, 3.8vw, 62px);
+      line-height: 1.26;
+      margin: 18px 0 16px;
+      letter-spacing: -0.01em;
+      color: #0b1a16;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--accent);
+      display: block;
+    }
+    .lead {
+      color: #334155;
+      font-size: 19px;
+      margin: 0 0 28px;
+      line-height: 1.75;
+      font-weight: 500;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 900;
+      padding: 16px 36px;
+      border-radius: 12px;
+      font-size: 19px;
+      transition: all 0.18s;
+      box-shadow: 0 8px 20px rgba(8, 84, 70, 0.25);
+    }
+    .cta:hover {
+      background: var(--accent-2);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(8, 84, 70, 0.35);
+    }
+    .cta-sub {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 2px solid var(--line);
+      color: var(--ink);
+      font-weight: 800;
+      padding: 16px 28px;
+      border-radius: 12px;
+      font-size: 17px;
+      transition: all 0.18s;
+    }
+    .cta-sub:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    /* Hero 右側：10 大簡報單元快速直達選單 (100% 具備點擊開啟功能，告別無用裝飾) */
+    .hero-quick-menu {
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .quick-menu-header {
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 10px;
+    }
+    .quick-menu-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 800;
+      color: #0f766e;
+      background: #f0fdf4;
+      border: 1px solid #ccfbf1;
+      padding: 2px 10px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+    }
+    .quick-menu-title {
+      font-family: "Noto Serif TC", serif;
+      font-size: 18.5px;
+      color: #0f172a;
+      margin: 0 0 4px;
+      font-weight: 800;
+    }
+    .quick-menu-sub {
+      font-size: 13px;
+      color: #64748b;
+      margin: 0;
+    }
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .quick-btn {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 7px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: left;
+      font-family: inherit;
+    }
+    .quick-btn:hover {
+      background: #ffffff;
+      border-color: #085446;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(8, 84, 70, 0.12);
+    }
+    .quick-btn.quick-special {
+      background: #f0fdfa;
+      border-color: #99f6e4;
+    }
+    .qb-icon {
+      font-size: 18px;
+      line-height: 1;
+    }
+    .qb-num {
+      font-size: 11px;
+      font-weight: 900;
+      color: #0f766e;
+      background: #e6f4f1;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+    .qb-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1e293b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+    .quick-play-all-btn {
+      background: #085446;
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 14.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.18s;
+      box-shadow: 0 3px 10px rgba(8, 84, 70, 0.2);
+      font-family: inherit;
+      margin-top: 4px;
+    }
+    .quick-play-all-btn:hover {
+      background: #04382e;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(8, 84, 70, 0.3);
+    }
+    /* 關鍵字防踩雷高亮卡 (Warning Callout - 溫和柔粉醫療警示) */
+    .danger-callout {
+      background: #fff1f2;
+      border: 1px solid #fecdd3;
+      border-left: 4px solid #e11d48;
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 24px 0 32px;
+    }
+    .danger-callout h4 {
+      color: #9f1239;
+      font-size: 19px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .danger-callout p {
+      color: #881337;
+      font-size: 15.5px;
+      line-height: 1.75;
+      margin: 0;
+      font-weight: 500;
+    }
+    .danger-callout strong {
+      color: #4c0519;
+      background: #ffe4e6;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    /* 區塊標題 */
+    .sec {
+      padding: 36px 0 20px;
+    }
+
+    /* 台大感管 LINE 官方帳號臨床特色專區 (典雅高質感白底臨床卡片) */
+    .line-promo-section {
+      background: #ffffff;
+      color: var(--ink);
+      border-radius: var(--radius);
+      padding: clamp(24px, 3.5vw, 38px);
+      margin: 28px 0 40px;
+      border: 1px solid #e2e8f0;
+      border-top: 4px solid var(--accent);
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+      position: relative;
+    }
+    .line-promo-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 16px;
+    }
+    .line-promo-header h2 {
+      font-family: "Noto Serif TC", serif;
+      font-size: clamp(22px, 2.3vw, 28px);
+      color: #0f172a;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .line-badge-pill {
+      background: #0f766e;
+      color: #ffffff;
+      font-size: 13.5px;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .line-promo-sub {
+      color: #475569;
+      font-size: 15.5px;
+      line-height: 1.7;
+      margin: 0 0 22px;
+      font-weight: 500;
+    }
+    .line-promo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+    .line-benefit-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 18px 20px;
+      transition: all 0.2s;
+    }
+    .line-benefit-card:hover {
+      background: #ffffff;
+      transform: translateY(-2px);
+      border-color: #cbd5e1;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.05);
+    }
+    .line-card-icon {
+      font-size: 26px;
+      margin-bottom: 8px;
+      display: inline-block;
+    }
+    .line-card-title {
+      font-size: 16.5px;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .line-card-pain {
+      background: #fff1f2;
+      border-left: 3px solid #f43f5e;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #9f1239;
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+    .line-card-cure {
+      background: #f0fdf4;
+      border-left: 3px solid #10b981;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 13.5px;
+      color: #166534;
+      line-height: 1.6;
+    }
+    .line-card-cure code {
+      background: #dcfce7;
+      color: #14532d;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+    .line-cta-bar {
+      background: #f8fafc;
+      border-radius: 12px;
+      padding: 16px 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      border: 1px solid #e2e8f0;
+    }
+    .line-cta-info {
+      font-size: 14.5px;
+      color: #334155;
+    }
+    .line-cta-info strong {
+      color: #0f766e;
+      font-size: 16px;
+    }
+    .line-join-btn {
+      background: #059669;
+      color: #ffffff !important;
+      font-weight: 800;
+      font-size: 15px;
+      padding: 10px 22px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 3px 10px rgba(5, 150, 105, 0.25);
+      transition: all 0.15s;
+    }
+    .line-join-btn:hover {
+      background: #047857;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35);
+    }
+    .sec h2 {
+      font-family: "Noto Serif TC", serif;
+      font-size: 34px;
+      margin: 0 0 6px;
+      color: #0b1a16;
+    }
+    .sub {
+      color: var(--soft);
+      margin: 0 0 32px;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    /* 簡報卡片牆 (現代俐落醫療卡片風格，徹底告別空洞暗黑大框) */
+    .mag {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 24px;
+    }
+    .tvol {
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      overflow: hidden;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+      cursor: pointer;
+      padding: 24px;
+      position: relative;
+    }
+    .tvol:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+      border-color: #0d9488;
+    }
+    .tvol-special {
+      border: 1.5px solid #14b8a6;
+      background: #f0fdfa;
+    }
+    .tcard-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 14px;
+    }
+    .tcard-icon-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: #f1f5f9;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      flex-shrink: 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .tcard-meta-wrap {
+      flex: 1;
+      min-width: 0;
+    }
+    .tcard-tag {
+      display: inline-block;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #0f766e;
+      background: #f0fdf4;
+      border: 1px solid #ccfbf1;
+      padding: 2px 10px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+    }
+    .tcard-title {
+      font-family: "Noto Serif TC", serif;
+      font-size: 19px;
+      margin: 0;
+      color: #0f172a;
+      line-height: 1.4;
+      font-weight: 800;
+    }
+    .tinfo {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      padding: 0;
+    }
+    .tcard-desc {
+      font-size: 14.5px;
+      color: #475569;
+      line-height: 1.6;
+      margin: 0 0 12px;
+      font-weight: 500;
+    }
+    .tinfo ul {
+      margin: 0 0 16px 18px;
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.65;
+      flex: 1;
+      padding: 0;
+    }
+    .tinfo ul li {
+      margin-bottom: 6px;
+    }
+    .tmeta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 14px;
+      font-size: 13.5px;
+      color: #64748b;
+      font-weight: 700;
+    }
+    .tcard-action {
+      color: #0f766e;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 800;
+      transition: color 0.15s;
+    }
+    .tvol:hover .tcard-action {
+      color: #0d9488;
+    }
+
+    /* 投影片全螢幕播放彈窗 (Slide Presentation Modal) */
+    .slide-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(8, 18, 15, 0.94);
+      backdrop-filter: blur(12px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .slide-modal.hidden { display: none; }
+    .slide-stage {
+      width: min(1100px, 100%);
+      max-height: calc(100vh - 36px);
+      height: min(860px, calc(100vh - 36px));
+      background: #ffffff;
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+      position: relative;
+    }
+    .slide-header {
+      background: #0f241f;
+      color: #fff;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 3px solid var(--accent);
+    }
+    .slide-header-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #e2f1ec;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .slide-close-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      font-size: 13.5px;
+      font-weight: 800;
+      padding: 6px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    
+    .slide-nav-header-btn {
+      background: #0f766e;
+      color: #ffffff;
+      border: 1px solid #14b8a6;
+      font-size: 13.5px;
+      font-weight: 800;
+      padding: 6px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .slide-nav-header-btn:hover:not(:disabled) {
+      background: #14b8a6;
+      transform: scale(1.04);
+    }
+    .slide-nav-header-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .slide-close-btn:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      transform: scale(1.03);
+    }
+    .slide-select {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      padding: 5px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      max-width: 260px;
+    }
+    .slide-select option {
+      background: #0f241f;
+      color: #ffffff;
+    }
+    .slide-return-btn {
+      background: #e2e8f0 !important;
+      color: #0f172a !important;
+      border-color: #cbd5e1 !important;
+    }
+    .slide-return-btn:hover {
+      background: var(--accent) !important;
+      color: #fff !important;
+      border-color: var(--accent) !important;
+    }
+
+    .slide-body {
+      flex: 1;
+      padding: 32px 48px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: #ffffff;
+      color: #0f172a;
+    }
+    .slide-tag {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .slide-main-title {
+      font-family: "Noto Serif TC", serif;
+      font-size: 30px;
+      color: #0b1a16;
+      line-height: 1.35;
+      margin-bottom: 16px;
+    }
+    .slide-content-text {
+      font-size: 16.5px;
+      line-height: 1.8;
+      color: #1e293b;
+      margin-bottom: 18px;
+      font-weight: 500;
+    }
+    .slide-key-points {
+      background: #f0fdf4;
+      border: 1.5px solid #10b981;
+      border-left: 6px solid #047857;
+      padding: 18px 22px;
+      border-radius: var(--radius-sm);
+      font-size: 15.5px;
+      color: #064e3b;
+      line-height: 1.75;
+      font-weight: 600;
+    }
+    .slide-key-points strong {
+      color: #047857;
+      font-weight: 900;
+    }
+
+    .slide-footer {
+      background: #f8fafc;
+      border-top: 1.5px solid var(--line);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .slide-nav-btn {
+      background: #fff;
+      border: 1.5px solid var(--line);
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .slide-nav-btn:hover:not(:disabled) {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .slide-nav-btn-primary {
+      background: #0f766e !important;
+      color: #ffffff !important;
+      border-color: #0f766e !important;
+      box-shadow: 0 2px 8px rgba(15, 118, 110, 0.25);
+    }
+    .slide-nav-btn-primary:hover:not(:disabled) {
+      background: #14b8a6 !important;
+      border-color: #14b8a6 !important;
+      color: #ffffff !important;
+      transform: translateY(-1px);
+    }
+    .slide-nav-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .slide-counter {
+      font-size: 14px;
+      font-weight: 900;
+      color: var(--soft);
+    }
+
+    /* 頁尾 */
+    footer {
+      background: #ffffff;
+      border-top: 1.5px solid var(--line);
+      padding: 48px 0 36px;
+      margin-top: 72px;
+    }
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      font-size: 14.5px;
+      color: var(--soft);
+    }
+
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .mag { grid-template-columns: 1fr; }
+      .slide-body { padding: 20px; }
+      .slide-main-title { font-size: 22px; }
+      .slide-content-text { font-size: 15px; }
+    }
+  
+    /* 全站流程橫幅 (先閱讀 ➔ 後闖關) */
+    .site-flow-roadmap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 10px 18px;
+      margin: 20px 0 28px;
+      flex-wrap: wrap;
+    }
+    .flow-step {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13.5px;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .flow-active {
+      background: #085446;
+      color: #ffffff;
+      font-weight: 800;
+      box-shadow: 0 2px 8px rgba(8, 84, 70, 0.2);
+    }
+    .flow-active .flow-num {
+      background: #2dd4bf;
+      color: #042f2e;
+    }
+    .flow-next, .flow-prev {
+      background: #ffffff;
+      color: #1e293b;
+      border: 1px solid #cbd5e1;
+      font-weight: 700;
+    }
+    .flow-next:hover, .flow-prev:hover {
+      border-color: #085446;
+      color: #085446;
+      background: #f0fdf4;
+    }
+    .flow-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #e2e8f0;
+      color: #475569;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .flow-arrow {
+      color: #94a3b8;
+      font-weight: 900;
+      font-size: 16px;
+    }
+
+    /* 閱讀完成前往步驟 2 卡片 */
+    .next-step-card {
+      background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+      border: 2px solid #14b8a6;
+      border-radius: var(--radius);
+      padding: 36px 32px;
+      margin: 48px 0 24px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(20, 184, 166, 0.1);
+    }
+    .next-step-badge {
+      display: inline-block;
+      background: #0f766e;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 800;
+      padding: 4px 14px;
+      border-radius: 999px;
+      margin-bottom: 12px;
+    }
+    .next-step-card h3 {
+      font-family: "Noto Serif TC", serif;
+      font-size: 26px;
+      color: #0f172a;
+      margin: 0 0 12px;
+    }
+    .next-step-card p {
+      font-size: 16px;
+      color: #475569;
+      max-width: 720px;
+      margin: 0 auto 24px;
+      line-height: 1.7;
+    }
+    .btn-to-quiz {
+      background: #085446;
+      color: #ffffff !important;
+      font-size: 17px;
+      font-weight: 900;
+      padding: 14px 34px;
+      border-radius: 999px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(8, 84, 70, 0.3);
+      transition: all 0.2s;
+    }
+    .btn-to-quiz:hover {
+      background: #04382e;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(8, 84, 70, 0.4);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- 跑馬燈 -->
+  <div class="ticker">
+    <div class="ticker-track">
+      <div class="ticker-group">
+        <span>🛡️ 臺大醫院感染管制中心 ✦ 最新版 P&P 臨床指引簡報</span>
+        <span class="sep">/</span>
+        <span>把感染管制做成直覺，妳就是病房裡最優雅的守護神</span>
+        <span class="sep">/</span>
+        <span>📱 <strong>台大感管 LINE (@ntuhic)：支援越、泰、印、英多國語言切換，外籍看護床邊衛教零障礙！</strong></span>
+        <span class="sep">/</span>
+        <span>看到 MDRO 報告：<strong>醫師立隔離醫囑 ➔ 門口放 PPE ➔ 衛教並儘快完成紀錄</strong></span>
+        <span class="sep">/</span>
+        <span>🚨 <strong>常見嚴重錯誤：摸完分泌物/污物後，嚴禁未洗手直接管灌餵食！</strong></span>
+        <span class="sep">/</span>
+        <span>困難梭狀桿菌：<strong>芽孢酒精無效！必用肥皂水洗手 ✦ 0.06% (1:100) / 0.1% (1:50) 漂白水清消</strong></span>
+        <span class="sep">/</span>
+        <span>中心導管 Bundle：<strong>留置前超音波評估血管，第一秒就必須使用無菌傳導膠！</strong></span>
+        <span class="sep">/</span>
+        <span>尿管 CAUTI：<strong>倒尿絕對不可共用尿缸 (國際文獻多起群聚) ✦ 集尿袋低於膀胱不碰地</strong></span>
+        <span class="sep">/</span>
+        <span>肺炎 VAP：<strong>床頭抬高 30~45 度 ✦ CHG 口腔護理 ✦ 嚴禁使積水逆流回病人端</strong></span>
+        <span class="sep">/</span>
+        <span>負壓檢查室：<strong>紫消燈每次使用 15 分鐘 ✦ 家屬入內佩戴 N95 口罩 ✦ 0.06% 漂白水清消</strong></span>
+      </div>
+      <div class="ticker-group" aria-hidden="true">
+        <span>🛡️ 臺大醫院感染管制中心 ✦ 最新版 P&P 臨床指引簡報</span>
+        <span class="sep">/</span>
+        <span>把感染管制做成直覺，妳就是病房裡最優雅的守護神</span>
+        <span class="sep">/</span>
+        <span>📱 <strong>台大感管 LINE (@ntuhic)：支援越、泰、印、英多國語言切換，外籍看護床邊衛教零障礙！</strong></span>
+        <span class="sep">/</span>
+        <span>看到 MDRO 報告：<strong>醫師立隔離醫囑 ➔ 門口放 PPE ➔ 衛教並儘快完成紀錄</strong></span>
+        <span class="sep">/</span>
+        <span>🚨 <strong>常見嚴重錯誤：摸完分泌物/污物後，嚴禁未洗手直接管灌餵食！</strong></span>
+        <span class="sep">/</span>
+        <span>困難梭狀桿菌：<strong>芽孢酒精無效！必用肥皂水洗手 ✦ 0.06% (1:100) / 0.1% (1:50) 漂白水清消</strong></span>
+        <span class="sep">/</span>
+        <span>中心導管 Bundle：<strong>留置前超音波評估血管，第一秒就必須使用無菌傳導膠！</strong></span>
+        <span class="sep">/</span>
+        <span>尿管 CAUTI：<strong>倒尿絕對不可共用尿缸 (國際文獻多起群聚) ✦ 集尿袋低於膀胱不碰地</strong></span>
+        <span class="sep">/</span>
+        <span>肺炎 VAP：<strong>床頭抬高 30~45 度 ✦ CHG 口腔護理 ✦ 嚴禁使積水逆流回病人端</strong></span>
+        <span class="sep">/</span>
+        <span>負壓檢查室：<strong>紫消燈每次使用 15 分鐘 ✦ 家屬入內佩戴 N95 口罩 ✦ 0.06% 漂白水清消</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 頂部導覽列 -->
+  <header class="site-nav">
+    <div class="wrap nav-inner">
+      <a class="nav-brand" href="presentation.html">
+        <img class="nav-logo" src="assets/avatar.jpg" alt="台大感管頭像">
+        <div class="nav-brand-text">
+          <span style="font-size:1.15rem; font-weight:900; color:#085446;">臺大醫院感控不踩雷</span>
+          <span style="font-size:0.75rem; font-weight:700; color:#64748b;">學習架構：先閱讀教材 ➔ 後實戰闖關</span>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <!-- 步驟 1 (當前頁面) -->
+        <a class="nav-btn nav-btn-step active" href="presentation.html" title="當前頁面：9 大章節投影片與卡片教材">
+          <span style="font-size:0.72rem; background:rgba(255,255,255,0.25); color:#fff; padding:2px 7px; border-radius:999px; font-weight:800;">步驟 1</span>
+          <span>📖 先閱讀教材</span>
+          <span style="font-size:0.68rem; background:#2dd4bf; color:#042f2e; padding:1px 6px; border-radius:999px; font-weight:900;">目前位置 ●</span>
+        </a>
+
+        <!-- 步驟 2 (前往闖關) -->
+        <a class="nav-btn nav-btn-step" href="index.html?mode=quiz" title="前往步驟 2：臨床情境考題闖關測驗" style="border-color:#085446; color:#085446;">
+          <span style="font-size:0.72rem; background:#f0fdf4; color:#085446; padding:2px 7px; border-radius:999px; font-weight:800;">步驟 2</span>
+          <span>⚔️ 後實戰闖關 ➔</span>
+        </a>
+
+        <!-- 主管看板 -->
+        <a class="nav-btn" href="admin.html" title="查看全院同仁答題成效與弱點統計">
+          <span>📊 主管看板</span>
+        </a>
+
+        <!-- LINE 官方帳號 -->
+        <a class="nav-btn" style="background:#059669; color:#fff !important; border-color:#059669;" href="https://line.me/R/ti/p/@ntuhic" target="_blank" rel="noopener" title="加入感管 LINE 隨身查代碼與多語衛教">
+          <span>📱 感管 LINE @ntuhic ↗</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    
+    <!-- Hero 雜誌封面區 -->
+    <!-- 網站導覽指引條：清晰步驟定位 -->
+    <div class="site-flow-roadmap">
+      <div class="flow-step flow-active">
+        <span class="flow-num">1</span>
+        <span class="flow-text"><strong>【步驟 1：先閱讀教材】</strong> 9 大章節投影片 ＆ LINE 口袋顧問攻略（目前位置）</span>
+      </div>
+      <div class="flow-arrow">➔</div>
+      <a class="flow-step flow-next" href="index.html?mode=quiz" title="讀完隨時可前往測驗">
+        <span class="flow-num">2</span>
+        <span class="flow-text"><strong>【步驟 2：後實戰闖關】</strong> 情境考題對決測驗（前往測驗 ↗）</span>
+      </a>
+    </div>
+
+    <section class="hero">
+      <div>
+        <span class="badge">NTUH INFECTION CONTROL · OFFICIAL P&P SLIDES</span>
+        <h1>感控不踩雷指南<br><em>病房裡最優雅的守護神</em></h1>
+        <p class="lead">
+          完整收錄臺大醫院 <strong>最新版感染管制 P&P 臨床實戰指引大重點</strong>！<br>
+          涵蓋隔離防護規範、抗藥菌措施、困難梭狀桿菌、管灌手部衛生、CLABSI、CAUTI、VAP、傷口照護原則與負壓檢查室管理細則。用最專業的底氣，讓全體臨床醫護及清潔同仁游刃有餘。
+        </p>
+        <p style="margin:-14px 0 24px; font-weight:700; color:#047857; font-size:16px; background:#ecfdf5; border-left:4px solid #10b981; padding:8px 14px; border-radius:4px;">
+          💡 <strong>臨床隨身神隊友：</strong>搭配「台大感管 LINE 帳號 (@ntuhic)」即問即答，秒查隔離醫囑、口袋 PPE 防呆、法傳時限，臨床免焦慮！
+        </p>
+        <div class="hero-actions">
+          <button class="cta" id="btnHeroSlides">🖥️ 開啟全螢幕投影片 (完整 10 大單元) →</button>
+          <a class="cta-sub" href="#linePromoSection">📱 查看感管 LINE 如何幫助你</a>
+          <a class="cta-sub" href="index.html">🎮 前往 3D 情境闖關對決</a>
+        </div>
+      </div>
+      <!-- 10 大單元快速直達面板 (點擊即可直接放映對應投影片) -->
+      <div class="hero-quick-menu">
+        <div class="quick-menu-header">
+          <span class="quick-menu-badge">點選立即放映</span>
+          <h3 class="quick-menu-title">📑 10 大簡報單元快速直達</h3>
+          <p class="quick-menu-sub">點選任一單元，立即開啟全螢幕投影片：</p>
+        </div>
+        <div class="quick-grid">
+          <button class="quick-btn quick-special" onclick="openSlide(0)" title="開啟：台大感管 LINE 官方帳號全能攻略">
+            <span class="qb-icon">📱</span>
+            <span class="qb-num">特輯</span>
+            <span class="qb-name">LINE 口袋神隊友</span>
+          </button>
+          <button class="quick-btn" onclick="openSlide(1)" title="開啟：感染管制隔離防護規範">
+            <span class="qb-icon">🚪</span>
+            <span class="qb-num">01</span>
+            <span class="qb-name">隔離防護規範</span>
+          </button>
+          <button class="quick-btn" onclick="openSlide(2)" title="開啟：抗藥菌株 (MDRO) 管制措施">
+            <span class="qb-icon">⚠️</span>
+            <span class="qb-num">02</span>
+            <span class="qb-name">抗藥菌 (MDRO)</span>
+          </button>
+          <button class="quick-btn" onclick="openSlide(3)" title="開啟：困難梭狀桿菌防護措施">
+            <span class="qb-icon">🦠</span>
+            <span class="qb-num">03</span>
+            <span class="qb-name">困難梭狀桿菌</span>
+          </button>
+          <button class="quick-btn" onclick="openSlide(4)" title="開啟：手部衛生三大核心規範與示範影音">
+            <span class="qb-icon">🚨</span>
+            <span class="qb-num">04</span>
+            <span class="qb-name">手部衛生</span>
+          </button>
+          <button class="quick-btn" onclick="openSlide(5)" title="開啟：導管相關血流感染 (CLABSI) 預防措施">
+            <span class="qb-icon">💉</span>
+            <span class="qb-num">05</span>
+            <span class="qb-name">中心導管 CLABSI</span>
+          </button>
+          <button class="quick-btn" onclick="openSlide(6)" title="開啟：尿管相關泌尿道感染 (CAUTI) 預防措施">
+            <span class="qb-icon">🚽</span>
+            <span class="qb-num">06</span>
+            <span class="qb-name">導尿管 CAUTI</span>
+          </button>
+          <button class="quick-btn" onclick="openSlide(7)" title="開啟：醫療照護相關肺炎 (VAP) 預防措施">
+            <span class="qb-icon">🫁</span>
+            <span class="qb-num">07</span>
+            <span class="qb-name">照護肺炎 VAP</span>
+          </button>
+          <button class="quick-btn" onclick="openSlide(8)" title="開啟：傷口照護感染管制原則">
+            <span class="qb-icon">🩹</span>
+            <span class="qb-num">08</span>
+            <span class="qb-name">傷口照護原則</span>
+          </button>
+          <button class="quick-btn" onclick="openSlide(9)" title="開啟：負壓檢查室管理施行細則">
+            <span class="qb-icon">🚪</span>
+            <span class="qb-num">09</span>
+            <span class="qb-name">負壓室管理細則</span>
+          </button>
+        </div>
+        <button class="quick-play-all-btn" onclick="openSlide(0)">
+          🖥️ 從頭放映完整投影片 (全螢幕放映) →
+        </button>
+      </div>
+    </section>
+
+
+
+    <!-- 臨床專屬特輯：為什麼你一定要加入台大感管 LINE 官方帳號 (@ntuhic) -->
+    <section class="line-promo-section" id="linePromoSection">
+      <div class="line-promo-header">
+        <h2>
+          <span>📱</span> 為什麼臨床同仁一定要加入「台大感管 LINE 官方帳號」？
+        </h2>
+        <span class="line-badge-pill">LINE ID: @ntuhic ✦ 24hr 口袋感控顧問</span>
+      </div>
+      <p class="line-promo-sub">
+        在步調緊湊的病房臨床日常，感管室電話常佔線、厚重手冊翻不到、大夜班無人能問？<br>
+        <strong>台大感管 LINE 官方帳號（@ntuhic）</strong> 就是專為全院臨床醫師、護理師、外籍看護與清潔同仁量身打造的<strong>「口袋神隊友」</strong>，幫你掃除臨床五大焦慮痛點：
+      </p>
+
+      <div class="line-promo-grid">
+        <!-- 痛點 1 -->
+        <div class="line-benefit-card">
+          <span class="line-card-icon">⚡</span>
+          <div class="line-card-title">1. 一秒速查隔離醫囑與規範</div>
+          <div class="line-card-pain">❌ 臨床痛點：檢驗報告跳出陽性，HIS 系統隔離代碼記不住，翻手冊找半天或等電話。</div>
+          <div class="line-card-cure">
+            ✅ <strong>LINE 神助攻：</strong>直接在對話框輸入菌名（例如 <code>CRE</code>、<code>MRSA</code>、<code>C. diff</code>），<strong>立即跳出對應隔離醫囑類別、防護重點與解隔條件</strong>，3 秒完成開立，查房零卡關！
+          </div>
+        </div>
+
+        <!-- 痛點 2 -->
+        <div class="line-benefit-card">
+          <span class="line-card-icon">🛡️</span>
+          <div class="line-card-title">2. 口袋 PPE 穿戴指引防呆</div>
+          <div class="line-card-pain">❌ 臨床痛點：急診轉入新病患或遇到特殊病原，不確定要穿防護衣還是戴 N95？怕穿錯被督導。</div>
+          <div class="line-card-cure">
+            ✅ <strong>LINE 神助攻：</strong>走進病房前手機一按，立即圖解接觸/飛沫/空氣隔離所需裝備（手套、防水隔離衣、護目鏡或 N95），<strong>進房前 3 秒快速防呆確認</strong>，保護病人更守護自己！
+          </div>
+        </div>
+
+        <!-- 痛點 3 -->
+        <div class="line-benefit-card">
+          <span class="line-card-icon">⏱️</span>
+          <div class="line-card-title">3. 法定傳染病通報時限與採檢防呆</div>
+          <div class="line-card-pain">❌ 臨床痛點：遇到第一至五類傳染病（登革熱、麻疹、百日咳），到底 24 小時還是 1 週內要通報？採檢試管常拿錯。</div>
+          <div class="line-card-cure">
+            ✅ <strong>LINE 神助攻：</strong>清楚標示通報時限倒數防呆，並<strong>完整圖解專用採檢試管顏色、檢體保存與送驗動線</strong>，杜絕延遲通報與檢體退件風險！
+          </div>
+        </div>
+
+        <!-- 痛點 4 -->
+        <div class="line-benefit-card">
+          <span class="line-card-icon">📱</span>
+          <div class="line-card-title">4. 衛教資源一鍵調閱 ＆ 免苦等電話</div>
+          <div class="line-card-pain">❌ 臨床痛點：向家屬衛教手邊沒單張；大夜班感管室沒人上班，白班尖峰電話永遠忙線。</div>
+          <div class="line-card-cure">
+            ✅ <strong>LINE 神助攻：</strong><strong>24 小時全年無休口袋在線</strong>！向病患或家屬衛教時，手機直接調閱官方圖文單張；不用守在電話旁枯等，隨問隨答、把專業底氣隨身帶著走！
+          </div>
+        </div>
+
+        <!-- 痛點 5: 外籍看護多語言切換 -->
+        <div class="line-benefit-card" style="border: 1px solid #14b8a6; background: #f0fdfa;">
+          <span class="line-card-icon">🌐</span>
+          <div class="line-card-title" style="color: #0f766e;">5. 外籍看護多語言切換（越 / 泰 / 印 / 英 / 繁中）</div>
+          <div class="line-card-pain">❌ 臨床痛點：床邊多為外籍看護（越籍、印尼籍、泰籍等），看不懂中文隔離告示與洗手衛教，語言不通形成感控死角。</div>
+          <div class="line-card-cure" style="background:#e6fffa; border-left-color:#0d9488; color:#0f766e;">
+            ✅ <strong>LINE 神助攻：</strong>官方帳號提供 <strong>越南語 (Tiếng Việt)、泰語 (ภาษาไทย)、印尼語 (Bahasa Indonesia)、英語 (English)</strong> 一鍵語言切換！床邊看護以手機即可閱讀母語圖文衛教，洗手步驟、隔離衣穿脫清楚明瞭，徹底打破溝通障礙，大幅減輕護理衛教負擔！
+          </div>
+        </div>
+      </div>
+
+      <div class="line-cta-bar">
+        <div class="line-cta-info">
+          💬 加入好友方式：開啟 LINE 搜尋 ID <strong>@ntuhic</strong>（支援越、泰、印、英多語切換）或點擊右側按鈕一鍵加入！
+        </div>
+        <a class="line-join-btn" href="https://line.me/R/ti/p/@ntuhic" target="_blank" rel="noopener">
+          👉 立即加入台大感管 LINE 帳號 (@ntuhic) ↗
+        </a>
+      </div>
+    </section>
+
+    <!-- 臨床常見重大錯誤示警橫幅 -->
+    <div class="danger-callout">
+      <h4><span>🚨</span> 臨床常見重大錯誤：切勿接觸分泌物或髒污後直接管灌！</h4>
+      <p>
+        剛更換完病患尿布、倒完外科引流袋體液、或收拾污染布品後，<strong>絕對嚴禁未洗手直接進行病人餵食或鼻胃管灌食 (Tube Feeding)！</strong><br>
+        接觸分泌物或髒污後的雙手若未徹底清潔，會將高濃度抗藥菌直接注入脆弱黏膜，引發菌血症與重症感染。請務必牢記：<strong>先脫手套 ➔ 徹底手部衛生洗手 ➔ 重新清潔準備 ➔ 方可管灌！</strong>
+      </p>
+    </div>
+
+    <!-- 簡報章節單元卡片牆 (9 大章節 + 臨床神隊友特輯) -->
+    <section class="sec">
+      <h2>P&P 最新版 9 大核心實戰章節 ＆ 臨床神隊友特輯</h2>
+      <p class="sub">點選任一單元卡片，立即開啟投影片深入學習：</p>
+
+      <div class="mag">
+        
+        <!-- 單元 0：臨床神隊友特輯 -->
+        <article class="tvol tvol-special" onclick="openSlide(0)">
+          <div class="tcard-head">
+            <div class="tcard-icon-badge" style="background:#ccfbf1;">📱</div>
+            <div class="tcard-meta-wrap">
+              <span class="tcard-tag" style="background:#0f766e; color:#ffffff; border-color:#0f766e;">臨床神隊友 · @ntuhic</span>
+              <h3 class="tcard-title" style="color:#0f766e;">台大感管 LINE 官方帳號全能攻略</h3>
+            </div>
+          </div>
+          <div class="tinfo">
+            <p class="tcard-desc">為什麼臨床同仁一定要加入？掃除焦慮、分秒必爭的五大日常神助攻：</p>
+            <ul>
+              <li><strong>⚡ 秒查隔離規範：</strong>輸入菌名即跳出對應隔離醫囑與解隔條件。</li>
+              <li><strong>🛡️ 口袋 PPE 防呆：</strong>進病室前 3 秒防呆圖解，防護裝備不穿錯。</li>
+              <li><strong>⏱️ 法傳通報導航：</strong>24h/1週時限倒數防呆，專用採檢試管一清二楚。</li>
+              <li><strong>📱 衛教單張即看：</strong>24 小時在線，向家屬衛教免跑護理站找紙本！</li>
+              <li><strong>🌐 外籍看護多語支援：</strong>越、泰、印、英一鍵切換，床邊母語衛教零障礙！</li>
+            </ul>
+            <div class="tmeta">
+              <small style="color:#0f766e;">LINE ID: @ntuhic · 24hr 口袋顧問</small>
+              <span class="tcard-action" style="color:#0f766e;">閱讀特輯簡報 →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 單元 1 -->
+        <article class="tvol" onclick="openSlide(1)">
+          <div class="tcard-head">
+            <div class="tcard-icon-badge" style="background:#e0f2fe;">🚪</div>
+            <div class="tcard-meta-wrap">
+              <span class="tcard-tag">章節 01 · 隔離防護規範</span>
+              <h3 class="tcard-title">感染管制隔離防護規範</h3>
+            </div>
+          </div>
+          <div class="tinfo">
+            <p class="tcard-desc">四類隔離防護規範與對應傳染病舉例：</p>
+            <ul>
+              <li><strong>接觸隔離（手套＋隔離衣）：</strong>對應 CRE/MRSA/VRE、困難梭狀桿菌、疥瘡、諾羅病毒。<strong>🚨 隔離衣綁帶必繫緊防垂地；嚴禁穿隔離衣/手套回護理站接聽電話打字！</strong></li>
+              <li><strong>飛沫隔離（外科口罩）：</strong>對應流感、百日咳、流腦、德國麻疹、腮腺炎、腺病毒。噴濺處置加戴面罩。</li>
+              <li><strong>空氣隔離（負壓房＋N95）：</strong>對應活動性肺結核 (TB)、麻疹、水痘、瀰漫性帶狀疱疹 (>=3個神經節)。落實氣密檢查 (Fit check)。</li>
+              <li><strong>保護性隔離（正壓病室）：</strong>對應嚴重中性球低下 (ANC&lt;500)、骨髓移植 (HSCT)、嚴重燒燙傷。</li>
+            </ul>
+            <div class="tmeta">
+              <small>防護規範 · 傳染病舉例與地雷防杜</small>
+              <span class="tcard-action">閱讀簡報 →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 單元 2 -->
+        <article class="tvol" onclick="openSlide(2)">
+          <div class="tcard-head">
+            <div class="tcard-icon-badge" style="background:#fef3c7;">⚠️</div>
+            <div class="tcard-meta-wrap">
+              <span class="tcard-tag">章節 02 · 抗藥菌管制措施</span>
+              <h3 class="tcard-title">抗藥菌株 (MDRO) 感染管制措施</h3>
+            </div>
+          </div>
+          <div class="tinfo">
+            <p class="tcard-desc">全院抗藥菌株聯防防線與收治順序：</p>
+            <ul>
+              <li><strong>黃金三步驟：</strong>醫師立開隔離醫囑 ➔ 門口設置 PPE 車 ➔ 衛教並儘快於系統中完成紀錄！</li>
+              <li><strong>病室優先順序：</strong><em>C. auris</em>、CPE 優先入住單人房；次為 C. diff、CRE、VRE、CRAB、CRPA、MRSA。</li>
+              <li><strong>高風險預先隔離：</strong>由 RCC、RCW、安養長照機構轉入者，篩檢出爐前一律預先接觸隔離。</li>
+              <li><strong>解隔標準：</strong>病灶消失退燒 ➔ 停用全身抗生素滿 72 小時 ➔ 1~2 週內連續 3 次不同日（間隔至少 24h）培養陰性；過去 1 年無檢出且非機構轉入者可解隔。</li>
+            </ul>
+            <div class="tmeta">
+              <small>MDRO 措施 · 收治與解隔規範</small>
+              <span class="tcard-action">閱讀簡報 →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 單元 3 -->
+        <article class="tvol" onclick="openSlide(3)">
+          <div class="tcard-head">
+            <div class="tcard-icon-badge" style="background:#dcfce7;">🦠</div>
+            <div class="tcard-meta-wrap">
+              <span class="tcard-tag">章節 03 · 困難梭狀桿菌措施</span>
+              <h3 class="tcard-title">困難梭狀桿菌 (C. difficile) 隔離防護措施</h3>
+            </div>
+          </div>
+          <div class="tinfo">
+            <p class="tcard-desc">針對芽孢桿菌之特殊隔離與清消指引：</p>
+            <ul>
+              <li><strong>🚨 芽孢酒精無效：</strong>芽孢具極強耐受力，<strong>酒精乾洗手無法殺滅！接觸體液排泄物後一律使用肥皂與流動水洗手</strong>！</li>
+              <li><strong>清消漂白水濃度：</strong>常規以 <strong>0.06% (600 ppm，約 1:100 稀釋)</strong> 漂白水消毒；單位感染率偏高或群聚時提升至 <strong>0.1% (1,000 ppm，約 1:50 稀釋)</strong>。</li>
+              <li><strong>終期消毒規範：</strong>病患轉出或出院後，<strong>必須同時更換該床及「鄰床圍簾」</strong>並徹底終期消毒。</li>
+            </ul>
+            <div class="tmeta">
+              <small>芽孢防護 · 肥皂水洗手 ＆ 漂白水清消</small>
+              <span class="tcard-action">閱讀簡報 →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 單元 4 -->
+        <article class="tvol" onclick="openSlide(4)">
+          <div class="tcard-head">
+            <div class="tcard-icon-badge">🚨</div>
+            <div class="tcard-meta-wrap">
+              <span class="tcard-tag">章節 04 · 手部衛生核心規範</span>
+              <h3 class="tcard-title">手部衛生三大核心 ＆ 管灌常見錯誤防杜</h3>
+            </div>
+          </div>
+          <div class="tinfo">
+            <div style="margin:2px 0 10px; display:inline-flex; align-items:center; gap:6px; background:#f0fdf4; border:1px solid #86efac; color:#166534; font-size:12.5px; font-weight:700; padding:3px 10px; border-radius:999px; width:fit-content;">🎬 附：標準濕洗手實境影音 ＆ 步驟圖解</div>
+            <p class="tcard-desc">手部衛生關鍵重點與臨床絕對禁忌：</p>
+            <ul>
+              <li><strong>接觸不同病人之間必洗手：</strong>即使戴手套，脫除手套後或接觸不同病人之間，<strong>必須落實手部衛生</strong>，手套絕不可代替洗手！</li>
+              <li><strong>搓揉秒數要足夠：</strong>酒精乾洗手搓揉 <strong>20~30 秒</strong>，濕洗手肥皂搓揉 <strong>40~60 秒</strong>，確保各部位搓揉完全風乾。</li>
+              <li><strong>血體液後優先濕洗手：</strong>接觸血液、體液或明顯髒污後，<strong>優先以肥皂與流動水濕洗手</strong>！</li>
+              <li><strong>🚨 常見管灌重大錯誤：</strong>處理完病患排泄物、分泌物或引流袋後，<strong>嚴禁未洗手直接進行病人餵食或管灌 (Tube Feeding)</strong>！</li>
+            </ul>
+            <div class="tmeta">
+              <small>手部衛生 · 接觸不同病人間洗手 ＆ 管灌禁忌</small>
+              <span class="tcard-action">閱讀簡報 →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 單元 5 -->
+        <article class="tvol" onclick="openSlide(5)">
+          <div class="tcard-head">
+            <div class="tcard-icon-badge" style="background:#f3e8ff;">💉</div>
+            <div class="tcard-meta-wrap">
+              <span class="tcard-tag">章節 05 · 導管血流感染 Bundle</span>
+              <h3 class="tcard-title">導管相關血流感染 (CLABSI) 預防措施</h3>
+            </div>
+          </div>
+          <div class="tinfo">
+            <p class="tcard-desc">中心靜脈導管置入與照護 Bundle：</p>
+            <ul>
+              <li><strong>置入前血管評估：</strong>以超音波評估血管時，<strong>第一秒就必須使用無菌傳導膠 (Sterile Gel)</strong>！</li>
+              <li><strong>最大無菌鋪單：</strong>操作者帽子口罩無菌衣手套，病人由頭到腳覆蓋全覆蓋式無菌面單。</li>
+              <li><strong>皮膚消毒標準：</strong>首選 <strong>> 0.5% Chlorhexidine (CHG) 酒精溶液</strong>，徹底消毒並等待完全自然乾燥。</li>
+              <li><strong>管路照護與接頭消毒：</strong>給藥接管前以酒精棉片<strong>強力用力擦拭接頭至少 15 秒 (Scrub the hub)</strong>！</li>
+            </ul>
+            <div class="tmeta">
+              <small>CLABSI Bundle · 無菌凝膠 ＆ 接頭消毒</small>
+              <span class="tcard-action">閱讀簡報 →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 單元 6 -->
+        <article class="tvol" onclick="openSlide(6)">
+          <div class="tcard-head">
+            <div class="tcard-icon-badge" style="background:#e0e7ff;">🚽</div>
+            <div class="tcard-meta-wrap">
+              <span class="tcard-tag">章節 06 · 尿管泌尿道感染 Bundle</span>
+              <h3 class="tcard-title">尿管相關泌尿道感染 (CAUTI) 預防措施</h3>
+            </div>
+          </div>
+          <div class="tinfo">
+            <p class="tcard-desc">導尿管置入與集尿袋照護重點：</p>
+            <ul>
+              <li><strong>🚨 倒尿絕對不可共用尿缸：</strong>每位病人<strong>必須使用專屬獨立量杯/尿缸</strong>！嚴禁跨病患共用，<strong>國際文獻已有多起共用尿缸導致多重抗藥菌 (CPE/VRE) 院內群聚感染爆發！</strong></li>
+              <li><strong>倒尿無菌動線防呆：</strong>排空出口<strong>絕對不可觸碰量杯邊緣或內壁</strong>，倒完後排空口以 75% 酒精消毒擦拭。</li>
+              <li><strong>集尿袋高度規範：</strong><strong>集尿袋永遠維持低於膀胱位置（防止逆流），且絕對嚴禁碰觸地面</strong>！</li>
+              <li><strong>密閉引流系統：</strong>維持 Closed System，不隨意分離接頭；引流管順暢無扭折。每日評估及早拔除。</li>
+            </ul>
+            <div class="tmeta">
+              <small>CAUTI Bundle · 嚴禁共用尿缸防群聚</small>
+              <span class="tcard-action">閱讀簡報 →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 單元 7 -->
+        <article class="tvol" onclick="openSlide(7)">
+          <div class="tcard-head">
+            <div class="tcard-icon-badge" style="background:#cffafe;">🫁</div>
+            <div class="tcard-meta-wrap">
+              <span class="tcard-tag">章節 07 · 肺炎 VAP 預防 Bundle</span>
+              <h3 class="tcard-title">醫療照護相關肺炎 (HAP/VAP) 預防措施</h3>
+            </div>
+          </div>
+          <div class="tinfo">
+            <p class="tcard-desc">呼吸器相關肺炎與微吸入預防措施：</p>
+            <ul>
+              <li><strong>床頭抬高：</strong>若無禁忌症，<strong>病人床頭常規維持抬高 30~45 度</strong>，大幅降低微吸入與逆流風險。</li>
+              <li><strong>口腔護理：</strong>每日定期使用 <strong>Chlorhexidine (CHG) 溶液</strong> 進行口腔清潔消毒。</li>
+              <li><strong>氣囊壓力監控：</strong>氣管內管或氣切管氣囊壓維持在 <strong>20~30 cmH2O</strong>。</li>
+              <li><strong>🚨 嚴禁積水逆流動作拆解：</strong><strong>翻身調整床頭前先排空積水</strong>！管路保持由病人端往集水瓶順流下坡；<strong>嚴禁將蛇形管抬高於病人口鼻</strong>灌入氣道！積水倒污物槽，絕不倒回濕化槽。</li>
+            </ul>
+            <div class="tmeta">
+              <small>VAP Bundle · 冷凝水防逆流動作拆解</small>
+              <span class="tcard-action">閱讀簡報 →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 單元 8 -->
+        <article class="tvol" onclick="openSlide(8)">
+          <div class="tcard-head">
+            <div class="tcard-icon-badge" style="background:#ffedd5;">🩹</div>
+            <div class="tcard-meta-wrap">
+              <span class="tcard-tag">章節 08 · 傷口照護原則</span>
+              <h3 class="tcard-title">傷口照護感染管制原則</h3>
+            </div>
+          </div>
+          <div class="tinfo">
+            <p class="tcard-desc">傷口床評估、換藥動線與無菌技術規範：</p>
+            <ul>
+              <li><strong>傷口床 T.I.M.E. 原則：</strong>評估組織 (Tissue)、發炎感染 (Infection)、濕潤度 (Moisture)、邊緣癒合 (Edge)。</li>
+              <li><strong>換藥順序黃金法則：</strong><strong>先換乾淨傷口，最後換感染傷口</strong>！避免交叉污染。</li>
+              <li><strong>無菌技術與洗手：</strong>換藥前後落實手部衛生，手套不能取代洗手。</li>
+              <li><strong>感染徵象及早通報：</strong>傷口紅腫熱痛、化膿異味等感染徵象及早通報醫師評估培養。</li>
+            </ul>
+            <div class="tmeta">
+              <small>傷口照護 · 先換乾淨後換感染</small>
+              <span class="tcard-action">閱讀簡報 →</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 單元 9 -->
+        <article class="tvol" onclick="openSlide(9)">
+          <div class="tcard-head">
+            <div class="tcard-icon-badge" style="background:#ede9fe;">🚪</div>
+            <div class="tcard-meta-wrap">
+              <span class="tcard-tag">章節 09 · 負壓檢查室細則</span>
+              <h3 class="tcard-title">負壓檢查室管理施行細則</h3>
+            </div>
+          </div>
+          <div class="tinfo">
+            <p class="tcard-desc">門診/病房負壓咳痰室與特殊檢查室安全規範：</p>
+            <ul>
+              <li><strong>負壓咳痰室管理：</strong>收集疑似肺結核 (AFB) 痰檢體室開啟負壓，維持負壓差運作。</li>
+              <li><strong>家屬陪同規範：</strong>陪伴家屬進入負壓檢查室<strong>必須全程佩戴 N95 口罩</strong>！</li>
+              <li><strong>紫消燈嚴格控管：</strong><strong>每位病人使用後開啟紫外線消毒 15 分鐘</strong>；當日結束後延長消毒。</li>
+              <li><strong>環境清消標準：</strong>每日使用後由清潔同仁佩戴 N95 口罩，以 <strong>0.06% (600 ppm，約 1:100 稀釋) 漂白水</strong>徹底擦拭物表清消。</li>
+            </ul>
+            <div class="tmeta">
+              <small>負壓檢查室 · 家屬N95與紫消15分</small>
+              <span class="tcard-action">閱讀簡報 →</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- 步驟 1 學習完成：無縫前往步驟 2 闖關卡片 -->
+    <div class="next-step-card">
+      <div class="next-step-badge">學習階段已完成！</div>
+      <h3>🎉 恭喜完成 9 大核心章節指引閱讀！</h3>
+      <p>
+        您已掌握四類隔離防護、抗藥菌措施、手部衛生三大核心、三大管路 Bundle、傷口原則與負壓室規範。<br>
+        現在請前往【步驟 2：後實戰闖關】，以直覺生動的情境測驗驗收並鞏固您的感控專業底氣！
+      </p>
+      <a class="btn-to-quiz" href="index.html?mode=quiz">
+        👉 前往【步驟 2：後實戰闖關】情境盲盒對決 ➔
+      </a>
+    </div>
+
+  </main>
+
+  <!-- 全螢幕投影片播放彈窗 (Slide Modal) -->
+  <div class="slide-modal hidden" id="slideModal">
+    <div class="slide-stage">
+      <div class="slide-header">
+        <div class="slide-header-title">
+          <span>🖥️</span> 臺大醫院感管簡報教材
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <select class="slide-select" id="slideQuickSelect" title="快速跳轉至其他章節簡報"></select>
+          <button class="slide-close-btn" id="btnCloseSlide" title="關閉簡報，返回章節總覽目錄">
+            <span>✕</span> 返回章節總覽
+          </button>
+        </div>
+      </div>
+
+      <div class="slide-body" id="slideBody">
+        <!-- JS 動態填入投影片內容 -->
+      </div>
+
+      <div class="slide-footer">
+        <button class="slide-nav-btn" id="btnPrevSlide">◀ 上一張 (←)</button>
+        <div class="slide-counter" id="slideCounter">第 1 / 10 單元</div>
+        <button class="slide-nav-btn slide-nav-btn-primary" id="btnNextSlide">下一張 (→) ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <div>
+        <strong>臺大醫院感染管制中心</strong> ｜ 最新版 P&P 臨床指引簡報計畫<br>
+        把感染管制做成直覺，妳/你就是病房裡最優雅的守護神。
+      </div>
+      <div>
+        <a href="https://line.me/R/ti/p/@ntuhic" target="_blank" rel="noopener" style="font-weight:800; color:#06c755;">📱 感管 LINE @ntuhic</a> ｜ 
+        <a href="index.html" style="font-weight:700; color:var(--accent);">🎮 前往 3D 考題對決</a> ｜ 
+        <a href="admin.html" style="font-weight:700; color:var(--gold);">📊 主管成果看板</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // 9 大臨床實戰投影片資料集 (涵蓋台大感管 LINE 帳號臨床神隊友 ＋ 最新版感染管制規範)
+    const slidesData = [
+      {
+        tag: "臨床神隊友 · @ntuhic",
+        title: "為什麼你必須加入「台大感管 LINE 帳號」？臨床痛點的專屬神隊友！",
+        desc: "在步調緊湊的病房臨床日常，感管室電話常佔線、厚重手冊翻不到、大夜班無人能問？「台大感管 LINE 帳號（@ntuhic）」是你 24 小時值班在線的口袋感控智囊，解決四大日常痛點：",
+        points: `
+          <strong style="color:#047857; font-size:16px;">⚡ 1. 秒查隔離醫囑（解決各菌種隔離規範難記問題）：</strong><br>
+          看到檢驗報告陽性（如 CRE, MRSA, VRE, C. diff），直接在 LINE 輸入菌名，立即跳出對應隔離醫囑與解隔條件，3 秒開立醫囑，醫師查房零卡關！<br><br>
+          <strong style="color:#047857; font-size:16px;">🛡️ 2. 口袋 PPE 穿戴指引防呆（解決穿錯怕督導）：</strong><br>
+          走進隔離病房前 3 秒快速確認防護配備（接觸/飛沫/空氣隔離、防水隔離衣、護目裝備或 N95 口罩），夜班巡房與處置胸有成竹，保護病人更保護自己！<br><br>
+          <strong style="color:#047857; font-size:16px;">⏱️ 3. 法傳通報時限與採檢防呆（解決時限試管混淆）：</strong><br>
+          第一至五類法定傳染病（登革熱、麻疹、肺結核等）通報時限（24小時/1週）倒數防呆，專用採檢試管與運送條件一指搞定，絕不延誤通報挨罰！<br><br>
+          <strong style="color:#047857; font-size:16px;">📱 4. 衛教單張一鍵調閱 ＆ 免苦等電話（24小時口袋在線）：</strong><br>
+          向家屬衛教免跑護理站翻紙本單張；大夜班或假日無人接電話時，手機隨時即問即答，把最專業的底氣隨身帶著走！<br><br>
+          <div style="background:#e8f5f1; border-radius:8px; padding:12px 16px; margin-top:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <span style="color:#064e3b; font-size:14.5px;">💬 <strong>LINE 搜尋 ID：</strong><code style="background:#fff; padding:2px 8px; border-radius:4px; color:#064e3b; font-weight:800; border:1px solid #10b981;">@ntuhic</code></span>
+            <a href="https://line.me/R/ti/p/@ntuhic" target="_blank" rel="noopener" style="background:#06c755; color:#fff; font-weight:900; padding:6px 16px; border-radius:999px; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">點此一鍵加入好友 ↗</a>
+          </div>
+        `
+      },
+      {
+        tag: "章節 01 · 隔離防護規範",
+        title: "感染管制隔離防護規範（常見傳染病舉例 ＆ 隔離衣臨床地雷）",
+        desc: "落實四類防護措施，阻斷傳染途徑，杜絕院內交叉傳播：",
+        points: `
+          <strong style="color:#047857; font-size:15.5px;">• 接觸隔離（Contact Precaution）：</strong><br>
+          &nbsp;&nbsp;▸ <strong>對應常見疾病舉例：</strong>多重抗藥菌株（CRE、MRSA、VRE、CRAB、CRPA）、困難梭狀桿菌 (<em>C. diff</em>)、疥瘡 (Scabies)、水痘帶狀疱疹水泡破皮期、急性病毒性腸胃炎（諾羅病毒、輪狀病毒）。<br>
+          &nbsp;&nbsp;▸ <strong>PPE 穿戴規範：進入病室接觸病人或環境前，落實佩戴「手套 ＋ 隔離衣」</strong>，離開病室前於門內脫除並立即手部衛生。<br>
+          &nbsp;&nbsp;<strong style="color:#b91c1c;">🚨 臨床隔離衣兩大常見錯誤（病房最常見疏失）：</strong><br>
+          &nbsp;&nbsp;① <strong>隔離衣綁帶必須確實繫緊（領口與腰部）</strong>：工作翻身、抽吸或換藥時，若綁帶未綁好，隔離衣容易滑落只剩手臂套著或下襬垂地拖行，喪失防護力又徒增工作流程困擾與污染風險！<br>
+          &nbsp;&nbsp;② <strong>絕對不能穿著隔離衣進出護理站等公共區域</strong>：尤其是<strong>「穿著隔離衣、戴著手套回護理站接聽電話、按電梯、喝水或打電腦」</strong>，為全院重大地雷行為，會將病原散播至全體同仁公共空間！<br>
+          &nbsp;&nbsp;💡 <strong>床邊外籍看護溝通防呆：</strong>若床邊為外籍看護，可開啟<strong>台大感管 LINE (@ntuhic)</strong> 切換為<strong>越、泰、印、英等母語圖文</strong>向其衛教，確保理解穿脫隔離衣、手套與手部衛生規範，避免語言隔閡導致感控死角！<br><br>
+          <strong style="color:#047857; font-size:15.5px;">• 飛沫隔離（Droplet Precaution）：</strong><br>
+          &nbsp;&nbsp;▸ <strong>對應常見疾病舉例：</strong>季節性流感 (Influenza)、百日咳 (Pertussis)、退伍軍人病/流行性腦脊髓膜炎、德國麻疹 (Rubella)、流行性腮腺炎 (Mumps)、腺病毒呼吸道感染等。<br>
+          &nbsp;&nbsp;▸ <strong>PPE 穿戴規範：</strong>距病人 1 公尺內佩戴<strong>醫用外科口罩</strong>；若可能產生呼吸道噴濺處置（如抽痰、插管）加戴護目裝備/面罩。<br><br>
+          <strong style="color:#047857; font-size:15.5px;">• 空氣隔離（Airborne Precaution）：</strong><br>
+          &nbsp;&nbsp;▸ <strong>對應常見疾病舉例：</strong>活動性肺結核 (TB)、麻疹 (Measles)、水痘 (Varicella)、瀰漫性帶狀疱疹 (>=3個神經節)。<br>
+          &nbsp;&nbsp;▸ <strong>PPE 穿戴規範：</strong>入住負壓隔離病室並保持房門緊閉。進入前佩戴 <strong>N95 口罩</strong>並落實氣密檢查 (Fit check)；出病室關門後於走廊脫除。<br><br>
+          <strong style="color:#047857; font-size:15.5px;">• 保護性隔離（Protective Precaution）：</strong><br>
+          &nbsp;&nbsp;▸ <strong>對應病人舉例：</strong>嚴重中性球低下 (ANC < 500/cumm)、造血幹細胞骨髓移植 (HSCT)、嚴重燒燙傷病患。<br>
+          &nbsp;&nbsp;▸ <strong>規範：</strong>入住正壓潔淨病室、訪客嚴格管制、落實無菌熟食飲食與嚴格洗手。
+        `
+      },
+      {
+        tag: "章節 02 · 抗藥菌管制措施",
+        title: "抗藥菌株 (MDRO) 感染管制措施 ＆ 解隔標準",
+        desc: "針對多重抗藥菌株（CRE, VRE, MRSA, CRAB, CRPA, CPE, C. auris）之全院聯防防線與解隔條件：",
+        points: `
+          <strong>1. 黃金三步驟：</strong>醫師得知報告陽性第一時間開立對應 MDRO 隔離醫囑 ➔ 病室門口立即推置 PPE 防護車並懸掛警示 ➔ 完成病人及家屬衛教並<strong>「儘快於系統中完成衛教紀錄」</strong>！<br>
+          <strong>2. 單人房收治優先序：</strong>以 <em>C. auris</em>、CPE (KPC/NDM) 絕對優先入住單人病室 (含負壓)，次為 toxigenic-C. difficile、CRE、VRE、CRAB、CRPA、MRSA。<br>
+          <strong>3. 高風險轉院預先隔離：</strong>凡由 RCC、RCW、安養中心及長照機構轉入 ICU 或 RCC 者，於篩檢結果出爐前一律<strong>預先執行接觸隔離措施</strong>！<br>
+          <strong>4. MDRO 解除隔離標準（住院病人符合下列所有條件）：</strong><br>
+          &nbsp;&nbsp;① <strong>原感染病灶消失</strong>：臨床無感染症狀且已退燒。<br>
+          &nbsp;&nbsp;② <strong>停用抗生素 72 小時以上</strong>：停用全身治療性抗生素至少 72 小時。<br>
+          &nbsp;&nbsp;③ <strong>連續 3 次培養陰性</strong>：停藥 72 小時後，1~2 週內連續 3 次不同日之培養（每次採檢間隔至少 24 小時）原菌株檢驗結果皆為陰性（如連續 3 次 VRE 或 CRE 採檢陰性）。<br>
+          &nbsp;&nbsp;④ <strong>再入院病人評估</strong>：過去曾開立接觸隔離醫囑者，若本次入院過去 1 年內未再檢出抗藥菌，且無機構轉入高風險（非由 RCC/RCW/長照機構轉入），醫師得開立解除隔離醫囑。
+        `
+      },
+      {
+        tag: "章節 03 · 困難梭狀桿菌防護措施",
+        title: "困難梭狀桿菌 (C. difficile) 隔離防護措施",
+        desc: "困難梭狀桿菌為產毒芽孢厭氧菌，主要造成偽膜性大腸炎與嚴重抗生素相關腹瀉：",
+        points: `
+          <strong style="color:#b91c1c;">🚨 臨床常見誤區：芽孢對酒精乾洗手具抗性！</strong><br>
+          • 接觸困難梭狀桿菌病患體液、排泄物或周遭環境後，<strong>必須使用「肥皂與流動水」徹底洗手！絕對不可僅用酒精性乾洗手液替代！</strong><br>
+          <strong>• 環境清消漂白水濃度：</strong><br>
+          &nbsp;&nbsp;① 一般情況：以 <strong>0.06% (600 ppm，約 1:100 稀釋：100 mL 漂白水加水至 10 公升) 漂白水</strong>徹底擦拭環境與儀器。<br>
+          &nbsp;&nbsp;② 單位感染率偏高或群聚：提升為 <strong>0.1% (1,000 ppm，約 1:50 稀釋：200 mL 漂白水加水至 10 公升) 漂白水</strong>加強清消。<br>
+          <strong>• 終期消毒：</strong>病人轉出或出院後執行徹底終期清消，<strong>必須同時更換該床及鄰床圍簾</strong>！<br>
+          💡 <strong>外籍看護芽孢衛教：</strong>若外籍看護不懂為何不能只用酒精乾洗手，可由<strong>台大感管 LINE (@ntuhic)</strong> 切換<strong>越/泰/印/英多語圖文</strong>向其解說「芽孢酒精殺不死，必須用肥皂水洗手搓揉沖掉」！
+        `
+      },
+      {
+        tag: "章節 04 · 手部衛生核心規範",
+        title: "手部衛生核心規範 ＆ 管灌常見錯誤防杜",
+        desc: "洗手是守護神最強大的底氣，臨床落實三大實戰洗手原則，防杜臨床常見錯誤：",
+        points: `
+          <strong style="color:#047857; font-size:15.5px;">💧 1. 接觸不同病人之間，務必落實手部衛生！</strong><br>
+          • 離開床位 A 必洗手，進入床位 B 前必洗手。<strong>戴手套絕對無法取代洗手</strong>，脫手套後必須立即執行手部衛生！<br><br>
+          <strong style="color:#047857; font-size:15.5px;">⏱️ 2. 搓揉時間一定要充足，否則未達完整去污防護效力！</strong><br>
+          • <strong>酒精性乾洗手：</strong>必須確實搓揉 <strong>20 ~ 30 秒</strong>，內外夾弓大立腕覆蓋全手，直到手部完全風乾！<br>
+          • <strong>肥皂水濕洗手：</strong>必須確實搓揉 <strong>40 ~ 60 秒</strong>，充分起泡清潔各指縫、指甲縫與手背，確實沖水並擦乾！搓洗時間不足，暫時性菌叢依然殘留附著！<br><br>
+          <strong style="color:#047857; font-size:15.5px;">🧼 3. 接觸血體液後「優先濕洗手」！</strong><br>
+          • 凡手部接觸到病人<strong>血液、體液、引流液、排泄物、分泌物</strong>，或手部有肉眼可見髒污、或接觸困難梭狀桿菌 (芽孢) 病人，<strong>一律優先使用肥皂與流動水進行濕洗手</strong>，以物理水流徹底帶走污染源與芽孢！<br><br>
+          <strong style="color:#b91c1c; font-size:15.5px;">🚨 4. 臨床常見重大錯誤：切勿摸完分泌物後直接管灌！</strong><br>
+          • <strong>嚴禁在接觸病人呼吸道分泌物、引流液、排泄物或髒汙布品後，未洗手直接進行餵食或管灌 (Tube Feeding)！</strong><br>
+          • 守護神法則：接觸髒污後 ➔ <strong>先脫除手套 ➔ 徹底洗手 (搓揉秒數要夠) ➔ 重新清潔準備 ➔ 方可管灌！</strong><br><br>
+          <!-- 實境示範影音教材 (內嵌 GitHub 雲端播放與本機備援) -->
+          <div style="margin-top:16px; background:#040d0b; border:1.5px solid #14b8a6; border-radius:12px; padding:16px; box-shadow:0 4px 16px rgba(0,0,0,0.3);">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+              <span style="font-weight:800; color:#5eead4; font-size:15px; display:flex; align-items:center; gap:6px;">
+                🎬 <strong>標準濕洗手示範影片</strong>（線上影音教材 ｜ 40~60 秒標準程序）
+              </span>
+              <div style="display:flex; align-items:center; gap:6px;">
+                <a href="https://heigilin.github.io/HH/" target="_blank" rel="noopener" style="background:#0f766e; color:#ccfbf1; font-size:12px; font-weight:700; padding:2px 10px; border-radius:999px; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
+                  🌐 GitHub 原站 ↗
+                </a>
+              </div>
+            </div>
+
+            <!-- GitHub 線上內嵌播放器 -->
+            <div style="border-radius:8px; overflow:hidden; background:#000; box-shadow:0 4px 12px rgba(0,0,0,0.25); border:1px solid #10b981; position:relative; width:100%; aspect-ratio:16/9; max-height:450px;">
+              <iframe src="https://heigilin.github.io/HH/" style="width:100%; height:100%; border:none; display:block;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen title="標準濕洗手示範影片"></iframe>
+            </div>
+
+            <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+              <span style="font-size:12.5px; color:#99f6e4;">
+                💡 <strong>線上影音來源：</strong><a href="https://heigilin.github.io/HH/" target="_blank" rel="noopener" style="color:#5eead4; text-decoration:underline;">heigilin.github.io/HH</a> ｜ 支援全螢幕放大觀看
+              </span>
+              <button type="button" onclick="const p = document.getElementById('slideLocalVideoWrap'); if (p) { p.style.display = (p.style.display === 'none' ? 'block' : 'none'); }" style="background:transparent; border:1px solid #14b8a6; color:#99f6e4; font-size:11.5px; padding:2px 8px; border-radius:4px; cursor:pointer;">
+                📁 切換本機離線播放
+              </button>
+            </div>
+
+            <!-- 本機離線備援播放器 -->
+            <div id="slideLocalVideoWrap" style="display:none; margin-top:12px; border-top:1px dashed #115e59; padding-top:12px;">
+              <div style="font-size:12px; color:#a7f3d0; margin-bottom:6px;">本機離線高速播放器：</div>
+              <video controls playsinline preload="metadata" style="width:100%; max-height:380px; display:block; object-fit:contain; background:#000; border-radius:6px;">
+                <source src="assets/videos/wet_handwash.mp4" type="video/mp4">
+                <source src="assets/videos/溼洗手.mp4" type="video/mp4">
+                您的瀏覽器不支援 HTML5 影片播放。
+              </video>
+            </div>
+          </div>
+
+          <!-- 步驟圖解畫廊 -->
+          <div style="margin-top:16px; background:#faf5ff; border:1.5px solid #d8b4fe; border-radius:12px; padding:16px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:6px;">
+              <span style="font-weight:800; color:#6b21a8; font-size:15px; display:flex; align-items:center; gap:6px;">
+                ✨ <strong>步驟圖解：濕洗手 4 步驟</strong>
+              </span>
+              <span style="background:#f3e8ff; color:#7e22ce; font-size:12px; font-weight:700; padding:2px 8px; border-radius:999px;">
+                精選圖解指引
+              </span>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:10px;">
+              <div style="background:#fff; border-radius:8px; overflow:hidden; border:1px solid #e9d5ff; box-shadow:0 2px 6px rgba(107,33,168,0.06); text-align:center;">
+                <img src="assets/images/hand_hygiene/02_step1_wet_soap_up.png" alt="步驟一：濕與抹肥皂" style="width:100%; aspect-ratio:16/9; object-fit:cover; display:block;" loading="lazy">
+                <div style="padding:8px 4px; font-size:12.5px; font-weight:700; color:#581c87;">① 濕 ＆ 抹肥皂<br><span style="font-size:11px; font-weight:500; color:#7e22ce;">淋濕雙手塗抹肥皂</span></div>
+              </div>
+              <div style="background:#fff; border-radius:8px; overflow:hidden; border:1px solid #e9d5ff; box-shadow:0 2px 6px rgba(107,33,168,0.06); text-align:center;">
+                <img src="assets/images/hand_hygiene/03_step2_scrub_20_seconds.png" alt="步驟二：搓揉起泡" style="width:100%; aspect-ratio:16/9; object-fit:cover; display:block;" loading="lazy">
+                <div style="padding:8px 4px; font-size:12.5px; font-weight:700; color:#581c87;">② 搓 40~60 秒<br><span style="font-size:11px; font-weight:500; color:#7e22ce;">內外夾弓大立腕起泡</span></div>
+              </div>
+              <div style="background:#fff; border-radius:8px; overflow:hidden; border:1px solid #e9d5ff; box-shadow:0 2px 6px rgba(107,33,168,0.06); text-align:center;">
+                <img src="assets/images/hand_hygiene/04_step3_rinse_thoroughly.png" alt="步驟三：清水徹底沖洗" style="width:100%; aspect-ratio:16/9; object-fit:cover; display:block;" loading="lazy">
+                <div style="padding:8px 4px; font-size:12.5px; font-weight:700; color:#581c87;">③ 沖 徹底沖淨<br><span style="font-size:11px; font-weight:500; color:#7e22ce;">清水徹底沖淨泡沫</span></div>
+              </div>
+              <div style="background:#fff; border-radius:8px; overflow:hidden; border:1px solid #e9d5ff; box-shadow:0 2px 6px rgba(107,33,168,0.06); text-align:center;">
+                <img src="assets/images/hand_hygiene/05_step4_dry_gently.png" alt="步驟四：捧水關栓並擦乾" style="width:100%; aspect-ratio:16/9; object-fit:cover; display:block;" loading="lazy">
+                <div style="padding:8px 4px; font-size:12.5px; font-weight:700; color:#581c87;">④ 捧 ＆ 紙巾擦乾<br><span style="font-size:11px; font-weight:500; color:#7e22ce;">紙巾擦乾、紙巾關栓</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 洗手五時機圖解 -->
+          <div style="margin-top:16px; background:#eff6ff; border:1.5px solid #bfdbfe; border-radius:12px; padding:16px;">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:6px;">
+              <span style="font-weight:800; color:#1e40af; font-size:15px; display:flex; align-items:center; gap:6px;">
+                🖐️ <strong>洗手 5 大時機圖解 (WHO Hand Hygiene Moments)</strong>
+              </span>
+              <span style="background:#dbeafe; color:#1d4ed8; font-size:12px; font-weight:700; padding:2px 8px; border-radius:999px;">
+                臨床守護神必備
+              </span>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(130px, 1fr)); gap:8px;">
+              <div style="background:#fff; border-radius:8px; overflow:hidden; border:1px solid #bfdbfe; text-align:center;">
+                <img src="assets/images/hand_hygiene/HH (1).png" alt="時機 1: 接觸病人前" style="width:100%; aspect-ratio:16/9; object-fit:cover; display:block;" loading="lazy">
+                <div style="padding:6px; font-size:11.5px; font-weight:700; color:#1e3a8a;">1. 接觸病人前</div>
+              </div>
+              <div style="background:#fff; border-radius:8px; overflow:hidden; border:1px solid #bfdbfe; text-align:center;">
+                <img src="assets/images/hand_hygiene/HH (2).png" alt="時機 2: 執行清潔/無菌操作前" style="width:100%; aspect-ratio:16/9; object-fit:cover; display:block;" loading="lazy">
+                <div style="padding:6px; font-size:11.5px; font-weight:700; color:#1e3a8a;">2. 清潔/無菌前</div>
+              </div>
+              <div style="background:#fff; border-radius:8px; overflow:hidden; border:1px solid #bfdbfe; text-align:center;">
+                <img src="assets/images/hand_hygiene/HH (3).png" alt="時機 3: 暴露病人體液風險後" style="width:100%; aspect-ratio:16/9; object-fit:cover; display:block;" loading="lazy">
+                <div style="padding:6px; font-size:11.5px; font-weight:700; color:#1e3a8a;">3. 暴露體液後</div>
+              </div>
+              <div style="background:#fff; border-radius:8px; overflow:hidden; border:1px solid #bfdbfe; text-align:center;">
+                <img src="assets/images/hand_hygiene/HH (4).png" alt="時機 4: 接觸病人後" style="width:100%; aspect-ratio:16/9; object-fit:cover; display:block;" loading="lazy">
+                <div style="padding:6px; font-size:11.5px; font-weight:700; color:#1e3a8a;">4. 接觸病人後</div>
+              </div>
+              <div style="background:#fff; border-radius:8px; overflow:hidden; border:1px solid #bfdbfe; text-align:center;">
+                <img src="assets/images/hand_hygiene/HH (5).png" alt="時機 5: 接觸病人周遭環境後" style="width:100%; aspect-ratio:16/9; object-fit:cover; display:block;" loading="lazy">
+                <div style="padding:6px; font-size:11.5px; font-weight:700; color:#1e3a8a;">5. 接觸環境後</div>
+              </div>
+            </div>
+          </div>
+        `
+      },
+      {
+        tag: "章節 05 · 導管血流感染 (CLABSI)",
+        title: "導管相關血流感染 (CLABSI) 預防措施 Bundle",
+        desc: "血管內留置導管組合式照護 (Bundle Care) 關鍵規範：",
+        points: `
+          <strong style="color:#b91c1c;">💉 高頻考點：超音波血管評估傳導膠規範</strong><br>
+          • <strong>留置中心導管「前」之超音波檢查血管評估，就必須先使用「無菌傳導膠」！</strong>不只是在超音波協助下置放導管時才用！非無菌膠塗抹皮膚會深植細菌孔隙造成後續消毒死角。<br>
+          <strong>• 皮膚消毒：</strong>採用 <strong>>0.5% Chlorhexidine in 70% alcohol (CHG 酒精溶液)</strong>，以同心圓由內向外消毒，徹底風乾至少 2 分鐘達到完整消毒防護效力。<br>
+          <strong>• 最大無菌面覆蓋：</strong>操作者穿戴帽子、口罩、無菌衣、無菌手套，病人全身大無菌洞巾覆蓋。<br>
+          <strong>• 接頭擦拭：</strong>每次注入藥物或連接前，接頭以酒精棉片<strong>用力擦拭 15 秒以上</strong>並待乾。每日評估及早拔除。
+        `
+      },
+      {
+        tag: "章節 06 · 尿管泌尿道感染 (CAUTI)",
+        title: "尿管相關泌尿道感染 (CAUTI) 預防措施 Bundle",
+        desc: "留置導尿管組合式照護 (Bundle Care) 與倒尿防群聚感染關鍵規範：",
+        points: `
+          <strong style="color:#b91c1c; font-size:15.5px;">🚨 臨床常見重大錯誤：倒尿絕對不可共用尿缸/量杯！</strong><br>
+          • <strong>國際文獻警訊：</strong>國際感控文獻已報導<strong>多起因「跨病患共用尿缸/量杯」或清洗不當，造成多重抗藥菌 (如 CPE、CRAB、VRE) 院內跨床群聚感染爆發 (Outbreaks)</strong> 的真實重大事件！<br>
+          • <strong>個人專用原則：</strong>每位留置導尿管病人<strong>必須配賦個人專用量杯/尿缸</strong>，絕對嚴禁拿同一個量杯輪流替多位病人倒尿！<br><br>
+          <strong style="color:#047857; font-size:15.5px;">💧 倒尿無菌防呆動線：</strong><br>
+          • 倒尿時集尿袋排空管口<strong>絕對不可接觸量杯/尿缸邊緣或內壁</strong>（避免細菌接觸並逆行性上升感染）！<br>
+          • 排空後，出口管以 <strong>75% 酒精棉片確實消毒擦拭</strong>並歸位套好。<br>
+          • 專用尿缸/量杯使用後應定期清潔、消毒並倒置晾乾，避免潮濕孳生抗藥菌。<br><br>
+          <strong>• 集尿袋高度黃金法則：</strong><strong>集尿袋必須永遠維持低於膀胱位置（防止尿液逆流），且絕對嚴禁碰觸地面</strong>！<br>
+          <strong>• 密閉引流系統：</strong>維持密閉系統 (Closed System)，不可隨意分離導尿管與集尿袋接頭。每日評估拔管必要性。
+        `
+      },
+      {
+        tag: "章節 07 · 照護相關肺炎 (VAP)",
+        title: "醫療照護相關肺炎 (HAP/VAP) 預防措施 Bundle",
+        desc: "預防插管與機械通氣病患之呼吸器相關肺炎，降低微吸入風險：",
+        points: `
+          <strong>• 床頭抬高：</strong>若無醫療禁忌，<strong>病人床頭常規維持抬高 30~45 度</strong>，大幅減少胃食道逆流與口咽部分泌物微吸入 (Microaspiration)。<br>
+          <strong>• 口腔護理：</strong>每日定期以 <strong>Chlorhexidine (CHG) 溶液</strong> 進行口腔清潔擦拭。<br>
+          <strong>• 氣囊壓力監測：</strong>氣管內管或氣切套管之氣囊壓力應定期監測，維持在 <strong>20~30 cmH2O</strong>。<br><br>
+          <strong style="color:#b91c1c; font-size:15.5px;">🚨 實戰動作解析：「嚴禁使積水逆流回病人端」具體臨床動作拆解：</strong><br>
+          &nbsp;&nbsp;❌ <strong>臨床常見嚴重錯誤動作：</strong><br>
+          &nbsp;&nbsp;① 翻身、拍背、抽痰或升降床頭前<strong>未先倒水</strong>，一轉動身軀，管路積水瞬間由高處順坡傾瀉<strong>灌進病人氣管與肺部</strong>！<br>
+          &nbsp;&nbsp;② 調整呼吸器支臂或拉扯蛇形管時，<strong>一把將管路抓起抬得高於病人口鼻氣切口</strong>，冷凝水直接倒流引起嗆咳與下呼吸道感染！<br>
+          &nbsp;&nbsp;③ 晃動甩動管路試圖把水甩乾，或把集水瓶冷凝水倒回濕化水槽。<br>
+          &nbsp;&nbsp;✅ <strong>守護神標準防逆流操作動線：</strong><br>
+          &nbsp;&nbsp;① <strong>【動身前先排空】：</strong>凡翻身、擦澡、抽吸、調整床頭高度前，<strong>先檢視管路並將集水瓶冷凝水排空</strong>！<br>
+          &nbsp;&nbsp;② <strong>【管路維持 U 型低位下坡】：</strong>集水瓶永遠位於管路最低點，<strong>管路斜度必須永遠由病人端朝向集水瓶順流下坡</strong>，絕不高於氣管切口！<br>
+          &nbsp;&nbsp;③ <strong>【一手固定、一手導水】：</strong>移動管路時一手固定病人端 Y-piece，另一手輕柔將積水順坡導向集水瓶。<br>
+          &nbsp;&nbsp;④ <strong>【集水瓶垂直取下倒污物槽】：</strong>垂直向下取下集水瓶倒水，絕不倒回加溫加濕器水槽！
+        `
+      },
+      {
+        tag: "章節 08 · 傷口照護原則",
+        title: "傷口照護感染管制原則（T.I.M.E. 評估 ＆ 換藥動線）",
+        desc: "落實傷口無菌換藥動線，促進傷口癒合，降低手術部位與次發性感染風險：",
+        points: `
+          <strong>• 傷口床評估 T.I.M.E. 原則：</strong><br>
+          &nbsp;&nbsp;▸ <strong>T (Tissue 組織)：</strong>評估傷口基底，清除壞死或失活組織，促進健康肉芽生長。<br>
+          &nbsp;&nbsp;▸ <strong>I (Infection 感染/發炎)：</strong>評估有無蜂窩性組織炎、紅腫熱痛、化膿異味等感染徵象。<br>
+          &nbsp;&nbsp;▸ <strong>M (Moisture 滲液平衡)：</strong>維持適當濕潤度，過乾影響上皮爬行、過濕引發浸潤。<br>
+          &nbsp;&nbsp;▸ <strong>E (Edge 上皮邊緣)：</strong>觀察傷口邊緣是否向內收縮癒合。<br><br>
+          <strong style="color:#047857; font-size:15.5px;">🩹 換藥動線黃金法則：</strong><br>
+          • <strong>先換乾淨傷口，最後換感染傷口！</strong>若同一病人有多處傷口，或病房同時多位換藥，務必依此順序執行，嚴禁交叉污染！<br>
+          • 換藥前後必須落實手部衛生，<strong>手套絕不能取代洗手</strong>。<br>
+          • 執行換藥時嚴格遵守無菌操作技術，敷料浸濕或滲液外漏時應及時更換。<br>
+          • 傷口一旦出現紅腫熱痛或化膿等感染徵象，及早通報主治醫師評估採檢送驗。
+        `
+      },
+      {
+        tag: "章節 09 · 負壓檢查室管理施行細則",
+        title: "負壓檢查室管理施行細則（咳痰室、家屬N95 ＆ 紫消燈控管）",
+        desc: "門診與病房負壓檢查室（如疑似肺結核 AFB 咳痰室）安全運作施行細則：",
+        points: `
+          <strong style="color:#047857; font-size:15.5px;">🚪 1. 負壓環境與氣流監控：</strong><br>
+          • 收集疑似肺結核 (AFB) 痰檢體室，必須開啟負壓排氣系統，隨時保持負壓差，房門隨手關閉。<br><br>
+          <strong style="color:#b91c1c; font-size:15.5px;">😷 2. 家屬陪同規範：入內必戴 N95 口罩！</strong><br>
+          • 門診或病房陪伴家屬若需進入負壓咳痰室，<strong>必須全程佩戴 N95 口罩</strong>，嚴禁僅戴一般布口罩或外科口罩入內！<br><br>
+          <strong style="color:#047857; font-size:15.5px;">💡 3. 紫外線消毒燈 (UV lamp) 控管：</strong><br>
+          • <strong>每位病人使用後：開啟紫外線消毒 15 分鐘！</strong>消毒期間人員嚴禁入內。<br>
+          • 每日最後一人次使用後，開啟延長紫外線消毒。<br><br>
+          <strong style="color:#047857; font-size:15.5px;">🧹 4. 環境清潔與防護：</strong><br>
+          • 每日使用完畢後，由清潔同仁佩戴 <strong>N95 口罩與防護裝備</strong>，以 <strong>0.06% (600 ppm，約 1:100 稀釋) 漂白水</strong> 徹底擦拭清消所有物表與地面。
+        `
+      }
+    ];
+
+    let currentSlideIdx = 0;
+    const slideModal = document.getElementById('slideModal');
+    const slideBody = document.getElementById('slideBody');
+    const slideCounter = document.getElementById('slideCounter');
+    const btnPrevSlide = document.getElementById('btnPrevSlide');
+    const btnNextSlide = document.getElementById('btnNextSlide');
+    const btnCloseSlide = document.getElementById('btnCloseSlide');
+
+    const slideQuickSelect = document.getElementById('slideQuickSelect');
+
+    // 初始化頂部快速章節切換下拉選單
+    if (slideQuickSelect) {
+      slideQuickSelect.innerHTML = slidesData.map((s, idx) => 
+        `<option value="${idx}">${idx === 0 ? '📱 特輯：LINE 官方帳號' : `單元 ${idx}：${s.tag.replace(/^章節\s*\d+\s*·\s*/, '')}`}</option>`
+      ).join('');
+
+      slideQuickSelect.addEventListener('change', (e) => {
+        openSlide(parseInt(e.target.value), false);
+      });
+    }
+
+
+    // 前往下一張投影片 (平滑換頁、更新 URL Hash、回到頂部)
+    window.nextSlide = function() {
+      if (currentSlideIdx < slidesData.length - 1) {
+        currentSlideIdx++;
+        renderSlide();
+        try {
+          history.replaceState({ slideModalOpen: true, index: currentSlideIdx }, '', '#slide-' + (currentSlideIdx + 1));
+        } catch (e) {}
+      } else {
+        // 最後一張完訓，引導進入步驟 2 考題闖關
+        window.location.href = 'index.html';
+      }
+    };
+
+    // 前往上一張投影片
+    window.prevSlide = function() {
+      if (currentSlideIdx > 0) {
+        currentSlideIdx--;
+        renderSlide();
+        try {
+          history.replaceState({ slideModalOpen: true, index: currentSlideIdx }, '', '#slide-' + (currentSlideIdx + 1));
+        } catch (e) {}
+      }
+    };
+
+    function openSlide(index, pushHistory = true) {
+      currentSlideIdx = Math.max(0, Math.min(slidesData.length - 1, index));
+      renderSlide();
+      slideModal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden'; // 鎖定背景滾動
+      if (slideQuickSelect) slideQuickSelect.value = currentSlideIdx;
+
+      if (pushHistory) {
+        try {
+          history.pushState({ slideModalOpen: true, index: currentSlideIdx }, '', '#slide-' + (currentSlideIdx + 1));
+        } catch (e) {}
+      }
+    }
+
+    function closeSlide(updateHistory = true) {
+      slideModal.classList.add('hidden');
+      document.body.style.overflow = '';
+      if (updateHistory) {
+        try {
+          history.pushState(null, '', window.location.pathname);
+        } catch (e) {}
+      }
+    }
+
+    function renderSlide() {
+      const s = slidesData[currentSlideIdx];
+      slideCounter.textContent = `第 ${currentSlideIdx + 1} / ${slidesData.length} 單元`;
+      if (slideQuickSelect) slideQuickSelect.value = currentSlideIdx;
+
+      const isLast = (currentSlideIdx === slidesData.length - 1);
+
+      let completionBanner = '';
+      if (isLast) {
+        completionBanner = `
+          <div style="margin-top:24px; padding:18px; background:#ecfdf5; border-radius:12px; border:1.5px solid #10b981; text-align:center;">
+            <h4 style="margin:0 0 6px 0; color:#064e3b; font-size:16px; font-weight:800;">🎉 恭喜完成 10 大核心章節學習！</h4>
+            <p style="margin:0 0 12px 0; color:#047857; font-size:14px;">您已深刻掌握感染管制重要原則，立即進入 3D 病房實境驗收學習成果！</p>
+            <a href="index.html" class="nav-btn" style="background:#0f766e; color:#fff !important; padding:10px 24px; font-size:15px; font-weight:800; text-decoration:none; display:inline-block; border-radius:8px;">
+              🎮 進入【步驟 2：3D 實戰考題對決】➔
+            </a>
+          </div>
+        `;
+      }
+
+      slideBody.innerHTML = `
+        <div class="slide-tag">${s.tag}</div>
+        <h2 class="slide-main-title">${s.title}</h2>
+        <p class="slide-content-text">${s.desc}</p>
+        <div class="slide-key-points">${s.points}</div>
+        ${completionBanner}
+        <div style="margin-top:20px; padding-top:12px; border-top:1px dashed #cbd5e1; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <span style="font-size:12.5px; color:#64748b;">💡 支援鍵盤左右方向鍵 (← / →) 換頁，或點擊下方「下一張」按鈕</span>
+          <a href="https://line.me/R/ti/p/@ntuhic" target="_blank" rel="noopener" style="color:#059669; font-size:13px; font-weight:800; text-decoration:none;">📱 口袋查規範：加入台大感管 LINE (@ntuhic) ↗</a>
+        </div>
+      `;
+
+      // 每次切換自動滾動至投影片頂端
+      slideBody.scrollTop = 0;
+
+      btnPrevSlide.disabled = (currentSlideIdx === 0);
+      if (isLast) {
+        btnNextSlide.innerHTML = '🎮 進入 3D 對決 ➔';
+      } else {
+        btnNextSlide.innerHTML = '下一張 (→) ▶';
+      }
+    }
+
+    btnPrevSlide.addEventListener('click', prevSlide);
+    btnNextSlide.addEventListener('click', nextSlide);
+
+    btnCloseSlide.addEventListener('click', () => closeSlide());
+
+    // 點擊深色半透明遮罩背景即可關閉簡報返回目錄
+    slideModal.addEventListener('click', (e) => {
+      if (e.target === slideModal) {
+        closeSlide();
+      }
+    });
+
+    // 瀏覽器上一頁 (PopState) 攔截：自動關閉簡報返回目錄，而非跳離整個網頁
+    window.addEventListener('popstate', (e) => {
+      if (!slideModal.classList.contains('hidden')) {
+        closeSlide(false);
+      }
+    });
+
+    document.getElementById('btnStartSlideShow').addEventListener('click', () => openSlide(0));
+    document.getElementById('btnHeroSlides').addEventListener('click', () => openSlide(0));
+
+    // 鍵盤左右鍵快捷換頁
+    
+    // URL Hash 路由監聽 (例如直接輸入 presentation.html#slide-1 自動開啟對應簡報)
+    function checkUrlHash() {
+      const hash = window.location.hash;
+      const m = hash.match(/#slide-(\d+)/);
+      if (m) {
+        const idx = parseInt(m[1]) - 1;
+        if (idx >= 0 && idx < slidesData.length) {
+          openSlide(idx, false);
+          return;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', checkUrlHash);
+    window.addEventListener('hashchange', checkUrlHash);
+    checkUrlHash();
+
+    window.addEventListener('keydown', (e) => {
+      if (slideModal.classList.contains('hidden')) return;
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        if (currentSlideIdx < slidesData.length - 1) {
+          currentSlideIdx++;
+          renderSlide();
+        }
+      } else if (e.key === 'ArrowLeft') {
+        if (currentSlideIdx > 0) {
+          currentSlideIdx--;
+          renderSlide();
+        }
+      } else if (e.key === 'Escape') {
+        slideModal.classList.add('hidden');
+      }
+    });
+  </script>
+</body>
+</html>

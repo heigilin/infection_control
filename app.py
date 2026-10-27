@@ -231,6 +231,12 @@ def clarification_response(question: str) -> str | None:
         "診斷要件",
         "診斷條件",
         "通報定義",
+        "通報要件",
+        "通報條件",
+        "通報標準",
+        "病例定義",
+        "病例要件",
+        "病例條件",
         "採檢",
         "檢體",
         "送驗",
@@ -335,6 +341,12 @@ def query_intent(question: str) -> str:
         "診斷要件",
         "診斷條件",
         "通報定義",
+        "通報要件",
+        "通報條件",
+        "通報標準",
+        "病例定義",
+        "病例要件",
+        "病例條件",
         "採檢",
         "檢體",
         "送驗",
@@ -559,7 +571,26 @@ def answer_question(question: str, response_mode: str = "clinical") -> str:
         any(term in compact_question for term in explicit_report_operation_terms)
         or ("通報" in compact_question and any(term in compact_question for term in combo_report_terms))
     )
-    if query_intent(question) == "workflow" and is_report_operation_query:
+    definition_terms = (
+        "通報定義",
+        "通報要件",
+        "通報條件",
+        "通報標準",
+        "通報資格",
+        "病例定義",
+        "病例要件",
+        "病例條件",
+        "診斷要件",
+        "診斷條件",
+        "診斷定義",
+        "診斷標準",
+        "符合通報",
+        "要不要通報",
+    )
+    is_definition_query = any(term in compact_question for term in definition_terms)
+    if is_definition_query:
+        search_question = f"{question} 通報定義 病例定義 通報時限 檢驗醫令 ICD"
+    elif query_intent(question) == "workflow" and is_report_operation_query:
         search_question = (
             f"{question} 法定傳染病通報操作流程 臨床使用者端 病人診斷畫面 行政 通報作業 "
             "有相關診斷碼 無相關診斷碼 非當次就診 補報 防疫檢體送驗單 CDC通報檢驗 "
@@ -581,6 +612,15 @@ def answer_question(question: str, response_mode: str = "clinical") -> str:
         search_question = f"{search_question} 評鑑 查核 稽核 佐證 紀錄 文件 現場回答 常見缺口"
 
     hits = filter_hits_by_intent(question, kb.search(search_question, limit=30))
+    if is_definition_query:
+        definition_hits = [
+            hit
+            for hit in hits
+            if Path(hit.source).name == "法定傳染病_依疾病通報檢索.md"
+            and hit.title not in {"共通院內流程", "法定傳染病依疾病通報檢索", "依疾病整理", "來源"}
+        ]
+        if definition_hits:
+            hits = definition_hits[:1]
     if is_report_operation_query:
         operation_hits = [
             hit
@@ -775,7 +815,6 @@ class Handler(BaseHTTPRequestHandler):
             "/effects.css": BASE_DIR / "effects.css",
             "/bright.css": BASE_DIR / "bright.css",
             "/site.js": BASE_DIR / "site.js",
-            "/台大感管line起來.mp4": BASE_DIR / "台大感管line起來.mp4",
             "/assets/ntuhic-line-promo-final-h264.mp4": BASE_DIR / "assets/ntuhic-line-promo-final-h264.mp4",
             "/assets/avatar.jpg": BASE_DIR / "頭貼.jpg",
             "/assets/mos-meal.jpg": BASE_DIR / "摩斯套餐.jpg",

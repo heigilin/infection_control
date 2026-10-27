@@ -1,5 +1,5 @@
 const CONFIG = {
-  BOT_VERSION: '2026-09-14-priority-safety-replies-13',
+  BOT_VERSION: '2026-09-18-covid-placement-14',
   KB_FILE_NAME: 'kb_index.json',
   AUDIT_FILE_NAME: 'audit_clauses.json',
   CLEARANCE_FILE_NAME: 'clearance_rules.json',
@@ -10,9 +10,6 @@ const CONFIG = {
   GEMINI_MODEL: 'gemini-2.5-flash-lite',
 };
 
-// Reuse the parsed Drive knowledge base throughout one webhook execution.
-// The JSON is larger than the single-key CacheService limit, so without this
-// guard one question can otherwise read and parse the same Drive file several times.
 let KB_RUNTIME_CACHE_ = null;
 let AUDIT_RUNTIME_CACHE_ = null;
 let CLEARANCE_RUNTIME_CACHE_ = null;
@@ -47,7 +44,8 @@ function doPost(e) {
         if (!followReplyToken) return;
         const welcomeObj = finalizeAnswer_({
           text: followWelcomeReply_(),
-          diseaseName: '閒聊'
+          diseaseName: '身分設定',
+          identityPrompt: true
         }, event, '', '', { skipCount: true });
         replyToLine_(followReplyToken, welcomeObj.text, welcomeObj.diseaseName, welcomeObj);
         return;
@@ -71,13 +69,10 @@ function doPost(e) {
 }
 
 function answerQuestion_(question, event) {
-  // GAS property reads are remote service calls. Keep user mode/state in memory
-  // only for this one question, then discard it before the next message.
   USER_REQUEST_CACHE_ = {};
   const originalQuestion = convertFullWidthToHalfWidth_(String(question || '')).trim();
   question = originalQuestion;
 
-  // This high-frequency menu must never fall through to knowledge retrieval.
   const catheterReply = catheterCareReply_(question, event);
   if (catheterReply) {
     return finalizeAnswer_({
@@ -91,6 +86,16 @@ function answerQuestion_(question, event) {
 
   const languageReply = languageGateReply_(question, event);
   if (languageReply) return finalizeAnswer_(languageReply, event, originalQuestion, question, { skipCount: true });
+  question = translateQuestionToChinese_(question, event);
+
+  const identityReply = identitySwitchReply_(question, event);
+  if (identityReply) return finalizeAnswer_(identityReply, event, originalQuestion, question, { skipCount: true });
+
+  const requiredIdentityReply = getLineUserId_(event) && !getUserIdentity_(event) ? identityPromptAnswer_() : null;
+  if (requiredIdentityReply) return finalizeAnswer_(requiredIdentityReply, event, originalQuestion, question, { skipCount: true });
+
+  const visitorReply = visitorReply_(question, event);
+  if (visitorReply) return finalizeAnswer_(visitorReply, event, originalQuestion, question, { skipCount: true });
 
   const modeReply = modeSwitchReply_(question, event);
   if (modeReply) return finalizeAnswer_(modeReply, event, originalQuestion, question, { skipCount: true });
@@ -115,8 +120,6 @@ function answerQuestion_(question, event) {
   const suggestionReply = suggestionBoxReply_(question, event);
   if (suggestionReply) return finalizeAnswer_({ text: suggestionReply, diseaseName: '閒聊' }, event, originalQuestion, question, { skipCount: true });
 
-  // Operational needlestick buttons must resolve to their own instructions,
-  // before either urgent free-text routing or the broad 5.2 audit-clause matcher.
   const needlestickActionReply = needlestickActionPriorityReply_(question, event);
   if (needlestickActionReply) {
     return finalizeAnswer_({
@@ -144,8 +147,6 @@ function answerQuestion_(question, event) {
     }, event, originalQuestion, question);
   }
 
-  // Disease audit action buttons carry a specific intent. Answer that intent
-  // directly instead of allowing ordinary definition/KB search to consume it.
   const diseaseAuditActionReply = diseaseAuditActionPriorityReply_(question, event);
   if (diseaseAuditActionReply) {
     return finalizeAnswer_({
@@ -197,6 +198,7 @@ function answerQuestion_(question, event) {
 
   const fastReply = fastStaticReply_(question);
   if (fastReply) return finalizeAnswer_({ text: fastReply, diseaseName: '閒聊' }, event, originalQuestion, question, { skipCount: true });
+  const symptomReply = symptomReply_(question); if (symptomReply) return finalizeAnswer_({ text: symptomReply, diseaseName: '民眾衛教' }, event, originalQuestion, question, { skipCount: true });
 
   if (/^(會議檢索|查會議|查詢會議)$/.test(normalizeIntentText_(question))) {
     return finalizeAnswer_({
@@ -211,7 +213,6 @@ function answerQuestion_(question, event) {
   const meetingReply = isMeetingRecordQuestion_(question) ? meetingRecordReply_(question) : '';
   if (meetingReply) return finalizeAnswer_({ text: meetingReply, diseaseName: '會議檢索' }, event, originalQuestion, question);
 
-  // CJD operational questions must not depend on the external KB being refreshed.
   const cjdOperationalReply = cjdOperationalPriorityReply_(question);
   if (cjdOperationalReply) {
     return finalizeAnswer_({
@@ -221,6 +222,10 @@ function answerQuestion_(question, event) {
       cjdAuditPrompt: true
     }, event, originalQuestion, question);
   }
+
+  const earlyAuditDisease = getUserMode_(event) === 'audit' ? detectDisease_(question) : null;
+  const earlyAuditFacetReply = earlyAuditDisease ? auditDiseaseFacetReply_(earlyAuditDisease.name, question) : null;
+  if (earlyAuditFacetReply) return finalizeAuditFacet_(earlyAuditFacetReply, earlyAuditDisease.name, event, originalQuestion, question);
 
   const operationalRule = externalIntentRule_(normalizeIntentText_(question), 'operational');
   if (operationalRule) {
@@ -283,7 +288,6 @@ function answerQuestion_(question, event) {
     }, event, originalQuestion, question, { skipCount: true });
   }
 
-  // 1. 特殊醫令與 PEP 造冊分流
   if (isKpLabResultQuery_(question)) {
     return finalizeAnswer_({ text: kpLabResultReply_(), diseaseName: 'MDRO' }, event, originalQuestion, question);
   }
@@ -296,7 +300,6 @@ function answerQuestion_(question, event) {
     return finalizeAnswer_({ text: postExposurePepReply_(question), diseaseName: dName }, event, originalQuestion, question);
   }
 
-  // 2. 結構化疾病感控與 SOP 處理
   const disease = detectDisease_(question);
   const testResultIsolationReply = diseaseTestResultIsolationReply_(question, disease);
   if (testResultIsolationReply) {
@@ -323,13 +326,7 @@ function answerQuestion_(question, event) {
     const auditFacetReply = getUserMode_(event) === 'audit'
       ? auditDiseaseFacetReply_(disease.name, question)
       : '';
-    if (auditFacetReply) {
-      return finalizeAnswer_({
-        text: auditFacetReply.text,
-        diseaseName: disease.name,
-        subtopic: auditFacetReply.facet
-      }, event, originalQuestion, question);
-    }
+    if (auditFacetReply) return finalizeAuditFacet_(auditFacetReply, disease.name, event, originalQuestion, question);
     if (getUserMode_(event) === 'audit' && !subtopic && !isCjdDetailQuery) {
       const auditReply = auditDiseaseTopicReply_(disease.name, question);
       if (auditReply) {
@@ -348,11 +345,18 @@ function answerQuestion_(question, event) {
         clarification: true
       }, event, originalQuestion, question, { skipCount: true });
     }
+    const plainDef = isPlainDefinitionQuestion_(question) ? diseasePlainDefinitionReply_(disease.name) : '';
+    if (plainDef) return finalizeAnswer_({ text: plainDef, diseaseName: disease.name, subtopic: 'plain-definition' }, event, originalQuestion, question);
     if (subtopic === 'definition') {
       const definitionReply = cdcNotificationDefinitionReply_(disease.name);
       if (definitionReply) {
         return finalizeAnswer_({ text: definitionReply, diseaseName: disease.name, subtopic: subtopic }, event, originalQuestion, question);
       }
+      return finalizeAnswer_({
+        text: safeDiseaseSubtopicFallback_(disease.name, 'definition'),
+        diseaseName: disease.name,
+        subtopic: subtopic
+      }, event, originalQuestion, question);
     }
     if (subtopic === 'specimen') {
       const specimenReply = cdcSpecimenReply_(disease.name);
@@ -383,7 +387,6 @@ function answerQuestion_(question, event) {
     }
   }
 
-  // 3. 知識庫檢索與 AI 搜尋
   const hits = searchKb_(question, CONFIG.MAX_HITS);
   if (!hits.length || Number(hits[0]._score || 0) < CONFIG.MIN_SUGGEST_SCORE) {
     const scopedFallback = disease && detectSubtopic_(question)
@@ -397,7 +400,7 @@ function answerQuestion_(question, event) {
       }, event, originalQuestion, question);
     }
     return finalizeAnswer_({
-      text: '您好！我是台大感染管制小幫手 🤖\n\n目前未檢索到完全相符的規範，您可以直接點選下方快捷按鈕，或輸入「疾病名稱 + 查詢項目」（例如：麻疹暴露、百日咳採檢、VRE隔離、兔熱病通報），我會即時為您整理重點！',
+      text: '目前未檢索到相符規範。請輸入「疾病＋項目」，如：麻疹暴露、百日咳採檢、VRE隔離。',
       diseaseName: disease ? disease.name : '熱門感控'
     }, event, originalQuestion, question, { skipCount: true });
   }
@@ -490,8 +493,65 @@ function staleAuditQuickPayloadReply_(question) {
 }
 
 function followWelcomeReply_() {
-  return '歡迎使用台大感管 LINE 查詢助手。\n\n可查感染管制、法定傳染病通報、隔離/解隔、採檢送驗、PPE、清消、疫區及院內一般流程。\n\n回答方向可隨時切換：\n- 臨床照護：優先整理病人安置、隔離醫囑、PPE、採檢及現場處置。\n- 評鑑查核：優先整理委員可能的提問、KM 佐證及可出示的執行紀錄。\n請點下方快捷鈕選擇；之後仍可切換。\n\n本帳號不提供疾病診斷、醫師推薦、就醫科別、掛號或個案治療建議；相關需求請使用台大醫院 App、官方網站或正式掛號諮詢。';
+  return '請先選擇身分：\n- 院內員工：查院內流程與查核。\n- 訪客/民眾：查衛教，不提供院內文件、KM 佐證。\n\n不提供疾病診斷、醫師推薦；請用台大醫院 App。';
 }
+
+function identitySwitchReply_(question, event) {
+  const userId = getLineUserId_(event);
+  if (!userId) return null;
+  const q = normalizeIntentText_(question);
+  const isStaff = /^(院內員工|員工|同仁|醫療同仁|工作人員|staff|我是員工|我是同仁)$/.test(q);
+  const isPublic = /^(訪客|民眾|一般民眾|病人|家屬|非員工|public|visitor|我是訪客|我是民眾)$/.test(q);
+  if (!isStaff && !isPublic) return /^(切換身分|身分切換|身份切換|重新選身分|重新選身份|我是誰|身分設定|身份設定)$/.test(q) ? identityPromptAnswer_() : null;
+  const state = getUserState_(userId);
+  state.identity = isStaff ? 'staff' : 'public';
+  state.identitySetAt = new Date().toISOString();
+  saveUserState_(userId, state);
+  saveUserMode_(event, isStaff ? (getUserMode_(event) || 'clinical') : 'clinical');
+  return {
+    text: isStaff
+      ? '已設定為院內員工。可查院內流程、臨床照護與評鑑查核；之後仍可切換。'
+      : '已設定為訪客/民眾。以衛教、旅遊疫情與就醫前提醒為主；不提供院內文件、KM 佐證或內部紀錄。',
+    diseaseName: '身分設定'
+  };
+}
+
+function identityPromptAnswer_() {
+  return { text: '請先選擇身分：\n- 院內員工：查院內流程與評鑑查核。\n- 訪客/民眾：以衛教為主，不提供院內文件。', diseaseName: '身分設定', identityPrompt: true };
+}
+
+function visitorReply_(question, event) {
+  if (getUserIdentity_(event) !== 'public') return null;
+  const q = normalizeIntentText_(question);
+  const boundary = /評鑑|查核|稽核|委員|佐證|km|會議|週會|月會|會議檢索|院內系統|醫囑|ann\d+|執行紀錄|稽核表|文件|sop/i.test(q);
+  const disease = detectDisease_(question);
+  if (!boundary && (isTravelEpidemicQuery_(question) || (!isLikelyClinicalQuestion_(question) && !disease))) return null;
+  return {
+    text: publicEducationReply_(question, disease && disease.name ? disease.name : ''),
+    diseaseName: disease && disease.name ? disease.name : '民眾衛教',
+    publicEducation: true
+  };
+}
+
+function publicEducationReply_(question, diseaseName) {
+  const d = String(diseaseName || '').trim();
+  const label = d || '感染預防';
+  const lines = [
+    label + '衛教提醒：',
+    '- 有發燒、咳嗽、腹瀉、皮疹或不適，請戴口罩、洗手，依症狀嚴重度就醫。',
+    '- 訪客模式不提供院內文件；個人醫療請走正式醫療管道。'
+  ];
+  if (/旅遊|疫區|出國|國家|地區/.test(String(question || ''))) {
+    lines.splice(1, 0, '- 旅遊前請確認目的地疫情、疫苗與防蚊/飲食衛生建議；旅途中若不適，請戴口罩並及早就醫。');
+  }
+  return lines.join('\n');
+}
+
+function symptomReply_(q) { const s=String(q||''),p=/(我|i\s*(have|am)|saya|tôi|ฉัน)/i.test(s); return !(detectDisease_(s)&&!p)&&!/(掛號|看診|就醫|哪一科|醫師|doctor)/i.test(s)&&/發燒|咳嗽|腹瀉|皮疹|fever|cough|diarrhea|rash|demam|batuk|diare|ruam|sốt|ho|tiêu chảy|phát ban|ไข้|ไอ|ท้องเสีย|ผื่น/i.test(s)?publicEducationReply_(s,'發燒或症狀'):''; }
+
+function isPlainDefinitionQuestion_(q){return /什麼是|是什麼|what\s+is|apa\s+itu|là\s+gì|คืออะไร/i.test(String(q||''));}
+
+function diseasePlainDefinitionReply_(name){return String(name||'')==='VRE'?'VRE 是抗萬古黴素腸球菌，不是 CDC 法定傳染病通報疾病。\n- 可為移生或感染，需看檢體與症狀。\n- 重點是手衛生、接觸防護、清消；若要查醫囑請問「VRE 隔離」。':'';}
 
 function dialysisDisinfectionConcentrationReply_(question, event) {
   const q = normalizeIntentText_(question);
@@ -575,13 +635,23 @@ function endoscopeReprocessingReply_(question) {
 
 function fastStaticReply_(question) {
   const q = normalizeIntentText_(question);
-  if (/^(可以查什麼|可以問什麼|你能做什麼|你能查什麼|你能回答什麼|你能答什麼|你可以做什麼|你可以回答什麼|你可以答什麼|你會做什麼|你能幫我什麼|你提供什麼服務|有什麼功能|你現在有什麼在執行的事|你現在在執行什麼|你目前在執行什麼|你現在在做什麼|你目前在做什麼|選單|主選單|目錄|說明|幫助|功能|help|menu|\?|？)$/.test(q)) {
+  if (/^(可以查什麼|可以問什麼|你能做什麼|你能查什麼|你能回答什麼|你能答什麼|你可以做什麼|你可以回答什麼|你可以答什麼|你會做什麼|你能幫我什麼|你提供什麼服務|有什麼功能|你現在有什麼在執行的事|你現在在執行什麼|你目前在執行什麼|你現在在做什麼|你目前在做什麼|選單|主選單|目錄|說明|幫助|功能|你是誰|help|menu|whatcanthisbotdo|whatcanyoudo|whatcanidowiththisbot|whoareyou|whatsyourname|what'syourname|\?|？)$/.test(q)) {
     return '您好，我是台大感管 LINE 查詢助手。可查感染管制、法定傳染病通報、隔離/解隔、檢體送驗、疫區、清消濃度、查核重點，也可查週會/月會議題曾在哪些日期出現。\n\n提問範例：VRE 解隔、登革熱通報、伊波拉疫區、感染月報在哪些週會出現。';
   }
   return '';
 }
 
 function modeSwitchReply_(question, event) {
+  if (getUserIdentity_(event) === 'public') {
+    const q0 = String(question || '').trim();
+    if (/^(評鑑查核|評鑑查核模式|查核模式|評鑑模式|委員查核|臨床照護|臨床照護模式|臨床模式|照護模式|第一線照護)$/i.test(q0)) {
+      return {
+        text: '您目前是訪客/民眾身分，回答會以衛教、旅遊疫情與就醫前提醒為主，不提供院內評鑑查核、KM 佐證或內部流程文件。\n\n若您是院內員工，請點「院內員工」重新設定身分。',
+        diseaseName: '身分設定',
+        identityPrompt: true
+      };
+    }
+  }
   const q = String(question || '').trim();
   if (/^(評鑑查核|評鑑查核模式|查核模式|評鑑模式|委員查核)$/i.test(q)) {
     saveUserMode_(event, 'audit');
@@ -623,9 +693,13 @@ function finalizeAnswer_(answerObj, event, originalQuestion, effectiveQuestion, 
   }
   obj.satisfactionEligible = isSatisfactionEligible_(event);
   obj.text = appendPolicySummaryReminder_(obj.text, obj, effectiveQuestion);
-  obj.text = appendPrivacyReminder_(obj.text);
+  obj.text = appendPrivacyReminder_(obj.text, event);
   obj.text = translateAnswerForUserLanguage_(obj.text, event, obj);
   return obj;
+}
+
+function finalizeAuditFacet_(reply, diseaseName, event, originalQuestion, question) {
+  return finalizeAnswer_({ text: reply.text, diseaseName: diseaseName, subtopic: reply.facet }, event, originalQuestion, question);
 }
 
 function appendPolicySummaryReminder_(text, answerObj, question) {
@@ -637,12 +711,28 @@ function appendPolicySummaryReminder_(text, answerObj, question) {
   return body + '\n\n' + reminder;
 }
 
-function appendPrivacyReminder_(text) {
+function appendPrivacyReminder_(text, event) {
   const body = String(text || '').trim();
   const reminder = '請勿輸入病人姓名、病歷號、床號等個資。';
   const policyReminder = '如與正式公告不一致，以正式公告為準。';
   if (!body || body.indexOf(reminder) >= 0) return body;
+  if (!shouldShowPrivacyReminder_(event)) return body;
   return body + (body.endsWith(policyReminder) ? ' ' : '\n\n') + reminder;
+}
+
+function shouldShowPrivacyReminder_(event) {
+  const userId = getLineUserId_(event);
+  if (!userId) return true;
+  try {
+    const state = getUserState_(userId);
+    const index = Number(state.privacyNoticeReplyCount || 0) + 1;
+    state.privacyNoticeReplyCount = index;
+    saveUserState_(userId, state);
+    return index === 1 || (index - 1) % 5 === 0;
+  } catch (err) {
+    console.error('shouldShowPrivacyReminder_ skipped: ' + err.toString());
+    return true;
+  }
 }
 
 function getUserLanguage_(event) {
@@ -652,23 +742,15 @@ function getUserLanguage_(event) {
   return state.language || 'zh-TW';
 }
 
+function translateQuestionToChinese_(q,e){const l=getUserLanguage_(e),s=String(q||'');if(l==='zh-TW'||/[\u4e00-\u9fff]/.test(s))return s;const g=callGeminiTranslate_(s,'zh');if(g)return g;try{const f={en:'en',id:'id',vi:'vi',th:'th'}[l]||'';return f?LanguageApp.translate(s.slice(0,800),f,'zh-TW'):s;}catch(err){return s;}}
+
 function languagePromptText_(detectedLanguage) {
-  const lang = String(detectedLanguage || '').trim();
-  if (lang) {
-    return '偵測到您可能使用 ' + lang + '。\n\n' +
-      '本帳號預設以繁體中文回答；若希望改用其他語言，請點選下方按鈕。\n\n' +
-      'I detected ' + lang + '. This bot defaults to Traditional Chinese. Tap a language below if you prefer another language.';
-  }
-  return '歡迎使用台大醫院感染管制中心 LINE 官方帳號！\n' +
-    'Welcome to NTUH Infection Control Center LINE Bot!\n' +
-    'Selamat datang di Bot LINE Pengendalian Infeksi NTUH!\n' +
-    'Chào mừng bạn đến với LINE Bot Kiểm soát Nhiễm khuẩn NTUH!\n\n' +
-    '請選擇您偏好的語言 / Please select your preferred language:';
+  return '請選擇您偏好的語言 / Please select your preferred language:';
 }
 
 function isLanguageResetKeyword_(question) {
   const q = normalizeIntentText_(question);
-  if (/^(語言|切換語言|換語言|重設語言|選擇語言|多語言)$/.test(q)) return true;
+  if (/^(切換|換|重設|選擇|多)?語言$/.test(q)) return true;
   if (/^(language|changelanguage|switchlanguage|resetlanguage|selectlanguage|lang)$/i.test(q)) return true;
   if (/^(bahasa|gantibahasa|ubahbahasa|pilihbahasa)$/i.test(q)) return true;
   if (/^(ngônngữ|ngonngu|đổingônngữ|doingonngu|chọnngônngữ|chonngonngu)$/i.test(q)) return true;
@@ -680,35 +762,28 @@ function languageChoice_(question) {
   if (/^(繁體中文|中文|國語|華語|zh-tw|zh_tw|chinese|traditional chinese|🇹🇼)$/i.test(q)) return 'zh-TW';
   if (/^(english|eng|en|英文|英語|🇺🇸|🇬🇧)$/i.test(q)) return 'en';
   if (/^(bahasa indonesia|bahasa|indonesia|indonesian|印尼文|印尼語|🇮🇩)$/i.test(q)) return 'id';
-  if (/^(tiếng việt|tieng viet|vietnamese|vietnam|越南文|越南語|🇻🇳)$/i.test(q)) return 'vi';
+  if (/^(tiếng việt|tieng viet|vietnamese|vietnam|越南文|越南語|🇻🇳)$/i.test(q)) return 'vi'; if (/^(ไทย|thai|th|泰文|泰語|🇹🇭)$/i.test(q)) return 'th';
   return '';
 }
 
 function languageSetReplyText_(language) {
-  if (language === 'en') {
-    return 'Language has been set to English.\n\nYou may ask infection-control, travel-health, isolation, specimen, or reporting questions in English.';
-  }
-  if (language === 'id') {
-    return 'Bahasa telah diatur ke Bahasa Indonesia.\n\nAnda dapat bertanya tentang pencegahan infeksi, isolasi, spesimen, pelaporan, atau informasi perjalanan.';
-  }
-  if (language === 'vi') {
-    return 'Ngôn ngữ đã được đặt thành Tiếng Việt.\n\nBạn có thể hỏi về kiểm soát nhiễm khuẩn, cách ly, bệnh phẩm, khai báo hoặc thông tin du lịch.';
-  }
-  return '語言已設定為繁體中文。\n\n可繼續詢問感染管制、隔離醫囑、採檢送驗、通報定義、疫區或查核相關問題。';
+  const map={en:'English set.',id:'Bahasa Indonesia set.',vi:'Tiếng Việt set.',th:'ตั้งค่าภาษาไทยแล้ว'};
+  return map[language] || '語言已設定為繁體中文。';
 }
 
 function detectForeignLanguageForPrompt_(question) {
   const raw = String(question || '').trim();
   if (!raw) return '';
   if (/[\u4e00-\u9fff]/.test(raw)) return '';
+  if (/[\u0E00-\u0E7F]/.test(raw)) return 'Thai';
   const lower = raw.toLowerCase();
   const compact = lower.replace(/[^a-z0-9]+/g, '');
   if (!compact) return '';
   if (/^(vre|cre|mrsa|mrse|crab|crpa|mdro|mdroe|kp|tb|hiv|hbv|hcv|covid|cjd|ppe|jev|hib|ipd)$/.test(compact)) return '';
   if (/^(influenzaa|influenzab|flu|ebola|mpox|malaria|measles|rubella|mumps|scabies|dengue|chikungunya|zika|cholera)$/.test(compact)) return '';
-  if (/\b(apa|bagaimana|saya|anda|rumah sakit|infeksi|isolasi|bahasa)\b/i.test(lower)) return 'Bahasa Indonesia';
-  if (/\b(toi|tôi|ban|bạn|benh|bệnh|cach|cách|nguy|hiem|hiểm|ngon ngu|ngôn ngữ)\b/i.test(lower)) return 'Tiếng Việt';
-  if (/\b(what|how|when|where|why|can|should|need|report|isolation|specimen|infection|travel|hospital|patient|fever|cough)\b/i.test(lower)) return 'English';
+  if (/\b(apa|bagaimana|saya|anda|rumah sakit|infeksi|isolasi|bahasa|kepuasan|puas)\b/i.test(lower)) return 'Bahasa Indonesia';
+  if (/toi|tôi|ban|bạn|benh|bệnh|cach|cách|nguy|hiem|hiểm|ngon ngu|ngôn ngữ|hài lòng|hai long|phản hồi|phan hoi|đánh giá|danh gia/i.test(lower)) return 'Tiếng Việt';
+  if (/\b(what|how|when|where|why|can|should|need|report|isolation|specimen|infection|travel|hospital|patient|fever|cough|satisfaction|feedback|rating)\b/i.test(lower)) return 'English';
   return '';
 }
 
@@ -724,16 +799,17 @@ function languageGateReply_(question, event) {
 
   const selected = languageChoice_(q);
   if (selected) {
-    state.language = selected;
+    state.language = selected; state.languageManual = true; delete state.languageAuto;
     saveUserState_(userId, state);
     return { text: languageSetReplyText_(selected), diseaseName: '語言切換', languagePrompt: true };
   }
 
+  if (/[\u4e00-\u9fff]/.test(q) && state.language !== 'zh-TW') { state.language = 'zh-TW'; delete state.languageAuto; saveUserState_(userId, state); }
   const detected = detectForeignLanguageForPrompt_(q);
-  if (detected && !state.languagePrompted && (state.language || 'zh-TW') === 'zh-TW') {
-    state.languagePrompted = true;
-    saveUserState_(userId, state);
-    return { text: languagePromptText_(detected), diseaseName: '語言切換', languagePrompt: true };
+  const autoLang = detected === 'English' ? 'en' : detected === 'Bahasa Indonesia' ? 'id' : detected === 'Tiếng Việt' ? 'vi' : detected === 'Thai' ? 'th' : '';
+  if (autoLang) {
+    state.language = autoLang; state.languageAuto = true; saveUserState_(userId, state);
+    return null;
   }
 
   return null;
@@ -766,8 +842,8 @@ function isTopicFollowupQuestion_(question) {
   const q = normalizeIntentText_(question);
   if (!q) return false;
   if (/^(白話一點|白話|講人話|說人話|簡單講|回答短一點|只回答重點|只列流程|只列醫囑|用查核口吻|用臨床流程回答|補檢體|請補檢體|補診斷條件|補通報定義|補臨床流程|補院內系統操作)$/.test(q)) return true;
-  if (/^(通報定義|通報|採檢|送驗|檢體|採檢送驗|隔離|隔離醫囑|解隔|解除隔離|解隔標準|取消隔離|ppe|防護|病人安置|床位|病房|清消|消毒|漂白水|暴露|造冊|預防用藥|抗病毒|抗蟲藥|用藥|醫令|開方|診斷碼|流程|系統操作|轉送|檢查)$/.test(q)) return true;
-  return q.length <= 8 && /定義|流程|醫囑|檢體|安置|床位|防護|清消|解隔|隔離|造冊|暴露|疫區/.test(q);
+  if (/^(通報定義|通報要件|通報條件|通報標準|病例定義|病例要件|病例條件|診斷要件|診斷條件|診斷定義|診斷標準|通報|採檢|送驗|檢體|採檢送驗|隔離|隔離醫囑|解隔|解除隔離|解隔標準|取消隔離|ppe|防護|病人安置|床位|病房|清消|消毒|漂白水|暴露|造冊|預防用藥|抗病毒|抗蟲藥|用藥|醫令|開方|診斷碼|流程|系統操作|轉送|檢查)$/.test(q)) return true;
+  return q.length <= 8 && /定義|要件|條件|流程|醫囑|檢體|安置|床位|防護|清消|解隔|隔離|造冊|暴露|疫區/.test(q);
 }
 
 function isAmbiguousSubtopicOnlyQuestion_(question, subtopic) {
@@ -775,7 +851,7 @@ function isAmbiguousSubtopicOnlyQuestion_(question, subtopic) {
   const q = normalizeIntentText_(question);
   if (!q) return false;
   if (detectDisease_(q)) return false;
-  return /^(通報定義|病例定義|診斷要件|通報|採檢|送驗|檢體|採檢送驗|隔離|隔離醫囑|解隔|解除隔離|解隔標準|取消隔離|ppe|防護|病人安置|床位|病房|清消|消毒|漂白水|暴露|造冊|預防用藥|抗病毒|抗蟲藥|用藥|醫令|開方|診斷碼|流程|系統操作|轉送|檢查)$/.test(q);
+  return /^(通報定義|通報要件|通報條件|通報標準|病例定義|病例要件|病例條件|診斷要件|診斷條件|診斷定義|診斷標準|通報|採檢|送驗|檢體|採檢送驗|隔離|隔離醫囑|解隔|解除隔離|解隔標準|取消隔離|ppe|防護|病人安置|床位|病房|清消|消毒|漂白水|暴露|造冊|預防用藥|抗病毒|抗蟲藥|用藥|醫令|開方|診斷碼|流程|系統操作|轉送|檢查)$/.test(q);
 }
 
 function genericSubtopicClarificationReply_(subtopic) {
@@ -819,9 +895,7 @@ function isAliasOnlyDiseaseQuestion_(question, diseaseName) {
     const synonyms = kb.synonyms || {};
     const list = synonyms[diseaseName] || synonyms[String(diseaseName || '').trim()] || [];
     list.forEach(function(item) { terms.push(item); });
-  } catch (err) {
-    // Keep clarification working even if the Drive cache is temporarily unavailable.
-  }
+  } catch (err) {}
   for (let i = 0; i < terms.length; i++) {
     const term = compactAliasText_(terms[i]);
     if (term && q === term) return true;
@@ -857,6 +931,7 @@ function isStyleOnlyFollowup_(question) {
 
 function subtopicLabel_(subtopic) {
   const map = {
+    definition: '通報定義',
     placement: '病人安置',
     order: '隔離醫囑',
     specimen: '採檢送驗',
@@ -900,7 +975,7 @@ function expandDiseaseAliasForSearch_(question) {
 function fuzzyDiseaseAliasKey_(question, synonyms) {
   const candidate = compactAliasText_(question)
     .replace(/^(請問|想問|查詢|幫我|麻煩)/, '')
-    .replace(/(通報定義|病例定義|通報|隔離醫囑|隔離|解隔標準|解隔|採檢送驗|採檢|送驗|檢體|疫區|清消|消毒|ppe|防護|病人安置|怎麼辦|是什麼)$/i, '');
+    .replace(/(通報定義|通報要件|通報條件|通報標準|病例定義|病例要件|病例條件|診斷要件|診斷條件|診斷定義|診斷標準|通報|隔離醫囑|隔離|解隔標準|解隔|採檢送驗|採檢|送驗|檢體|疫區|清消|消毒|ppe|防護|病人安置|怎麼辦|是什麼)$/i, '');
   if (!candidate) return '';
   const isCjk = /^[\u4e00-\u9fff]{3,12}$/.test(candidate);
   const isLatin = /^[a-z]{5,24}$/.test(candidate);
@@ -1503,7 +1578,7 @@ function suggestionBoxReply_(question, event) {
 
 function isLikelyClinicalQuestion_(question) {
   const q = String(question || '');
-  return /疫區|旅遊疫情|通報|診斷|醫囑|採檢|送驗|檢體|隔離|解隔|清消|消毒|漂白水|PPE|防護|病人安置|床位|病房|造冊|暴露|發燒|咳嗽|腹瀉|皮疹|VRE|CRE|MRSA|MRSE|CRAB|CRPA|MDRO|KP|Klebsiella|麻疹|德麻|德國麻疹|腮腺炎|百日咳|登革熱|伊波拉|伊坡拉|流感|新冠|疥瘡|結核|立百|退伍軍人|兔熱病|日腦|日本腦炎|流腦|流行性腦脊髓膜炎|Hib|IPD|M痘|猴痘|SFTS|A肝|B肝|C肝|E肝|梅毒|淋病|恙蟲|萊姆|內視鏡|透析/i.test(q);
+  return /疫區|旅遊疫情|通報|診斷|醫囑|採檢|送驗|檢體|隔離|解隔|清消|消毒|漂白水|PPE|防護|病人安置|床位|病房|造冊|暴露|發燒|咳嗽|腹瀉|皮疹|VRE|CRE|MRSA|MRSE|CRAB|CRPA|MDRO|KP|Klebsiella|麻疹|德麻|德國麻疹|腮腺炎|百日咳|登革熱|伊波拉|伊坡拉|流感|新冠|疥瘡|結核|立百|退伍軍人|兔熱病|日腦|日本腦炎|流腦|流行性腦脊髓膜炎|Hib|IPD|M痘|猴痘|SFTS|A肝|B肝|C肝|E肝|梅毒|淋病|恙蟲|萊姆|內視鏡|透析|report|criteria|definition|diagnos|isolat|specimen|sample|collect|test|ppe|protect|placement|room|bed|disinfect|clean|bleach|exposure|contact|fever|cough|diarrhea|rash|travel|outbreak|infection/i.test(q);
 }
 
 function getSuggestionRecords_() {
@@ -1655,7 +1730,6 @@ function postExposurePepReply_(question) {
 function detectDisease_(question) {
   const q = String(question || '').toLowerCase();
 
-  // 1. MDRO
   if (/vre|抗萬古黴素腸球菌/i.test(q)) return { name: 'VRE', key: 'VRE' };
   if (/cre|cpe|抗藥性腸桿菌/i.test(q)) return { name: 'CRE', key: 'CRE' };
   if (/mrse|抗藥性表皮葡萄球菌|表皮葡萄球菌/i.test(q)) return { name: 'MRSE', key: 'MRSE' };
@@ -1665,7 +1739,6 @@ function detectDisease_(question) {
   if (/耳念珠菌|candida\s*auris/i.test(q)) return { name: '耳念珠菌', key: '耳念珠菌' };
   if (/mdro|多重抗藥菌|抗藥菌/i.test(q)) return { name: 'MDRO', key: 'MDRO' };
 
-  // 2. 呼吸道與法定傳染病
   if (/兔熱/i.test(q)) return { name: '兔熱病', key: '兔熱病' };
   if (/黃熱/i.test(q)) return { name: '黃熱病', key: '黃熱病' };
   if (/q熱/i.test(q)) return { name: 'Q熱', key: 'Q熱' };
@@ -1702,6 +1775,7 @@ function detectDisease_(question) {
   if (/流行性腦脊髓膜炎|流行性腦膜炎|流腦|meningococcal|meningitis/i.test(q)) return { name: '流行性腦脊髓膜炎', key: '流行性腦脊髓膜炎' };
   if (/\bhib\b|侵襲性\s*b\s*型嗜血|b型嗜血桿菌/i.test(q)) return { name: '侵襲性b型嗜血桿菌感染症', key: '侵襲性b型嗜血桿菌感染症' };
   if (/\bipd\b|侵襲性肺炎鏈球菌|肺炎鏈球菌感染症/i.test(q)) return { name: '侵襲性肺炎鏈球菌感染症', key: '侵襲性肺炎鏈球菌感染症' };
+  if (/\bafp\b|acute\s+flaccid\s+(?:paralysis|myelitis)|polio(?:myelitis)?|小兒麻痺|急性無力肢體麻痺|急性肢體無力麻痺/i.test(q)) return { name: '小兒麻痺症/急性無力肢體麻痺', key: '小兒麻痺症/急性無力肢體麻痺' };
   if (/炭疽/i.test(q)) return { name: '炭疽', key: '炭疽' };
   if (/鼠疫/i.test(q)) return { name: '鼠疫', key: '鼠疫' };
   if (/天花/i.test(q)) return { name: '天花', key: '天花' };
@@ -1753,15 +1827,15 @@ function detectDiseaseFromSynonyms_(question) {
 
 function detectSubtopic_(question) {
   const q = String(question || '');
-  if (/通報定義|病例定義|診斷要件|診斷條件|符合通報|要不要通報/i.test(q)) return 'definition';
-  if (/解隔|解除隔離|取消隔離|何時解隔|什麼時候解隔|停止隔離/i.test(q)) return 'clearance';
-  if (/暴露|造冊|接觸者|PEP|預防用藥|預防性投藥/i.test(q)) return 'exposure';
-  if (/安置|床位|病房|負壓|單人|收治/i.test(q)) return 'placement';
-  if (/通報|醫令|開單|代碼|診斷碼/i.test(q)) return 'order';
-  if (/採檢|送驗|檢體|拭子|抽吸/i.test(q)) return 'specimen';
-  if (/隔離|接觸隔離|空氣隔離|飛沫隔離/i.test(q)) return 'isolation';
-  if (/清消|消毒|清潔|漂白水|環境/i.test(q)) return 'sanitization';
-  if (/照護|處置|防護|ppe/i.test(q)) return 'care';
+  if (/通報定義|通報要件|通報條件|通報標準|通報資格|病例定義|病例要件|病例條件|診斷要件|診斷條件|診斷定義|診斷標準|符合通報|要不要通報|要通報嗎|需要通報嗎|需不需要通報|何時(?:要)?通報|什麼(?:時候|情況|狀況)(?:要|需|需要)?通報|report.*(criteria|definition|condition|requirement)|case\s*definition|diagnos|when\s+to\s+report/i.test(q)) return 'definition';
+  if (/解隔|解除隔離|取消隔離|何時解隔|什麼時候解隔|停止隔離|discharge\s+from\s+isolation|de-?isolation|stop\s+isolation|end\s+isolation/i.test(q)) return 'clearance';
+  if (/暴露|造冊|接觸者|PEP|預防用藥|預防性投藥|exposure|contact\s*(tracing|list|person)|post-?exposure|prophylaxis/i.test(q)) return 'exposure';
+  if (/住院安排|收住|安置|床位|病房|病室|負壓|單人|收治|placement|room|bed|ward|negative\s*pressure|single\s*room|admission/i.test(q)) return 'placement';
+  if (/通報|醫令|開單|代碼|診斷碼|report|order|code|icd|diagnosis\s*code/i.test(q)) return 'order';
+  if (/採檢|送驗|檢體|拭子|抽吸|specimen|sample|collect|swab|testing|test/i.test(q)) return 'specimen';
+  if (/隔離|接觸隔離|空氣隔離|飛沫隔離|isolation|airborne|droplet|contact\s*precaution/i.test(q)) return 'isolation';
+  if (/清消|消毒|清潔|漂白水|環境|disinfect|clean|environment|bleach|chlorine|ppm/i.test(q)) return 'sanitization';
+  if (/照護|處置|防護|怎麼辦|怎麼處理|如何處理|ppe|care|management|precaution|protection/i.test(q)) return 'care';
   return null;
 }
 
@@ -2391,6 +2465,21 @@ function auditDiseaseFacetReply_(diseaseName, question) {
   const profile = diseaseInfectionControlProfile_(d);
   if (!d) return null;
   const q = normalizeIntentText_(question || '');
+  if (/感染管制處置重點/.test(q)) {
+    const lines = [d + '感染管制處置重點：'];
+    if (profile) {
+      lines.push('- 通報與時限：' + profile.category);
+      lines.push('- 隔離與安置：' + profile.placement + '；' + profile.order);
+      lines.push('- PPE：' + profile.ppe);
+      lines.push('- 採檢送驗：' + profile.specimen);
+      lines.push('- 清消：' + profile.sanitization);
+      lines.push('- 查核佐證：通報、醫囑、床位安排、PPE/清消及採檢紀錄需能互相勾稽。');
+    } else {
+      lines.push('- 依疾病別通報、隔離標示、PPE、病人安置、採檢送驗、環境清消及追蹤紀錄整理。');
+      lines.push('- 查核時重點是現場做法、正式規範與執行紀錄是否一致。');
+    }
+    return { facet: 'audit-care', text: lines.join('\n') };
+  }
   if (/通報與時限查核|通報時限查核/.test(q)) {
     const reporting = profile
       ? d + '通報與時限查核：\n- ' + profile.category
@@ -2509,8 +2598,6 @@ function auditGeneralTopicReply_(question, event) {
   const q = normalizeIntentText_(question);
   if (/內視鏡/i.test(q) && !/(?:庫賈氏|cjd|鼻腔手術)/i.test(q)) return '';
   const detectedDisease = detectDisease_(q);
-  // Disease-specific audit buttons are answered later with the disease profile;
-  // do not let the generic "SOP / evidence" topic consume them first.
   if (detectedDisease && /(?:評鑑委員可能提問|委員提問|km佐證|可出示執行紀錄|感染管制處置重點|通報與時限查核|通報時限查核|隔離標示查核|ppe防護查核|防護裝備查核|病人安置查核|採檢送驗查核|環境清消查核|相關紀錄查核)/i.test(q)) return '';
   if (/^(傳染病通報|法定傳染病通報|通報機制|疾病通報)$/.test(q.replace(/\s+/g, ''))) {
     return officialAuditClauseReply_('查核條文 4.1');
@@ -2522,9 +2609,6 @@ function auditGeneralTopicReply_(question, event) {
   if (menuReply) return menuReply;
   const officialReply = officialAuditClauseReply_(q);
   if (officialReply) return officialReply;
-  // An explicit clause query must never fall through to generic KB retrieval.
-  // If the separate audit file is unavailable, generic search may expose
-  // obsolete shared-drive paths instead of the official KM evidence.
   const explicitClause = q.match(/(?:查核)?(?:條文)?\s*([1-5]\.[1-7])/i);
   if (explicitClause) {
     return {
@@ -2932,14 +3016,26 @@ function findNotifiableDiseaseEntry_(diseaseName) {
 function normalizeNotifiableDiseaseName_(name) {
   const d = String(name || '').trim();
   const map = {
+    '急性A型肝炎': '急性病毒性A型肝炎',
+    'A型肝炎': '急性病毒性A型肝炎',
+    'A肝': '急性病毒性A型肝炎',
+    '急性B型肝炎': '急性病毒性B型肝炎',
+    'B型肝炎': '急性病毒性B型肝炎',
+    'B肝': '急性病毒性B型肝炎',
     '急性C型肝炎': '急性病毒性C型肝炎',
     'C型肝炎': '急性病毒性C型肝炎',
     'C肝': '急性病毒性C型肝炎',
+    '急性E型肝炎': '急性病毒性E型肝炎',
+    'E型肝炎': '急性病毒性E型肝炎',
+    'E肝': '急性病毒性E型肝炎',
     '未定型肝炎': '急性病毒性肝炎未定型',
     '肝炎未定型': '急性病毒性肝炎未定型',
     '日腦': '日本腦炎',
     '流腦': '流行性腦脊髓膜炎',
-    '水痘': '水痘併發症'
+    '水痘': '水痘併發症',
+    '阿米巴痢疾': '阿米巴性痢疾',
+    '斑疹傷寒': '流行性斑疹傷寒',
+    'HIV': '人類免疫缺乏病毒感染'
   };
   return map[d] || d;
 }
@@ -3161,7 +3257,6 @@ function searchKb_(question, limit) {
     const compactHaystack = haystack.replace(/\s+/g, '');
     if (diseaseTerms.length && !diseaseTerms.some(function(term) { return compactHaystack.indexOf(term) >= 0; })) return;
 
-    // 嚴格疾病主體過濾：若問句為特定疾病（如兔熱病），排除非目標疾病（如黃熱病）的干擾
     if (/兔熱/i.test(compactQuestion) && !/黃熱/i.test(compactQuestion) && /黃熱/i.test(haystack) && !/兔熱/i.test(haystack)) {
       return;
     }
@@ -3329,9 +3424,10 @@ function callGemini_(question, context, language) {
   const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + CONFIG.GEMINI_MODEL + ':generateContent?key=' + encodeURIComponent(apiKey);
   const lang = String(language || 'zh-TW');
   let languageRule = '請以繁體中文回答。';
-  if (lang === 'en') languageRule = 'Please answer in clear, natural English. Use only the knowledge base content and do not add unsupported medical advice.';
-  if (lang === 'id') languageRule = 'Jawablah dalam Bahasa Indonesia yang jelas dan ramah. Gunakan hanya isi basis pengetahuan dan jangan menambahkan nasihat medis tanpa dasar.';
-  if (lang === 'vi') languageRule = 'Vui lòng trả lời bằng Tiếng Việt rõ ràng và thân thiện. Chỉ dùng nội dung trong kho kiến thức, không tự thêm lời khuyên y khoa không có căn cứ.';
+  if (lang === 'en') languageRule = 'Answer in English. Use only the KB.';
+  if (lang === 'id') languageRule = 'Jawab dalam Bahasa Indonesia. Pakai KB saja.';
+  if (lang === 'vi') languageRule = 'Trả lời bằng Tiếng Việt. Chỉ dùng KB.';
+  if (lang === 'th') languageRule = 'ตอบเป็นภาษาไทย ใช้เฉพาะ KB';
   const prompt =
     '你是台大感管中心的 LINE 問答助手。請用專業、簡明、精準、親切的語氣回答。\n' +
     '語言規則：' + languageRule + '\n' +
@@ -3368,30 +3464,23 @@ function translateAnswerForUserLanguage_(text, event, answerObj) {
   const lang = getUserLanguage_(event);
   if (!lang || lang === 'zh-TW') return text;
   if (answerObj && answerObj.languagePrompt) return text;
-  const translated = callGeminiTranslate_(text, lang);
-  return translated || text;
+  const translated = callGeminiTranslate_(text, lang) || callLanguageAppTranslate_(text, lang);
+  return translated || translationFallbackNotice_(lang) + '\n\n' + text;
+}
+
+function translationFallbackNotice_(lang) {
+  return lang==='id'?'Terjemahan gagal. Isi asli:':lang==='vi'?'Chưa dịch được. Nội dung gốc:':'Translation failed. Original:';
 }
 
 function callGeminiTranslate_(text, language) {
   const apiKey = getProp_('GEMINI_API_KEY', true);
   if (!apiKey) return '';
   const lang = String(language || 'zh-TW');
-  const labels = {
-    en: 'English',
-    id: 'Bahasa Indonesia',
-    vi: 'Tiếng Việt'
-  };
-  const target = labels[lang] || '';
+  const labels={en:'English',id:'Bahasa Indonesia',vi:'Tiếng Việt',th:'Thai',zh:'zh-TW'};
+  const target=labels[lang]||'';
   if (!target) return '';
   const url = 'https://generativelanguage.googleapis.com/v1beta/models/' + CONFIG.GEMINI_MODEL + ':generateContent?key=' + encodeURIComponent(apiKey);
-  const prompt =
-    'Translate the following LINE bot answer into ' + target + '.\n' +
-    'Rules:\n' +
-    '- Translate only; do not add new medical facts, advice, sources, or warnings.\n' +
-    '- Preserve all codes, URLs, percentages, ppm, dates, drug names, ANN codes, CDCN codes, and disease names when appropriate.\n' +
-    '- Keep it concise and friendly for a hospital infection-control LINE bot.\n' +
-    '- Do not use Markdown bold markers, code fences, or headings with ###.\n\n' +
-    'Text:\n' + String(text || '');
+  const prompt='Translate to '+target+'. Only translate; keep codes, URLs, %, ppm, ANN/CDCN.\nText:\n'+String(text||'');
   const payload = {
     contents: [{ role: 'user', parts: [{ text: prompt }] }],
     generationConfig: { temperature: 0.1, maxOutputTokens: 1400 },
@@ -3409,6 +3498,11 @@ function callGeminiTranslate_(text, language) {
   const data = JSON.parse(res.getContentText());
   const parts = data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts;
   return parts && parts.length ? cleanAnswerText_(String(parts[0].text || '').trim()) : '';
+}
+
+function callLanguageAppTranslate_(text, lang) {
+  try { const to={id:'id',vi:'vi',en:'en',th:'th'}[lang]||''; return to?cleanAnswerText_(LanguageApp.translate(String(text||'').slice(0,4200),'zh-TW',to)):''; }
+  catch (err) { console.error('LanguageApp translate failed: ' + err.toString()); return ''; }
 }
 
 function extractiveAnswer_(hits, targetDiseaseName) {
@@ -3464,7 +3558,6 @@ function cleanKnowledgeLine_(raw) {
     .trim();
   if (!line) return '';
 
-  // 嚴格過濾知識庫文件內部標題、大典前言與系統宣告
   if (/全傳染病台大感管線上互動|全傳染病線上互動平台|GitHub Pages|GitHubPages|串接規格|本規劃案建立|互動式漂白水清消線上計算器|Web Calculator/.test(line)) return '';
   if (/台大醫院感管中心\s*-\s*全傳染病衛教|全傳染病衛教與臨床處置大典|權威核心文檔|kb_index\.json|Gemini RAG|第一線醫護決策支援/.test(line)) return '';
   if (/^(本文件為|本檔依|本檔供|整理時間|整理規則|排除項目|資料最新發布日期|資料來源|檢索關鍵字|LINE 查詢建議|LINE 問答關鍵字|查核佐證路徑與用途|地區清單：?$|請上傳所有同名前綴|適用情境：?|核心原則：?|回答重點：?|回答方向：?|建議回答：?|建議回答臨床同仁：?|回答時：?|若使用者問|若同仁問|只在使用者明確詢問|以下路徑只在|民眾版：?|員工版：?|同仁版：?|你可以先做這幾件事：?|請用以下|可給外籍病人的英文說法：?|LINE 回答範例：?)/.test(line)) return '';
@@ -3510,6 +3603,7 @@ function sanitizeLineText_(text) {
       const value = String(line || '');
       if (/[A-Z]:\\/i.test(value)) return false;
       if (/以下路徑只在使用者明確詢問|查核佐證路徑與用途|院內磁碟路徑/.test(value)) return false;
+      if (/我是感染管制檢索助手|知無不言/.test(value)) return false;
       return true;
     })
     .join('\n')
@@ -3526,6 +3620,10 @@ function buildQuickReplyForDisease_(diseaseName, answerObj) {
   const d = String(diseaseName || '').trim();
   const isStaff = answerObj && answerObj.identity === 'staff';
   let items = [];
+  if (answerObj && answerObj.identityPrompt) {
+    items = [quickReplyMessage_('院內員工', '院內員工'), quickReplyMessage_('訪客民眾', '訪客')];
+    return { items: appendGlobalQuickReplies_(items, answerObj) };
+  }
   if (answerObj && answerObj.reportingPrompt) {
     items = [
       quickReplyMessage_('麻疹通報', '麻疹通報定義'),
@@ -3556,8 +3654,7 @@ function buildQuickReplyForDisease_(diseaseName, answerObj) {
     items = [
       quickReplyMessage_('繁體中文', '繁體中文'),
       quickReplyMessage_('English', 'English'),
-      quickReplyMessage_('Bahasa', 'Bahasa Indonesia'),
-      quickReplyMessage_('Tiếng Việt', 'Tiếng Việt')
+      quickReplyMessage_('Bahasa', 'Bahasa Indonesia'), quickReplyMessage_('Tiếng Việt', 'Tiếng Việt'), quickReplyMessage_('ไทย', 'ไทย')
     ].concat(items);
     return { items: appendGlobalQuickReplies_(items, answerObj) };
   }
@@ -3571,8 +3668,6 @@ function buildQuickReplyForDisease_(diseaseName, answerObj) {
     ]);
     return { items: appendGlobalQuickReplies_(items, answerObj) };
   }
-  // Keep the scabies situation switcher available after entering any branch.
-  // Users commonly move from inpatient isolation to office/employee exposure.
   if (d === '疥瘡' && (!answerObj || answerObj.mode !== 'audit')) {
     const scabiesText = String(answerObj && answerObj.text || '');
     const scabiesCurrent = String(answerObj && answerObj.subtopic || '');
@@ -3774,7 +3869,7 @@ function contextualQuickReplyItems_(answerObj) {
     }
     if (subtopic === 'definition') {
       const definitionItems = [
-        { pattern: /通報定義/i, item: quickReplyMessage_('通報重點', topic + '通報定義') },
+        { pattern: /通報定義|通報要件|通報條件|通報標準|病例定義|病例要件|診斷要件|診斷條件/i, item: quickReplyMessage_('通報重點', topic + '通報定義') },
         { pattern: /採檢送驗/i, item: quickReplyMessage_('採檢佐證', topic + '採檢送驗') },
         { pattern: /委員提問/i, item: quickReplyMessage_('委員提問', topic + '通報委員提問') },
         { pattern: /KM佐證/i, item: quickReplyMessage_('KM佐證', topic + '通報KM佐證') }
@@ -3830,33 +3925,26 @@ function contextualQuickReplyItems_(answerObj) {
   return [];
 }
 
-function globalQuickReplyItems_(showSatisfaction, activeMode) {
-  const items = [
-    {
-      type: 'action',
-      action: {
-        type: 'uri',
-        label: '疫情訊息',
-        uri: latestEpidemicInfoUrl_()
-      }
-    }
-  ];
-  if (activeMode !== 'audit') items.push(quickReplyMessage_('評鑑查核', '評鑑查核'));
-  if (activeMode !== 'clinical') items.push(quickReplyMessage_('臨床照護', '臨床照護'));
-  if (showSatisfaction) {
-    items.push(quickReplyMessage_('滿意度', '滿意度'));
-  } else {
-    items.push(quickReplyMessage_('🔒滿意度', '🔒滿意度'));
+function globalQuickReplyItems_(showSatisfaction, activeMode, identity) {
+  const items = [quickReplyMessage_('Language','語言'), quickReplyUri_('疫情訊息', latestEpidemicInfoUrl_())];
+  if (!identity) {
+    items.push(quickReplyMessage_('院內員工', '院內員工'), quickReplyMessage_('訪客民眾', '訪客'));
+  } else if (identity === 'staff') {
+    if (activeMode !== 'audit') items.push(quickReplyMessage_('評鑑查核', '評鑑查核'));
+    if (activeMode !== 'clinical') items.push(quickReplyMessage_('臨床照護', '臨床照護'));
+  } else if (identity === 'public') {
+    items.push(quickReplyMessage_('院內員工', '院內員工'));
   }
-  items.push(quickReplyMessage_('感管意見箱', '感管意見箱'));
+  if(showSatisfaction) items.push(quickReplyMessage_('滿意度','滿意度')); items.push(quickReplyMessage_('感管意見箱','感管意見箱'));
   return items;
 }
 
 function appendGlobalQuickReplies_(items, answerObj) {
   const showSatisfaction = Boolean(answerObj && (answerObj.qualityPrompt || answerObj.satisfactionEligible));
   const activeMode = answerObj && answerObj.modeExplicit ? String(answerObj.mode || '') : '';
-  const base = globalQuickReplyItems_(showSatisfaction, activeMode);
-  return (items || []).slice(0, 13 - base.length).concat(base);
+  const identity = answerObj && answerObj.identityPrompt ? 'prompting' : (answerObj && answerObj.identity ? String(answerObj.identity || '') : '');
+  const base = globalQuickReplyItems_(showSatisfaction, activeMode, identity);
+  return base.slice(0,1).concat((items||[]).slice(0,13-base.length)).concat(base.slice(1));
 }
 
 function quickReplyUri_(label, uri) {

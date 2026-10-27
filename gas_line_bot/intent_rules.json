@@ -3,6 +3,13 @@
   "notes": "可資料化的 LINE 意圖規則。pattern 會套用在 normalizeIntentText_ 後的文字，避免把大量閒聊/導流規則塞進 Code.gs。",
   "rules": [
     {
+      "id": "covid_inpatient_placement",
+      "category": "operational",
+      "disease_name": "新冠",
+      "pattern": "(?=.*(?:新冠|covid))(?=.*(?:住院安排|收住|安置|床位|病房|病室|負壓|單人))",
+      "reply": "新冠感染住院／病房安排重點：\n- 先確認是否會執行引發飛沫微粒處置（AGP），例如插管、抽痰、支氣管鏡或噴霧治療；若有 AGP，強制優先收治於負壓隔離病室。\n- 無 AGP 者，優先收置單人病室（含負壓）並關閉房門。\n- 單人病室不足時，經感管評估可採同類確診病人集中照護（cohorting），並維持病床間距大於 1 公尺。\n- 全院負壓病室由感管中心醫師統一調度控床；不要自行降低隔離等級。\n- 隔離醫囑：開立 ANN00061 飛沫+接觸隔離-COVID-19；解隔時開立 ANN10061 取消醫囑。\n- PPE：依飛沫與接觸隔離執行；近距離照護配戴外科口罩或 N95、隔離衣、手套與防護面罩，AGP 情境使用 N95。"
+    },
+    {
       "id": "cjd_internal_reconciliation",
       "category": "operational",
       "disease_name": "庫賈氏病",

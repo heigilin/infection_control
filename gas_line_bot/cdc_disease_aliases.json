@@ -1,0 +1,402 @@
+{
+  "version": 1,
+  "generated_at": "2026-10-08T09:00:39Z",
+  "sources": [
+    {
+      "title": "衛生福利部疾病管制署：傳染病介紹",
+      "url": "https://www.cdc.gov.tw/Disease/"
+    },
+    {
+      "title": "衛生福利部疾病管制署：雙語詞彙",
+      "url": "https://www.cdc.gov.tw/Category/Page/H7QkJbw4MlQX3u1Akf5AYw"
+    }
+  ],
+  "aliases": {
+    "CRE抗藥性檢測": [],
+    "M痘": [
+      "mpox",
+      "monkeypox"
+    ],
+    "Q熱": [
+      "Q Fever"
+    ],
+    "VISA/VRSA抗藥性檢測": [
+      "VISA",
+      "VRSA抗藥性檢測"
+    ],
+    "不明原因腦炎": [],
+    "中東呼吸症候群冠狀病毒感染症": [
+      "Middle East Respiratory Syndrome Coronavirus (MERS-CoV)",
+      "MERS-CoV",
+      "Middle East Respiratory Syndrome Coronavirus",
+      "MERS"
+    ],
+    "中華肝吸蟲感染症": [],
+    "亨德拉病毒感染症": [],
+    "人芽囊原蟲感染": [],
+    "人類免疫缺乏病毒(愛滋病毒)感染": [
+      "愛滋病毒",
+      "Human Immunodeficiency Virus, HIV",
+      "Human Immunodeficiency Virus",
+      "HIV",
+      "AIDS",
+      "愛滋",
+      "人類免疫缺乏病毒"
+    ],
+    "伊波拉病毒感染": [
+      "Ebola Virus Disease"
+    ],
+    "侵襲性b型嗜血桿菌感染症": [
+      "Invasive Haemophilus Influenzae Type b Infection",
+      "Hib",
+      "Haemophilus influenzae type b"
+    ],
+    "侵襲性肺炎鏈球菌感染症": [
+      "Invasive Pneumococcal Disease",
+      "IPD",
+      "invasive pneumococcal disease"
+    ],
+    "傷寒": [
+      "Typhoid Fever"
+    ],
+    "先天性德國麻疹症候群": [
+      "Congenital Rubella Syndrome (CRS)",
+      "CRS",
+      "Congenital Rubella Syndrome"
+    ],
+    "先天性梅毒": [],
+    "兒童急性嚴重不明原因肝炎": [],
+    "兔熱病": [
+      "Tularemia"
+    ],
+    "副傷寒": [
+      "Paratyphoid Fever"
+    ],
+    "嚴重急性呼吸道症候群": [
+      "Severe Acute Respiratory Syndrome (SARS)",
+      "SARS",
+      "Severe Acute Respiratory Syndrome"
+    ],
+    "地方性斑疹傷寒": [
+      "Endemic Typhus Fever"
+    ],
+    "多重抗藥性結核病": [
+      "Multidrug-Resistant Tuberculosis (MDR TB)",
+      "MDR TB",
+      "Multidrug-Resistant Tuberculosis",
+      "Tuberculosis",
+      "MDR-TB"
+    ],
+    "天花": [
+      "Smallpox"
+    ],
+    "小兒麻痺症/急性無力肢體麻痺": [
+      "小兒麻痺症",
+      "急性無力肢體麻痺",
+      "Poliomyelitis",
+      "AFP",
+      "acute flaccid paralysis",
+      "acute flaccid myelitis",
+      "polio",
+      "poliomyelitis",
+      "小兒麻痺"
+    ],
+    "屈公病": [
+      "Chikungunya Fever"
+    ],
+    "布氏桿菌病": [],
+    "常見腸道寄生蟲病": [],
+    "庫賈氏病": [
+      "Creutzfeldt-Jakob Disease",
+      "CJD",
+      "Creutzfeldt-Jakob disease",
+      "prion disease"
+    ],
+    "廣東住血線蟲感染症": [],
+    "弓形蟲感染症": [
+      "Toxoplasmosis"
+    ],
+    "德國麻疹": [
+      "Rubella"
+    ],
+    "急性病毒性A型肝炎": [
+      "Acute Hepatitis A"
+    ],
+    "急性病毒性B型肝炎": [
+      "Acute Hepatitis B"
+    ],
+    "急性病毒性C型肝炎": [
+      "Acute Hepatitis C"
+    ],
+    "急性病毒性D型肝炎": [
+      "Acute Hepatitis D"
+    ],
+    "急性病毒性E型肝炎": [
+      "Acute Hepatitis E"
+    ],
+    "急性病毒性肝炎未定型": [],
+    "恙蟲病": [
+      "Scrub Typhus"
+    ],
+    "拉薩熱": [
+      "Lassa Fever"
+    ],
+    "新冠併發重症": [
+      "COVID-19",
+      "COVID",
+      "SARS-CoV-2",
+      "coronavirus disease 2019",
+      "新冠"
+    ],
+    "新型A型流感": [
+      "Novel Influenza A Virus Infections",
+      "novel influenza A",
+      "H5N1",
+      "H7N9",
+      "avian influenza",
+      "禽流感"
+    ],
+    "新生兒破傷風": [
+      "Neonatal Tetanus"
+    ],
+    "旋毛蟲感染症": [],
+    "日本腦炎": [
+      "Japanese Encephalitis"
+    ],
+    "李斯特菌症": [],
+    "桿菌性痢疾": [
+      "Shigellosis"
+    ],
+    "梅毒": [
+      "Syphilis"
+    ],
+    "棘狀阿米巴": [],
+    "水痘併發症": [
+      "Varicella"
+    ],
+    "沙門氏菌感染症": [],
+    "流感併發重症": [
+      "Severe Complicated Influenza",
+      "influenza",
+      "severe complicated influenza",
+      "flu"
+    ],
+    "流行性斑疹傷寒": [
+      "Epidemic Typhus Fever"
+    ],
+    "流行性腦脊髓膜炎": [
+      "Meningococcal Meningitis"
+    ],
+    "流行性腮腺炎": [
+      "Mumps"
+    ],
+    "淋巴絲蟲病": [
+      "Lymphatic Filariasis"
+    ],
+    "淋病": [
+      "Gonorrhea"
+    ],
+    "漢他病毒症候群": [
+      "Hantavirus Syndrome"
+    ],
+    "漢生病": [
+      "Leprosy"
+    ],
+    "炭疽病": [
+      "Anthrax"
+    ],
+    "狂犬病": [
+      "Rabies"
+    ],
+    "球黴菌症": [],
+    "疥瘡感染症": [],
+    "疱疹B病毒感染症": [
+      "Herpesvirus B Infection"
+    ],
+    "病毒性腸胃炎": [],
+    "瘧疾": [
+      "Malaria"
+    ],
+    "登革熱": [
+      "Dengue Fever"
+    ],
+    "發熱伴血小板減少綜合症": [
+      "SFTS",
+      "severe fever with thrombocytopenia syndrome"
+    ],
+    "白喉": [
+      "Diphtheria"
+    ],
+    "百日咳": [
+      "Pertussis"
+    ],
+    "破傷風": [
+      "Tetanus"
+    ],
+    "社區型MRSA": [],
+    "福氏內格里阿米巴腦膜腦炎": [],
+    "立百病毒感染症": [],
+    "第二型豬鏈球菌感染症": [],
+    "細菌性腸胃炎": [],
+    "結核病": [],
+    "肉毒桿菌中毒": [
+      "Botulism"
+    ],
+    "肺吸蟲感染症": [],
+    "肺囊蟲肺炎": [],
+    "肺炎黴漿菌感染症": [],
+    "腸病毒感染併發重症": [
+      "Enteroviruses Infection with Severe Complications"
+    ],
+    "腸道出血性大腸桿菌感染症": [
+      "Enterohemorrhagic E. coli Infection (EHEC Infection)",
+      "Enterohemorrhagic E. coli Infection",
+      "EHEC",
+      "enterohemorrhagic E. coli"
+    ],
+    "茲卡病毒感染症": [
+      "Zika Virus Infection"
+    ],
+    "萊姆病": [
+      "Lyme Disease"
+    ],
+    "裂谷熱": [
+      "Rift Valley Fever"
+    ],
+    "西尼羅熱": [
+      "West Nile Fever"
+    ],
+    "貓抓病": [],
+    "退伍軍人病": [
+      "Legionnaire's disease"
+    ],
+    "鉤端螺旋體病": [
+      "Leptospirosis"
+    ],
+    "阿米巴性痢疾": [
+      "Amebiasis"
+    ],
+    "隱球菌症": [],
+    "霍亂": [
+      "Cholera"
+    ],
+    "頭蝨感染症": [],
+    "類鼻疽": [
+      "Melioidosis"
+    ],
+    "馬堡病毒出血熱": [
+      "Marburg Hemorrhagic Fever"
+    ],
+    "鸚鵡熱": [],
+    "麻疹": [
+      "Measles"
+    ],
+    "黃熱病": [
+      "Yellow Fever"
+    ],
+    "鼠疫": [
+      "Plague"
+    ]
+  },
+  "disease_links": {
+    "CRE抗藥性檢測": "/Disease/SubIndex/XE0kRC83F4xbWn42IufaMg",
+    "M痘": "/Disease/SubIndex/G3A6nyt8JmqIUcUF5Pek6w",
+    "Q熱": "/Disease/SubIndex/vnMfnLfuWmf6aJL-FP_rpA",
+    "VISA/VRSA抗藥性檢測": "/Disease/SubIndex/kZuxGtL8uJu77TQHcyB2DA",
+    "不明原因腦炎": "/Disease/SubIndex/xssPAz-UExUUGWCVUkKzGw",
+    "中東呼吸症候群冠狀病毒感染症": "/Disease/SubIndex/Ao8QOtJXN-BThS3MPpKS8Q",
+    "中華肝吸蟲感染症": "/Disease/SubIndex/bLTJKs46lP3q20opq3EGRA",
+    "亨德拉病毒感染症": "/Disease/SubIndex/aOH9YQ6Xn72BaPz8aXv2vQ",
+    "人芽囊原蟲感染": "/Disease/SubIndex/kT5kIYks2DR1G6JqaeKauQ",
+    "人類免疫缺乏病毒(愛滋病毒)感染": "/Disease/SubIndex/3s96eguiLtdGQtgNv7Rk1g",
+    "伊波拉病毒感染": "/Disease/SubIndex/3DGpsvfGoSlTJyTGmn-pbw",
+    "侵襲性b型嗜血桿菌感染症": "/Disease/SubIndex/T8cxu9oK6AvF_uCkyS0v1w",
+    "侵襲性肺炎鏈球菌感染症": "/Disease/SubIndex/oAznsrFTsYK-p12_juf0kw",
+    "傷寒": "/Disease/SubIndex/wp-kiiztSq_5cFd6H96f9w",
+    "先天性德國麻疹症候群": "/Disease/SubIndex/Ba6DI2kXzQDk4zeVaT8amQ",
+    "先天性梅毒": "/Disease/SubIndex/1s7E2BErloh0I3okXTYiuQ",
+    "兒童急性嚴重不明原因肝炎": "/Disease/SubIndex/1FYd5Fxevaam6xBazeiSRA",
+    "兔熱病": "/Disease/SubIndex/kYFAo47cX6jLoYrELP4iHg",
+    "副傷寒": "/Disease/SubIndex/Kd-mMp_vtDEegjXoyya9hQ",
+    "嚴重急性呼吸道症候群": "/Disease/SubIndex/j5QtbRPVkmFMg9BwiGezZA",
+    "地方性斑疹傷寒": "/Disease/SubIndex/k_5c9-5H66BQ49i1QNrLng",
+    "多重抗藥性結核病": "/Disease/SubIndex/MDmwWa4Ffh5--tMDfvK_WA",
+    "天花": "/Disease/SubIndex/r-efSTx60KilIEf_MlwknA",
+    "小兒麻痺症/急性無力肢體麻痺": "/Disease/SubIndex/FIm0Yh1XffviByRaoMhTqw",
+    "屈公病": "/Disease/SubIndex/NvKXcB74Wh3-1vGaYMigDw",
+    "布氏桿菌病": "/Disease/SubIndex/zs7y9ag-DLeJwCDGj2XQHA",
+    "常見腸道寄生蟲病": "/Disease/SubIndex/uzjQodThOrXY_CSe5gP3Mg",
+    "庫賈氏病": "/Disease/SubIndex/nF4Iyqv-feP6RE5rWPMtGw",
+    "廣東住血線蟲感染症": "/Disease/SubIndex/XL8BjStUl52JYsw3Rr9ShA",
+    "弓形蟲感染症": "/Disease/SubIndex/dnJViM3tqyy13hLh2n_s4w",
+    "德國麻疹": "/Disease/SubIndex/zr_if7hmAx6OrLVRhHuIGQ",
+    "急性病毒性A型肝炎": "/Disease/SubIndex/817zKI1D5najSwVzuiPYMQ",
+    "急性病毒性B型肝炎": "/Disease/SubIndex/MApdR8IIYvl-JIL7_DK7tw",
+    "急性病毒性C型肝炎": "/Disease/SubIndex/doMF09qGF5gl7twtgRD-SA",
+    "急性病毒性D型肝炎": "/Disease/SubIndex/dSdOReaVnOT8b4_k6U5ZUw",
+    "急性病毒性E型肝炎": "/Disease/SubIndex/eEGcfcrF_6wTjQL36KmkxA",
+    "急性病毒性肝炎未定型": "/Disease/SubIndex/qCrz8c8pRVrpdDBo5S2kQg",
+    "恙蟲病": "/Disease/SubIndex/4Q2S4vQH2s5ECf9ciWEu9g",
+    "拉薩熱": "/Disease/SubIndex/gObCGj40QjXsqD4AZ8sz1w",
+    "新冠併發重症": "/Disease/SubIndex/N6XvFa1YP9CXYdB0kNSA9A",
+    "新型A型流感": "/Disease/SubIndex/8Yt_gKjz-BEr3QJZGOa0fQ",
+    "新生兒破傷風": "/Disease/SubIndex/5DGa_EE_lbJETeYvUqn1yg",
+    "旋毛蟲感染症": "/Disease/SubIndex/TjfRPEL5yuvaWGWFleyY9A",
+    "日本腦炎": "/Disease/SubIndex/FWEo643r7uqDO3-xM-zQ_g",
+    "李斯特菌症": "/Disease/SubIndex/yrsLujIBevFlvrtmgzz7Tg",
+    "桿菌性痢疾": "/Disease/SubIndex/DXJzRq9tI4559p0A6MX3rw",
+    "梅毒": "/Disease/SubIndex/0m_BXsu8AnI7slMt75OUaQ",
+    "棘狀阿米巴": "/Disease/SubIndex/pJpNnSLeEAG8TbSPzsVUTQ",
+    "水痘併發症": "/Disease/SubIndex/ipoIA74yjikLAewcRSjXjw",
+    "沙門氏菌感染症": "/Disease/SubIndex/1eaJi1denSmW8L3FD2Bybw",
+    "流感併發重症": "/Disease/SubIndex/x7jzGIMMuIeuLM5izvwg_g",
+    "流行性斑疹傷寒": "/Disease/SubIndex/-Bwx4k9nuXzv1znntQ-DhA",
+    "流行性腦脊髓膜炎": "/Disease/SubIndex/S3bWvDNewVa3FspPkOkvHg",
+    "流行性腮腺炎": "/Disease/SubIndex/RzOCJlOb68o5g0TEg873DQ",
+    "淋巴絲蟲病": "/Disease/SubIndex/sj0UyYO8dh8ynsjIrNzH-g",
+    "淋病": "/Disease/SubIndex/nWvBNnt9UvaZzdrzbQcfBA",
+    "漢他病毒症候群": "/Disease/SubIndex/C6xqTECywd28HiYIG9VZ_w",
+    "漢生病": "/Disease/SubIndex/oCOSaTTkOdBcnJ5_Dz_aDQ",
+    "炭疽病": "/Disease/SubIndex/lq5xAX9vQqrebMILzYvMCQ",
+    "狂犬病": "/Disease/SubIndex/u5dFJL5s1K6uh0EcWVzJYQ",
+    "球黴菌症": "/Disease/SubIndex/Op-cST_gPKXqSdwDSwZtJQ",
+    "疥瘡感染症": "/Disease/SubIndex/WEvUvZalpojC48AvqLMfBQ",
+    "疱疹B病毒感染症": "/Disease/SubIndex/D44rDbFMnmnxVf0ZzBfS8Q",
+    "病毒性腸胃炎": "/Disease/SubIndex/j1rqZjBCeR9vtCRUHefN3g",
+    "瘧疾": "/Disease/SubIndex/LIpswK4wuXPnlNNMHUn8nA",
+    "登革熱": "/Disease/SubIndex/WYbKe3aE7LiY5gb-eA8PBw",
+    "發熱伴血小板減少綜合症": "/Disease/SubIndex/Wpss42uAl9aMRA9XDVJGhg",
+    "白喉": "/Disease/SubIndex/z-qdbqHk7Op2ePc-Le9H0Q",
+    "百日咳": "/Disease/SubIndex/gJ7r9uf6cgWWczRSeMRibA",
+    "破傷風": "/Disease/SubIndex/EV01ORLYYgeN-4LdmfQZOw",
+    "社區型MRSA": "/Disease/SubIndex/fzBArZD9KqldFihuEknKaQ",
+    "福氏內格里阿米巴腦膜腦炎": "/Disease/SubIndex/N5Rp7f-HlNiS5rXr1ZLxfw",
+    "立百病毒感染症": "/Disease/SubIndex/MLQ64xwSdQU7UJHUOq7zSg",
+    "第二型豬鏈球菌感染症": "/Disease/SubIndex/v1aYuhcLOrC17Cn6o4rVAw",
+    "細菌性腸胃炎": "/Disease/SubIndex/wTInIZJSawB0PRRubP1unA",
+    "結核病": "/Disease/SubIndex/j5_xY8JbRq3IzXAqxbnAvQ",
+    "肉毒桿菌中毒": "/Disease/SubIndex/WcUjPeATneXReDw_6JilYg",
+    "肺吸蟲感染症": "/Disease/SubIndex/DsDOkPNK_cqAXmWYHyuAFQ",
+    "肺囊蟲肺炎": "/Disease/SubIndex/1yyEHADlGlsJkqyjTMsf8w",
+    "肺炎黴漿菌感染症": "/Disease/SubIndex/3RrXho4Rz3cqtHUGHpVVhw",
+    "腸病毒感染併發重症": "/Disease/SubIndex/m3zdUk3u9GJVvddeSnhkiA",
+    "腸道出血性大腸桿菌感染症": "/Disease/SubIndex/8j7ht_y-FpmDZTO4eYxyUw",
+    "茲卡病毒感染症": "/Disease/SubIndex/ZkG69TzhnvazzfwwMA4BgA",
+    "萊姆病": "/Disease/SubIndex/a3ehnb-7K1HBseL0yXv8OA",
+    "裂谷熱": "/Disease/SubIndex/g2mQTLYyDOeMnAPh4MBkSw",
+    "西尼羅熱": "/Disease/SubIndex/JZfpaa5JOvYAmIEUuBMauA",
+    "貓抓病": "/Disease/SubIndex/aqnxpMDvYMnPPCOV4pwq0Q",
+    "退伍軍人病": "/Disease/SubIndex/mrl8S_96ADvSpl0j2kwX9A",
+    "鉤端螺旋體病": "/Disease/SubIndex/T5nLeG_WEMafixCPa1M7Jw",
+    "阿米巴性痢疾": "/Disease/SubIndex/r0w7-NmfmIEmsJIcqyBe6A",
+    "隱球菌症": "/Disease/SubIndex/XqLmL3AsGvrsZyD29hXUCQ",
+    "霍亂": "/Disease/SubIndex/FNpFzvcM-QKKt6XBHJkyxA",
+    "頭蝨感染症": "/Disease/SubIndex/wlhaYJXKOgV-xmjC7i9Mag",
+    "類鼻疽": "/Disease/SubIndex/WGBQSsyqfj6SiFQ4aMXXUg",
+    "馬堡病毒出血熱": "/Disease/SubIndex/vLH0m6fNqOMv870WokABDQ",
+    "鸚鵡熱": "/Disease/SubIndex/7R8K5mmR035CEmBqa-y0Nw",
+    "麻疹": "/Disease/SubIndex/PZZIpHAC-pjbSdEdboTBCw",
+    "黃熱病": "/Disease/SubIndex/tzX-qyodDiY0th8Cyb5yfw",
+    "鼠疫": "/Disease/SubIndex/nZ12n2-2csE8zkEt-5Qeyw"
+  }
+}
