@@ -1912,43 +1912,39 @@
             • <strong style="color:#ef4444;">🚨 臨床常見重大錯誤：</strong><strong>嚴禁在接觸病人呼吸道分泌物、引流液、排泄物或髒汙布品後，未洗手直接進行餵食或管灌 (Tube Feeding)！</strong>接觸髒污後 ➔ 先脫手套 ➔ 徹底洗手 (秒數要夠) ➔ 重新清潔準備 ➔ 方可管灌！
           </p>
 
-          <!-- 實境示範影音區塊 (內嵌 GitHub 線上播放與本機備援) -->
+          <!-- 實境示範影音區塊 (完整支援 GitHub 雲端串流與本地雙線路) -->
           <div style="background:#040d0b; border:1.5px solid #14b8a6; border-radius:12px; padding:18px; margin-bottom:16px;">
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
               <div style="display:flex; align-items:center; gap:8px;">
                 <span style="font-size:22px;">🎬</span>
                 <div>
-                  <div style="font-weight:800; color:#5eead4; font-size:16px;">標準濕洗手示範影片（線上影音教材）</div>
+                  <div style="font-weight:800; color:#5eead4; font-size:16px;">標準濕洗手示範影片（實境示範教材）</div>
                   <div style="font-size:12.5px; color:#99f6e4;">肥皂起泡 ＋ 內外夾弓大立腕 40~60 秒完整搓洗程序</div>
                 </div>
               </div>
               <div style="display:flex; align-items:center; gap:8px;">
                 <a href="https://heigilin.github.io/HH/" target="_blank" rel="noopener" style="background:#0f766e; color:#ccfbf1; font-size:12px; font-weight:700; padding:4px 12px; border-radius:999px; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
-                  🌐 GitHub 原站觀看 ↗
+                  🌐 互動教學站 ↗
                 </a>
               </div>
             </div>
 
-            <!-- GitHub 線上內嵌播放器 -->
-            <div style="position:relative; width:100%; max-width:820px; aspect-ratio:16/9; max-height:460px; margin:0 auto; background:#000; border-radius:10px; overflow:hidden; box-shadow:0 6px 20px rgba(0,0,0,0.6); border:1px solid #115e59;">
-              <iframe src="https://heigilin.github.io/HH/" style="width:100%; height:100%; border:none; display:block;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen title="標準濕洗手示範影片"></iframe>
-            </div>
-
-            <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; font-size:13px; color:#99f6e4;">
-              <span>💡 <strong>線上影音來源：</strong><a href="https://heigilin.github.io/HH/" target="_blank" rel="noopener" style="color:#5eead4; text-decoration:underline;">heigilin.github.io/HH</a> ｜ 支援全螢幕觀看</span>
-              <button type="button" onclick="const p = document.getElementById('idxLocalVideoWrap'); if (p) { p.style.display = (p.style.display === 'none' ? 'block' : 'none'); }" style="background:transparent; border:1px solid #14b8a6; color:#99f6e4; font-size:12px; padding:3px 10px; border-radius:4px; cursor:pointer;">
-                📁 切換本機離線播放
-              </button>
-            </div>
-
-            <!-- 本機離線備援播放器 -->
-            <div id="idxLocalVideoWrap" style="display:none; margin-top:14px; border-top:1px dashed #115e59; padding-top:14px;">
-              <div style="font-size:12.5px; color:#a7f3d0; margin-bottom:8px;">本機離線高速播放器：</div>
-              <video controls playsinline preload="metadata" style="width:100%; max-height:400px; display:block; object-fit:contain; background:#000; border-radius:6px; margin:0 auto;">
+            <!-- 原生 HTML5 串流播放器 (包含 GitHub Pages 雲端與本地高速播放) -->
+            <div style="position:relative; width:100%; max-width:820px; margin:0 auto; background:#000; border-radius:10px; overflow:hidden; box-shadow:0 6px 20px rgba(0,0,0,0.6); border:1px solid #115e59;">
+              <video controls playsinline preload="metadata" style="width:100%; max-height:460px; display:block; object-fit:contain; background:#000;">
+                <source src="https://heigilin.github.io/HH/handwashing_training_web.mp4" type="video/mp4">
+                <source src="assets/videos/handwashing_training_web.mp4" type="video/mp4">
                 <source src="assets/videos/wet_handwash.mp4" type="video/mp4">
                 <source src="assets/videos/溼洗手.mp4" type="video/mp4">
                 您的瀏覽器不支援 HTML5 影片播放。
               </video>
+            </div>
+
+            <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; font-size:13px; color:#99f6e4;">
+              <span>💡 <strong>影音來源：</strong>GitHub 雲端高畫質串流 ｜ 點擊播放鍵 ▶ 即可直接觀看</span>
+              <a href="https://heigilin.github.io/HH/handwashing_training_web.mp4" target="_blank" style="color:#5eead4; text-decoration:underline;">
+                ▶ 另開全螢幕觀看
+              </a>
             </div>
           </div>
 
@@ -4394,8 +4390,14 @@
                 🌐 GitHub 原站 ↗
               </a>
             </div>
-            <div style="position:relative; width:100%; aspect-ratio:16/9; max-height:420px; background:#000; border-radius:8px; overflow:hidden; border:1px solid #115e59;">
-              <iframe src="https://heigilin.github.io/HH/" style="width:100%; height:100%; border:none; display:block;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen title="標準濕洗手示範影片"></iframe>
+            <div style="position:relative; width:100%; background:#000; border-radius:8px; overflow:hidden; border:1px solid #115e59;">
+              <video controls playsinline preload="metadata" style="width:100%; max-height:420px; display:block; object-fit:contain; background:#000;">
+                <source src="https://heigilin.github.io/HH/handwashing_training_web.mp4" type="video/mp4">
+                <source src="assets/videos/handwashing_training_web.mp4" type="video/mp4">
+                <source src="assets/videos/wet_handwash.mp4" type="video/mp4">
+                <source src="assets/videos/溼洗手.mp4" type="video/mp4">
+                您的瀏覽器不支援 HTML5 影片播放。
+              </video>
             </div>
             <p style="margin:8px 0 0 0; font-size:12.5px; color:#99f6e4; line-height:1.5;">
               💡 <strong>觀看指引：</strong>影片託管於 GitHub Pages (<a href="https://heigilin.github.io/HH/" target="_blank" rel="noopener" style="color:#5eead4; text-decoration:underline;">heigilin.github.io/HH</a>)，示範 40~60 秒標準肥皂起泡與搓洗流程。

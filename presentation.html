@@ -726,11 +726,12 @@
     .slide-header {
       background: #0f241f;
       color: #fff;
-      padding: 14px 24px;
+      padding: 12px 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       border-bottom: 3px solid var(--accent);
+      gap: 10px;
     }
     .slide-header-title {
       font-size: 15px;
@@ -739,6 +740,73 @@
       display: flex;
       align-items: center;
       gap: 8px;
+      white-space: nowrap;
+      min-width: 0;
+      flex-shrink: 0;
+    }
+    .slide-header-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    /* 手機直向與小螢幕自適應排版 (防止標題擠壓成直行，控制鈕自動縮放) */
+    @media (max-width: 768px) {
+      .slide-modal {
+        padding: 0;
+      }
+      .slide-stage {
+        height: 100vh;
+        max-height: 100vh;
+        width: 100vw;
+        border-radius: 0;
+      }
+      .slide-header {
+        padding: 8px 12px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+      }
+      .slide-header-title {
+        font-size: 13.5px;
+        white-space: nowrap;
+        justify-content: flex-start;
+      }
+      .slide-header-controls {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        width: 100%;
+      }
+      .slide-select {
+        flex: 1;
+        max-width: none;
+        font-size: 12px;
+        padding: 4px 6px;
+      }
+      .slide-close-btn {
+        padding: 4px 10px;
+        font-size: 12px;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .slide-body {
+        padding: 14px 12px;
+      }
+      .slide-footer {
+        padding: 8px 12px;
+        gap: 6px;
+      }
+      .slide-nav-btn {
+        padding: 7px 12px;
+        font-size: 12.5px;
+        white-space: nowrap;
+      }
+      .slide-counter {
+        font-size: 11.5px;
+        white-space: nowrap;
+      }
     }
     .slide-close-btn {
       background: rgba(255, 255, 255, 0.15);
@@ -1585,9 +1653,9 @@
     <div class="slide-stage">
       <div class="slide-header">
         <div class="slide-header-title">
-          <span>🖥️</span> 臺大醫院感管簡報教材
+          <span>🖥️ 臺大醫院感管簡報教材</span>
         </div>
-        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+        <div class="slide-header-controls">
           <select class="slide-select" id="slideQuickSelect" title="快速跳轉至其他章節簡報"></select>
           <button class="slide-close-btn" id="btnCloseSlide" title="關閉簡報，返回章節總覽目錄">
             <span>✕</span> 返回章節總覽
@@ -1710,41 +1778,35 @@
           <strong style="color:#b91c1c; font-size:15.5px;">🚨 4. 臨床常見重大錯誤：切勿摸完分泌物後直接管灌！</strong><br>
           • <strong>嚴禁在接觸病人呼吸道分泌物、引流液、排泄物或髒汙布品後，未洗手直接進行餵食或管灌 (Tube Feeding)！</strong><br>
           • 守護神法則：接觸髒污後 ➔ <strong>先脫除手套 ➔ 徹底洗手 (搓揉秒數要夠) ➔ 重新清潔準備 ➔ 方可管灌！</strong><br><br>
-          <!-- 實境示範影音教材 (內嵌 GitHub 雲端播放與本機備援) -->
+          <!-- 實境示範影音教材 (完整支援 GitHub 雲端串流與本地雙線路) -->
           <div style="margin-top:16px; background:#040d0b; border:1.5px solid #14b8a6; border-radius:12px; padding:16px; box-shadow:0 4px 16px rgba(0,0,0,0.3);">
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
               <span style="font-weight:800; color:#5eead4; font-size:15px; display:flex; align-items:center; gap:6px;">
-                🎬 <strong>標準濕洗手示範影片</strong>（線上影音教材 ｜ 40~60 秒標準程序）
+                🎬 <strong>標準濕洗手示範影片</strong>（40~60 秒起泡與搓洗程序）
               </span>
               <div style="display:flex; align-items:center; gap:6px;">
                 <a href="https://heigilin.github.io/HH/" target="_blank" rel="noopener" style="background:#0f766e; color:#ccfbf1; font-size:12px; font-weight:700; padding:2px 10px; border-radius:999px; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
-                  🌐 GitHub 原站 ↗
+                  🌐 互動教學站 ↗
                 </a>
               </div>
             </div>
 
-            <!-- GitHub 線上內嵌播放器 -->
-            <div style="border-radius:8px; overflow:hidden; background:#000; box-shadow:0 4px 12px rgba(0,0,0,0.25); border:1px solid #10b981; position:relative; width:100%; aspect-ratio:16/9; max-height:450px;">
-              <iframe src="https://heigilin.github.io/HH/" style="width:100%; height:100%; border:none; display:block;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen title="標準濕洗手示範影片"></iframe>
-            </div>
-
-            <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
-              <span style="font-size:12.5px; color:#99f6e4;">
-                💡 <strong>線上影音來源：</strong><a href="https://heigilin.github.io/HH/" target="_blank" rel="noopener" style="color:#5eead4; text-decoration:underline;">heigilin.github.io/HH</a> ｜ 支援全螢幕放大觀看
-              </span>
-              <button type="button" onclick="const p = document.getElementById('slideLocalVideoWrap'); if (p) { p.style.display = (p.style.display === 'none' ? 'block' : 'none'); }" style="background:transparent; border:1px solid #14b8a6; color:#99f6e4; font-size:11.5px; padding:2px 8px; border-radius:4px; cursor:pointer;">
-                📁 切換本機離線播放
-              </button>
-            </div>
-
-            <!-- 本機離線備援播放器 -->
-            <div id="slideLocalVideoWrap" style="display:none; margin-top:12px; border-top:1px dashed #115e59; padding-top:12px;">
-              <div style="font-size:12px; color:#a7f3d0; margin-bottom:6px;">本機離線高速播放器：</div>
-              <video controls playsinline preload="metadata" style="width:100%; max-height:380px; display:block; object-fit:contain; background:#000; border-radius:6px;">
+            <!-- 原生 HTML5 串流播放器 (包含 GitHub Pages 雲端與本地高速播放) -->
+            <div style="border-radius:8px; overflow:hidden; background:#000; box-shadow:0 4px 12px rgba(0,0,0,0.4); border:1px solid #10b981; position:relative; width:100%;">
+              <video controls playsinline preload="metadata" style="width:100%; max-height:420px; display:block; object-fit:contain; background:#000;">
+                <source src="https://heigilin.github.io/HH/handwashing_training_web.mp4" type="video/mp4">
+                <source src="assets/videos/handwashing_training_web.mp4" type="video/mp4">
                 <source src="assets/videos/wet_handwash.mp4" type="video/mp4">
                 <source src="assets/videos/溼洗手.mp4" type="video/mp4">
                 您的瀏覽器不支援 HTML5 影片播放。
               </video>
+            </div>
+
+            <div style="margin-top:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; font-size:12.5px; color:#99f6e4;">
+              <span>💡 <strong>串流來源：</strong>GitHub 雲端高畫質影音 ｜ 支援手機全螢幕播放 ⛶</span>
+              <a href="https://heigilin.github.io/HH/handwashing_training_web.mp4" target="_blank" style="color:#5eead4; text-decoration:underline;">
+                ▶ 另開視窗播放
+              </a>
             </div>
           </div>
 

@@ -33,10 +33,8 @@ for file_path in html_files:
 
 # 2. Check asset files existence
 asset_files = [
-    '感控不踩雷網站/assets/videos/溼洗手.mp4',
-    'assets/videos/溼洗手.mp4',
-    '感控不踩雷網站/assets/videos/wet_handwash.mp4',
-    'assets/videos/wet_handwash.mp4',
+    '感控不踩雷網站/assets/videos/handwashing_training_web.mp4',
+    'assets/videos/handwashing_training_web.mp4',
     '感控不踩雷網站/assets/images/hand_hygiene/01_hand_hygiene_cover.png',
     '感控不踩雷網站/assets/images/hand_hygiene/02_step1_wet_soap_up.png',
     '感控不踩雷網站/assets/images/hand_hygiene/03_step2_scrub_20_seconds.png',
@@ -58,8 +56,8 @@ for path in ['感控不踩雷網站/presentation.html', './presentation.html']:
         content = f.read()
 
     p_checks = [
-        ('https://heigilin.github.io/HH/', 'presentation GitHub HH iframe src'),
-        ('assets/videos/wet_handwash.mp4', 'presentation video player src (ascii)'),
+        ('https://heigilin.github.io/HH/handwashing_training_web.mp4', 'presentation video player src (cdn)'),
+        ('assets/videos/handwashing_training_web.mp4', 'presentation video player src (local)'),
         ('02_step1_wet_soap_up.png', 'presentation step 1 image'),
         ('03_step2_scrub_20_seconds.png', 'presentation step 2 image'),
         ('04_step3_rinse_thoroughly.png', 'presentation step 3 image'),
@@ -94,9 +92,9 @@ for path in ['感控不踩雷網站/index.html', './index.html']:
         ("手套 ＋ 防水隔離衣", 'Contact precautions PPE wording'),
         ("病房護理長 淑芬", 'Ward Nurse Head Shufen title'),
         ("有效移除暫時性菌叢", 'Microbial flora wording instead of sterilization'),
-        ('https://heigilin.github.io/HH/', 'index GitHub HH iframe src'),
+        ('https://heigilin.github.io/HH/handwashing_training_web.mp4', 'index video player src (cdn)'),
         ('openHhModal', 'openHhModal function in index'),
-        ('assets/videos/wet_handwash.mp4', 'index video player fallback src'),
+        ('assets/videos/handwashing_training_web.mp4', 'index video player src (local)'),
         ('02_step1_wet_soap_up.png', 'index step 1 image')
     ]
 

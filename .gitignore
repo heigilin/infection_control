@@ -35,6 +35,8 @@ output/感染管制_LINE_聊天機器人原著草稿.md
 .DS_Store
 台大感管line起來_暫.mp4
 
-# Large video files (>100MB, hosted on https://heigilin.github.io/HH/)
-assets/videos/*.mp4
-感控不踩雷網站/assets/videos/*.mp4
+# Large 339MB raw video files (hosted externally)
+assets/videos/溼洗手.mp4
+assets/videos/wet_handwash.mp4
+感控不踩雷網站/assets/videos/溼洗手.mp4
+感控不踩雷網站/assets/videos/wet_handwash.mp4
