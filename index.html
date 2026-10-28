@@ -1684,7 +1684,276 @@
       justify-content: flex-end;
     }
 
-  </style>
+  
+    /* =========================================================
+       🔥 行動版極致體驗 (Mobile-First Intuitive UX Overhaul)
+       修復版面擁擠、文字直立排列、按鈕擠壓與操作不直覺問題
+       ========================================================= */
+    .mobile-action-hub {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      /* 頂部導覽列：極簡單行、無字元擠壓、乾淨俐落 */
+      .site-nav {
+        padding: 0.5rem 10px !important;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(8, 18, 15, 0.96) !important;
+        backdrop-filter: blur(12px) !important;
+        border-bottom: 1px solid rgba(45, 212, 191, 0.3) !important;
+      }
+      .nav-inner {
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 8px !important;
+        margin: 0 !important;
+      }
+      .nav-brand {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        min-width: 0 !important;
+        flex: 1 1 auto !important;
+      }
+      .nav-logo {
+        width: 32px !important;
+        height: 32px !important;
+        flex-shrink: 0 !important;
+      }
+      .nav-brand-text {
+        min-width: 0 !important;
+      }
+      .nav-title {
+        font-size: 0.92rem !important;
+        font-weight: 900 !important;
+        color: #ffffff !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+      .nav-flow-hint {
+        display: none !important; /* 手機端隱藏冗長小標，避免文字直立擠壓 */
+      }
+      .nav-links {
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        flex-shrink: 0 !important;
+        overflow-x: visible !important;
+      }
+      .nav-btn {
+        padding: 0.32rem 0.6rem !important;
+        font-size: 0.76rem !important;
+        border-radius: 999px !important;
+        gap: 4px !important;
+      }
+      /* 隱藏桌機版冗長的步驟 1/2 導引橫幅，手機改用專屬雙軌行動卡片 */
+      .site-flow-roadmap {
+        display: none !important;
+      }
+
+      /* 頁首 Masthead 精簡化 */
+      .masthead {
+        padding: 0.75rem 0.5rem 0.25rem !important;
+        text-align: center !important;
+      }
+      .masthead-logo {
+        display: none !important; /* 避免重複頭像佔據版面 */
+      }
+      .masthead .kicker {
+        display: none !important;
+      }
+      .logo-title {
+        font-size: 1.25rem !important;
+        margin-bottom: 0.25rem !important;
+        line-height: 1.3 !important;
+      }
+      .tagline {
+        font-size: 0.8rem !important;
+        margin-bottom: 0.75rem !important;
+        color: #99f6e4 !important;
+      }
+
+      /* 🔥 手機雙軌直覺行動入口 (直覺二選一：讀教材 或 考測驗) */
+      .mobile-action-hub {
+        display: grid !important;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin: 0 0 16px;
+      }
+      .action-card {
+        border-radius: 14px;
+        padding: 14px 16px;
+        text-decoration: none;
+        display: block;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+        border: 1.5px solid;
+        transition: transform 0.15s ease;
+      }
+      .action-card:active {
+        transform: scale(0.98);
+      }
+      .card-learn-portal {
+        background: linear-gradient(135deg, rgba(15, 118, 110, 0.3) 0%, rgba(6, 78, 59, 0.4) 100%);
+        border-color: #2dd4bf;
+      }
+      .card-quiz-portal {
+        background: linear-gradient(135deg, rgba(30, 58, 138, 0.35) 0%, rgba(15, 23, 42, 0.6) 100%);
+        border-color: #38bdf8;
+      }
+      .action-card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 6px;
+      }
+      .step-pill-1 {
+        background: #2dd4bf;
+        color: #042f2e;
+        font-size: 11px;
+        font-weight: 900;
+        padding: 2px 8px;
+        border-radius: 999px;
+      }
+      .step-pill-2 {
+        background: #38bdf8;
+        color: #082f49;
+        font-size: 11px;
+        font-weight: 900;
+        padding: 2px 8px;
+        border-radius: 999px;
+      }
+      .action-badge {
+        font-size: 11.5px;
+        color: #94a3b8;
+        font-weight: 700;
+      }
+      .action-card-title {
+        font-size: 1.05rem;
+        font-weight: 800;
+        color: #ffffff;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .action-card-desc {
+        font-size: 0.8rem;
+        color: #cbd5e1;
+        line-height: 1.45;
+        margin: 0 0 10px;
+      }
+      .action-btn-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        width: 100%;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 0.86rem;
+        font-weight: 800;
+        color: #ffffff;
+        text-align: center;
+      }
+      .btn-pill-learn {
+        background: #0f766e;
+        box-shadow: 0 2px 8px rgba(15, 118, 110, 0.4);
+      }
+      .btn-pill-quiz {
+        background: #0284c7;
+        box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
+      }
+
+      /* 階段分頁列 (Phase Bar)：手機自適應膠囊設計 */
+      .phase-bar {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+        margin-bottom: 16px !important;
+      }
+      .phase-tab {
+        padding: 10px 10px !important;
+        border-radius: 12px !important;
+        gap: 8px !important;
+      }
+      .phase-icon {
+        font-size: 22px !important;
+      }
+      .phase-text small {
+        display: none !important;
+      }
+      .phase-text strong {
+        font-size: 0.84rem !important;
+        white-space: nowrap !important;
+      }
+
+      /* 3D 場景畫布防誤觸：垂直滾動優先 */
+      #world, #duel3DCanvas {
+        touch-action: pan-y !important;
+      }
+
+      /* 闖關考題戰鬥舞台：縮減高度，留給考題選項最大可見度 */
+      .duel-3d-stage-container {
+        height: 135px !important;
+      }
+      .monster-card {
+        padding: 8px 12px !important;
+        gap: 8px !important;
+        margin-bottom: 10px !important;
+      }
+      .monster-avatar {
+        font-size: 28px !important;
+      }
+      .monster-meta h3 {
+        font-size: 0.95rem !important;
+        margin-bottom: 2px !important;
+      }
+      .monster-meta p {
+        font-size: 0.78rem !important;
+        line-height: 1.35 !important;
+      }
+      .question-prompt {
+        font-size: 1rem !important;
+        padding: 12px 14px !important;
+        margin-bottom: 12px !important;
+        line-height: 1.5 !important;
+      }
+      .quiz-options {
+        gap: 8px !important;
+        margin-bottom: 12px !important;
+      }
+      .option-btn {
+        padding: 12px 14px !important;
+        font-size: 0.88rem !important;
+        min-height: 48px !important;
+        border-radius: 10px !important;
+      }
+
+      /* 守護神檔案面板在手機端的優化 */
+      .home-grid {
+        gap: 16px !important;
+      }
+      .panel {
+        padding: 14px 12px !important;
+        border-radius: 14px !important;
+      }
+      .choice-card {
+        padding: 12px !important;
+      }
+      .stepper {
+        gap: 4px !important;
+        padding: 6px 8px !important;
+      }
+      .stepper li {
+        font-size: 0.78rem !important;
+        padding: 4px 8px !important;
+      }
+    }
+    
+</style>
   <!-- Three.js 3D 引擎 (優先本地 assets，並具備官方 CDN 備援) -->
   <script src="assets/three.min.js"></script>
   <script>
@@ -1776,6 +2045,29 @@
         <p class="tagline">把感染管制做成直覺 · 用最專業的底氣 · 讓臨床工作游刃有餘</p>
       </div>
     </header>
+
+    <!-- 手機端專屬：雙軌直覺行動入口 (一鍵直達 讀教材 vs 實戰考題) -->
+    <div class="mobile-action-hub">
+      <a class="action-card card-learn-portal" href="presentation.html" title="開啟步驟 1：10 大核心章節簡報與示範影片">
+        <div class="action-card-header">
+          <span class="step-pill-1">步驟 1</span>
+          <span class="action-badge">核心指引 ＆ 示範影音</span>
+        </div>
+        <div class="action-card-title">📖 閱讀感控簡報教材 ↗</div>
+        <p class="action-card-desc">完整 10 單元標準規範 · 標準肥皂水洗手示範影片</p>
+        <div class="action-btn-pill btn-pill-learn">開啟簡報教材 ➔</div>
+      </a>
+
+      <div class="action-card card-quiz-portal" id="btnHeroQuizStart" style="cursor:pointer;" title="開啟步驟 2：臨床情境盲盒考題對決">
+        <div class="action-card-header">
+          <span class="step-pill-2">步驟 2</span>
+          <span class="action-badge">盲盒對決 ＆ 守護神認證</span>
+        </div>
+        <div class="action-card-title">⚔️ 開始實戰情境闖關</div>
+        <p class="action-card-desc">10 題臨床情境盲盒考驗 · 避開常見地雷 · 領取認證</p>
+        <div class="action-btn-pill btn-pill-quiz">進入實戰測驗 ➔</div>
+      </div>
+    </div>
 
     <!-- 階段切換導航 (先學習才闖關) -->
     <div class="phase-bar">
@@ -2676,21 +2968,26 @@
     const btnGoToQuiz = document.getElementById('btnGoToQuiz');
     const btnBackToLearn = document.getElementById('btnBackToLearn');
 
-    function switchPhase(phase) {
+    function switchPhase(phase, options = {}) {
+      const autoScroll = options.scroll ?? true;
       if (phase === 'learn') {
         if (tabPhaseLearn) tabPhaseLearn.classList.add('active');
         if (tabPhaseQuiz) tabPhaseQuiz.classList.remove('active');
         if (learnSection) learnSection.style.display = 'block';
         if (quizSetupSection) quizSetupSection.style.display = 'none';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (autoScroll) window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         if (tabPhaseLearn) tabPhaseLearn.classList.remove('active');
         if (tabPhaseQuiz) tabPhaseQuiz.classList.add('active');
         if (learnSection) learnSection.style.display = 'none';
         if (quizSetupSection) quizSetupSection.style.display = 'block';
-        if (quizSetupSection) quizSetupSection.scrollIntoView({ behavior: 'smooth' });
+        if (autoScroll && quizSetupSection) {
+          quizSetupSection.scrollIntoView({ behavior: 'smooth' });
+        }
       }
-      sound.play('click');
+      if (options.playSound !== false) {
+        sound.play('click');
+      }
     }
 
     if (tabPhaseLearn) tabPhaseLearn.addEventListener('click', () => switchPhase('learn'));

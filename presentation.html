@@ -1109,7 +1109,168 @@
       box-shadow: 0 6px 20px rgba(8, 84, 70, 0.4);
     }
 
-  </style>
+  
+    /* =========================================================
+       🔥 簡報行動版專屬優化 (Mobile-First Slide Reader)
+       修復標題折行擠壓、全螢幕彈窗左右邊界過寬、上一張/下一張排版
+       ========================================================= */
+    @media (max-width: 768px) {
+      .site-nav {
+        padding: 0.5rem 10px !important;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
+      .nav-inner {
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 8px !important;
+      }
+      .nav-brand {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        min-width: 0 !important;
+        flex: 1 1 auto !important;
+      }
+      .nav-logo {
+        width: 32px !important;
+        height: 32px !important;
+        flex-shrink: 0 !important;
+      }
+      .nav-title {
+        font-size: 0.92rem !important;
+        font-weight: 900 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+      .nav-flow-hint {
+        display: none !important;
+      }
+      .nav-links {
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        flex-shrink: 0 !important;
+      }
+      .nav-btn {
+        padding: 0.32rem 0.6rem !important;
+        font-size: 0.76rem !important;
+        border-radius: 999px !important;
+      }
+      .site-flow-roadmap {
+        display: none !important;
+      }
+
+      /* 投影片彈窗 (Slide Modal) 行動全螢幕沉浸佈局 */
+      .slide-modal {
+        padding: 0 !important;
+        background: #0f172a !important;
+      }
+      .slide-stage {
+        height: 100vh !important;
+        max-height: 100vh !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        border-radius: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+      }
+      .slide-header {
+        padding: 8px 10px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 8px !important;
+        background: #0f241f !important;
+        flex-shrink: 0 !important;
+      }
+      .slide-header-title {
+        font-size: 13px !important;
+        white-space: nowrap !important;
+        color: #5eead4 !important;
+        font-weight: 800 !important;
+        flex-shrink: 0 !important;
+      }
+      .slide-header-controls {
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        min-width: 0 !important;
+        flex: 1 1 auto !important;
+        justify-content: flex-end !important;
+      }
+      .slide-select {
+        font-size: 12px !important;
+        padding: 4px 6px !important;
+        max-width: 150px !important;
+        flex: 1 1 auto !important;
+      }
+      .slide-close-btn {
+        padding: 4px 10px !important;
+        font-size: 12px !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+      }
+      .slide-body {
+        padding: 14px 12px !important;
+        flex: 1 1 auto !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+      }
+      .slide-main-title {
+        font-size: 19px !important;
+        line-height: 1.35 !important;
+        margin-bottom: 10px !important;
+      }
+      .slide-content-text {
+        font-size: 14px !important;
+        line-height: 1.6 !important;
+        margin-bottom: 12px !important;
+      }
+      .slide-key-points {
+        font-size: 13.5px !important;
+        padding: 12px 14px !important;
+        line-height: 1.65 !important;
+      }
+      /* 底部導引列 (Footer Navigation) */
+      .slide-footer {
+        padding: 8px 10px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 8px !important;
+        background: #f8fafc !important;
+        border-top: 1px solid #e2e8f0 !important;
+        flex-shrink: 0 !important;
+      }
+      .slide-nav-btn {
+        padding: 8px 12px !important;
+        font-size: 13px !important;
+        white-space: nowrap !important;
+        flex: 1 1 0 !important;
+        min-width: 80px !important;
+        text-align: center !important;
+      }
+      .slide-counter {
+        font-size: 12px !important;
+        white-space: nowrap !important;
+        flex: 0 0 auto !important;
+        padding: 0 4px !important;
+        text-align: center !important;
+      }
+      /* 示範影音在行動裝置的適應排版 */
+      .slide-body video {
+        width: 100% !important;
+        max-height: 220px !important;
+        border-radius: 8px !important;
+      }
+    }
+    
+</style>
 </head>
 <body>
 
