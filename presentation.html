@@ -2252,7 +2252,8 @@
       }
     });
 
-    document.getElementById('btnStartSlideShow').addEventListener('click', () => openSlide(0));
+    const btnStartSlideShow = document.getElementById('btnStartSlideShow');
+    if (btnStartSlideShow) btnStartSlideShow.addEventListener('click', () => openSlide(0));
     document.getElementById('btnHeroSlides').addEventListener('click', () => openSlide(0));
 
     // 鍵盤左右鍵快捷換頁
