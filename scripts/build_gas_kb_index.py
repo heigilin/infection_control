@@ -10,6 +10,7 @@ KB_DIR = BASE_DIR / "output" / "coze_upload"
 OUT_DIR = BASE_DIR / "output" / "gas"
 OUT_FILE = OUT_DIR / "kb_index.json"
 SYNONYMS_FILE = BASE_DIR / "gas_line_bot" / "synonyms.json"
+CDC_ALIASES_FILE = BASE_DIR / "gas_line_bot" / "cdc_disease_aliases.json"
 INTENT_RULES_FILE = BASE_DIR / "gas_line_bot" / "intent_rules.json"
 EXCLUDED_PREFIXES = (
     "00_9千列版回補_",
@@ -96,9 +97,23 @@ def split_markdown(path: Path, text: str, max_chars: int = 1200) -> list[dict[st
     return entries
 
 
+def merge_synonyms(base: dict[str, list[str]], extra: dict[str, list[str]]) -> dict[str, list[str]]:
+    merged = {key: list(value) for key, value in base.items()}
+    for key, aliases in extra.items():
+        bucket = merged.setdefault(key, [])
+        for alias in aliases:
+            alias = str(alias).strip()
+            if alias and alias != key and alias not in bucket:
+                bucket.append(alias)
+    return merged
+
+
 def main() -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     synonyms = json.loads(SYNONYMS_FILE.read_text(encoding="utf-8"))
+    if CDC_ALIASES_FILE.exists():
+        cdc_aliases = json.loads(CDC_ALIASES_FILE.read_text(encoding="utf-8")).get("aliases", {})
+        synonyms = merge_synonyms(synonyms, cdc_aliases)
     intent_rules = json.loads(INTENT_RULES_FILE.read_text(encoding="utf-8")) if INTENT_RULES_FILE.exists() else {"version": 1, "rules": []}
     entries: list[dict[str, object]] = []
     for path in sorted(KB_DIR.glob("*.md")):

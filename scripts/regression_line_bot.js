@@ -92,7 +92,25 @@ const ctx = {
       if (String(url || '').includes('generativelanguage.googleapis.com')) {
         const payload = options && options.payload ? JSON.parse(options.payload) : {};
         const prompt = payload.contents && payload.contents[0] && payload.contents[0].parts && payload.contents[0].parts[0].text || '';
-        if (!prompt.startsWith('Translate the following LINE bot answer into ')) {
+        if (prompt.includes('zh-TW')) {
+          const text = prompt.split('Text:\n').pop();
+          const map = {
+            'What isolation order is needed for VRE?': 'VRE 隔離醫囑',
+            'How to collect specimens for dengue fever?': '登革熱採檢送驗',
+            'Apa instruksi isolasi untuk VRE?': 'VRE 隔離醫囑',
+            'VRE ต้องสั่งแยกโรคอย่างไร': 'VRE 隔離醫囑',
+            'ความพึงพอใจ': '滿意度',
+            'ฉันอารมณ์ไม่ดี': '心情不好',
+            'satisfaction': '滿意度',
+            'kepuasan': '滿意度',
+            'mức độ hài lòng': '滿意度',
+          };
+          return {
+            getResponseCode: () => 200,
+            getContentText: () => JSON.stringify({ candidates: [{ content: { parts: [{ text: map[text] || text }] } }] }),
+          };
+        }
+        if (!/^Translate (into|to) /.test(prompt)) {
           return {
             getResponseCode: () => 500,
             getContentText: () => '{}',
@@ -101,6 +119,7 @@ const ctx = {
         let translated = 'TRANSLATED: ' + prompt.split('Text:\n').pop().slice(0, 500);
         if (prompt.includes('Bahasa Indonesia')) translated = 'TERJEMAHAN ID: ' + prompt.split('Text:\n').pop().slice(0, 500);
         if (prompt.includes('Tiếng Việt')) translated = 'BAN DICH VI: ' + prompt.split('Text:\n').pop().slice(0, 500);
+        if (prompt.includes('Thai')) translated = 'THAI TRANSLATION: ' + prompt.split('Text:\n').pop().slice(0, 500);
         if (prompt.includes('English')) translated = 'TRANSLATION EN: ' + prompt.split('Text:\n').pop().slice(0, 500);
         return {
           getResponseCode: () => 200,
@@ -129,10 +148,9 @@ vm.createContext(ctx);
 vm.runInContext(code, ctx, { filename: codePath });
 
 function resetUser(userId, identity) {
-  props['user_state_' + userId] = JSON.stringify({
-    identity: identity || 'staff',
-    language: 'zh-TW',
-  });
+  const state = { language: 'zh-TW' };
+  if (identity !== 'unset') state.identity = identity || 'staff';
+  props['user_state_' + userId] = JSON.stringify(state);
   delete props['mode_' + userId];
 }
 
@@ -226,9 +244,35 @@ const cases = [
   {
     id: 'follow-welcome-scope-boundary',
     user: 'new-follower',
+    identity: 'unset',
     followWelcome: true,
-    expect: ['可查感染管制', '回答方向可隨時切換', '臨床照護', '病人安置', '評鑑查核', '委員可能的提問', 'KM 佐證', '之後仍可切換', '不提供疾病診斷', '醫師推薦', '請勿輸入病人姓名'],
-    quick: ['臨床照護', '評鑑查核'],
+    expect: ['請先選擇身分', '院內員工', '訪客/民眾', '不提供院內文件', 'KM 佐證', '不提供疾病診斷', '醫師推薦', '請勿輸入病人姓名'],
+    quick: ['院內員工', '訪客民眾'],
+    quickNot: ['臨床照護', '評鑑查核'],
+  },
+  {
+    id: 'unknown-user-must-choose-identity',
+    user: 'identity-unset',
+    identity: 'unset',
+    q: 'PPE',
+    expect: ['請先選擇身分', '院內員工', '訪客/民眾'],
+    quick: ['院內員工', '訪客民眾'],
+  },
+  {
+    id: 'public-km-stays-education-only',
+    user: 'public-km',
+    identity: 'public',
+    q: '流感KM佐證',
+    expect: ['流感衛教提醒', '訪客模式不提供院內文件', '正式醫療管道'],
+    forbid: ['50300', 'KM：', '執行紀錄', 'ANN00039'],
+    quickNot: ['評鑑查核', '臨床照護', 'KM佐證', '會議檢索'],
+  },
+  {
+    id: 'privacy-reminder-throttled',
+    user: 'privacy-throttle',
+    sequence: ['登革熱隔離醫囑', '登革熱隔離醫囑', '登革熱隔離醫囑', '登革熱隔離醫囑', '登革熱隔離醫囑'],
+    expect: ['ANN00049'],
+    forbid: ['請勿輸入病人姓名'],
   },
   {
     id: 'doctor-selection-out-of-scope',
@@ -329,6 +373,196 @@ const cases = [
     q: '麻疹通報定義',
     expect: ['麻疹通報定義', '24小時', 'CDC 病例定義連結', 'https://www.cdc.gov.tw/File/Get/'],
     forbid: ['外籍病人、旅客', '資料來源', 'ANN00046'],
+  },
+  {
+    id: 'dengue-reporting-requirements-routes-to-definition',
+    user: 'dengue-reporting-requirements',
+    q: '登革熱通報要件',
+    expect: ['登革熱通報定義查詢重點', '第二類', '24小時內通報', 'CDC 病例定義連結'],
+    forbid: ['通報與隔離醫囑處置', '院內隔離醫囑', 'ANN00049', '建議防護裝備'],
+    quickNot: ['通報定義'],
+  },
+  {
+    id: 'english-afp-definition',
+    user: 'english-afp',
+    q: 'acute flaccid paralysis 通報條件與時限',
+    expect: ['小兒麻痺症/急性無力肢體麻痺通報定義查詢重點', '第二類', '24小時內通報', 'CDCN0006', 'CDCN0007', 'G04.82', 'Acute flaccid myelitis'],
+    forbid: ['外籍病人或即將出境的旅客', '通報的目的，是讓衛生主管機關掌握公共衛生風險', 'ICD 參考表未列或未能自動解析'],
+  },
+  {
+    id: 'english-afp-auto-language',
+    user: 'english-afp-auto',
+    q: 'What are the reporting conditions and time limits for acute flaccid paralysis?',
+    expect: ['TRANSLATION EN', '小兒麻痺症/急性無力肢體麻痺通報定義查詢重點', '24小時內通報', 'G04.82'],
+    forbid: ['偵測到您可能使用 English', 'ICD 參考表未列或未能自動解析'],
+  },
+  {
+    id: 'english-cdc-alias-dengue',
+    user: 'english-dengue',
+    q: 'Dengue Fever 通報條件與時限',
+    expect: ['登革熱通報定義查詢重點', '第二類', '24小時內通報'],
+    forbid: ['外籍病人或即將出境的旅客'],
+  },
+  {
+    id: 'english-cdc-alias-typhoid',
+    user: 'english-typhoid',
+    q: 'Typhoid Fever 通報條件與時限',
+    expect: ['傷寒通報定義查詢重點', '第二類', '24小時內通報'],
+    forbid: ['外籍病人或即將出境的旅客'],
+  },
+  {
+    id: 'english-cdc-alias-mers',
+    user: 'english-mers',
+    q: 'MERS-CoV 通報條件與時限',
+    expect: ['中東呼吸症候群冠狀病毒感染症通報定義查詢重點', '第五類', '24小時內通報'],
+    forbid: ['外籍病人或即將出境的旅客'],
+  },
+  {
+    id: 'english-cdc-alias-ehec',
+    user: 'english-ehec',
+    q: 'Enterohemorrhagic E. coli Infection 通報條件與時限',
+    expect: ['腸道出血性大腸桿菌感染症通報定義查詢重點', '第二類', '24小時內通報'],
+    forbid: ['外籍病人或即將出境的旅客'],
+  },
+  {
+    id: 'english-subtopic-specimen',
+    user: 'english-specimen',
+    q: 'Dengue Fever specimen collection',
+    expect: ['登革熱採檢送驗重點', 'CDCN0090', 'CDCN0091'],
+    forbid: ['偵測到您可能使用 English', '外籍病人或即將出境的旅客'],
+  },
+  {
+    id: 'english-subtopic-ppe',
+    user: 'english-ppe',
+    q: 'What PPE is needed for measles?',
+    expect: ['麻疹', 'ANN00046', '空氣隔離'],
+    forbid: ['偵測到您可能使用 English', '外籍病人或即將出境的旅客'],
+  },
+  {
+    id: 'english-subtopic-clearance',
+    user: 'english-clearance',
+    q: 'VRE discharge from isolation',
+    expect: ['VRE解除接觸隔離重點', '肛門拭子', '1 至 2 週', '3 次', '間隔至少 72 小時'],
+    forbid: ['偵測到您可能使用 English', '目前知識庫未載明'],
+  },
+  {
+    id: 'english-help-menu',
+    user: 'english-help-menu',
+    q: 'What can this bot do?',
+    expect: ['台大感管 LINE 查詢助手', '法定傳染病通報', '隔離/解隔', '檢體送驗'],
+    forbid: ['偵測到您可能使用 English'],
+  },
+  {
+    id: 'english-name-smalltalk',
+    user: 'english-name',
+    q: "what's your name?",
+    expect: ['TRANSLATION EN', '台大感管 LINE 查詢助手'],
+    forbid: ['關鍵字檢索命中度較低', 'MRSA', 'Candida auris', '可能相關主題'],
+  },
+  {
+    id: 'indonesian-current-question-overrides-prior-language',
+    user: 'id-current-language',
+    sequence: ['English', 'Apa itu VRE?'],
+    expect: ['TERJEMAHAN ID', 'VRE'],
+    forbid: ['TRANSLATION EN', '關鍵字檢索命中度較低', '可能相關主題'],
+  },
+  {
+    id: 'indonesian-afp-short-question',
+    user: 'id-afp',
+    q: 'Apa itu AFP?',
+    expect: ['TERJEMAHAN ID', '小兒麻痺症/急性無力肢體麻痺', 'G04.82'],
+    forbid: ['目前未檢索到完全相符', '關鍵字檢索命中度較低', '可能相關主題'],
+  },
+  {
+    id: 'thai-vre-auto-language',
+    user: 'thai-vre',
+    q: 'VRE คืออะไร?',
+    expect: ['THAI TRANSLATION', '抗萬古黴素腸球菌'],
+    forbid: ['ANN00025', 'HIS 醫令', '關鍵字檢索命中度較低', '可能相關主題'],
+  },
+  {
+    id: 'chinese-vre-what-is-plain-definition',
+    user: 'zh-vre-what-is',
+    q: '什麼是VRE',
+    expect: ['VRE 是抗萬古黴素腸球菌', '不是 CDC 法定傳染病通報疾病', '若要查醫囑請問「VRE 隔離」'],
+    forbid: ['ANN00025', 'HIS 醫令', 'SOP 總覽'],
+  },
+  {
+    id: 'english-fever-education',
+    user: 'en-fever',
+    q: 'I have a fever',
+    expect: ['TRANSLATION EN', '發燒或症狀衛教提醒'],
+    forbid: ['目前未檢索到', '關鍵字檢索命中度較低'],
+  },
+  {
+    id: 'indonesian-fever-education',
+    user: 'id-fever',
+    q: 'Saya demam',
+    expect: ['TERJEMAHAN ID', '發燒或症狀衛教提醒'],
+    forbid: ['目前未檢索到', '關鍵字檢索命中度較低'],
+  },
+  {
+    id: 'vietnamese-fever-education',
+    user: 'vi-fever',
+    q: 'Tôi bị sốt',
+    expect: ['BAN DICH VI', '發燒或症狀衛教提醒'],
+    forbid: ['目前未檢索到', '關鍵字檢索命中度較低'],
+  },
+  {
+    id: 'thai-fever-education',
+    user: 'th-fever',
+    q: 'ฉันเป็นไข้',
+    expect: ['THAI TRANSLATION', '發燒或症狀衛教提醒'],
+    forbid: ['目前未檢索到', '關鍵字檢索命中度較低'],
+  },
+  {
+    id: 'english-question-translates-to-chinese-core',
+    user: 'en-core-isolation',
+    q: 'What isolation order is needed for VRE?',
+    expect: ['TRANSLATION EN', 'ANN00025', '接觸隔離-VRE'],
+    forbid: ['目前未檢索到', '關鍵字檢索命中度較低'],
+  },
+  {
+    id: 'thai-question-translates-to-chinese-core',
+    user: 'th-core-isolation',
+    q: 'VRE ต้องสั่งแยกโรคอย่างไร',
+    expect: ['THAI TRANSLATION', 'ANN00025', '接觸隔離-VRE'],
+    forbid: ['目前未檢索到', '關鍵字檢索命中度較低'],
+  },
+  {
+    id: 'thai-satisfaction-does-not-language-prompt',
+    user: 'th-satisfaction',
+    q: 'ความพึงพอใจ',
+    expect: ['THAI TRANSLATION', '完成 5 次有效問答後'],
+    forbid: ['Detected Thai', '請點選偏好的語言'],
+  },
+  {
+    id: 'english-satisfaction-core',
+    user: 'en-satisfaction',
+    q: 'satisfaction',
+    expect: ['TRANSLATION EN', '完成 5 次有效問答後'],
+    forbid: ['目前未檢索到', '疾病＋項目', 'Detected'],
+  },
+  {
+    id: 'indonesian-satisfaction-core',
+    user: 'id-satisfaction',
+    q: 'kepuasan',
+    expect: ['TERJEMAHAN ID', '完成 5 次有效問答後'],
+    forbid: ['目前未檢索到', '疾病＋項目', 'Detected'],
+  },
+  {
+    id: 'vietnamese-satisfaction-core',
+    user: 'vi-satisfaction',
+    q: 'mức độ hài lòng',
+    expect: ['BAN DICH VI', '完成 5 次有效問答後'],
+    forbid: ['目前未檢索到', '疾病＋項目', 'Detected'],
+  },
+  {
+    id: 'thai-mood-smalltalk',
+    user: 'th-mood',
+    q: 'ฉันอารมณ์ไม่ดี',
+    expect: ['THAI TRANSLATION', '辛苦了'],
+    forbid: ['目前未檢索到', '疾病＋項目', 'Detected Thai'],
   },
   {
     id: 'audit-mode-definition-stays-concise',
@@ -524,8 +758,8 @@ const cases = [
     id: 'language',
     user: 'staff11',
     q: 'What is Ebola isolation?',
-    expect: ['偵測到您可能使用 English'],
-    quick: ['繁體中文', 'English', 'Bahasa', 'Tiếng Việt'],
+    expect: ['伊波拉', '隔離'],
+    forbid: ['偵測到您可能使用 English'],
   },
   {
     id: 'ebola-common-typo',
@@ -559,14 +793,16 @@ const cases = [
     id: 'language-id-followup',
     user: 'staff11id',
     sequence: ['Bahasa Indonesia', 'VRE隔離'],
-    expect: ['TERJEMAHAN ID:', 'VRE'],
+    expect: ['VRE', 'ANN00025'],
+    forbid: ['TERJEMAHAN ID:'],
     quick: ['評鑑查核', '臨床照護', '疫情訊息'],
   },
   {
     id: 'language-vi-followup',
     user: 'staff11vi',
     sequence: ['Tiếng Việt', '登革熱隔離醫囑'],
-    expect: ['BAN DICH VI:', 'ANN00049'],
+    expect: ['登革熱', 'ANN00049'],
+    forbid: ['BAN DICH VI:'],
     quick: ['評鑑查核', '臨床照護', '疫情訊息'],
   },
   {
@@ -608,17 +844,24 @@ const cases = [
     id: 'staff-meeting-visible',
     user: 'staff13',
     q: '你好',
-    quick: ['會議檢索', '🔒滿意度'],
-    quickNot: ['滿意度'],
-    quickTail: ['疫情訊息', '評鑑查核', '臨床照護', '🔒滿意度', '感管意見箱'],
+    quick: ['會議檢索', 'Language'],
+    quickNot: ['滿意度', '🔒滿意度'],
+    quickTail: ['會議檢索', '疫情訊息', '評鑑查核', '臨床照護', '感管意見箱'],
   },
   {
     id: 'manual-satisfaction-blocked-before-five',
     user: 'satisfaction-manual',
     q: '🔒滿意度',
     expect: ['完成 5 次有效問答後', '目前已完成 0/5 次'],
-    quick: ['🔒滿意度'],
-    quickNot: ['滿意度', '非常有幫助', '沒有幫助'],
+    quick: ['Language'],
+    quickNot: ['滿意度', '🔒滿意度', '非常有幫助', '沒有幫助'],
+  },
+  {
+    id: 'language-menu-four-options',
+    user: 'language-menu',
+    q: '語言',
+    expect: ['請選擇您偏好的語言', 'Please select your preferred language'],
+    quick: ['繁體中文', 'English', 'Bahasa', 'Tiếng Việt', 'ไทย'],
   },
   {
     id: 'automatic-satisfaction-after-five-answers',
@@ -660,6 +903,13 @@ const cases = [
     user: 'staff-meeting-nonquery',
     q: 'VRE處置',
     forbid: ['2026-08-01', '2026-08-08', '查得日期'],
+  },
+  {
+    id: 'vre-patient-what-to-do-care',
+    user: 'vre-what-to-do',
+    q: '病人有VRE怎麼辦',
+    expect: ['VRE 臨床照護與感控重點', '接觸防護', '洗手五時機'],
+    forbid: ['可以查的範圍很多', '請點下方快捷鈕'],
   },
   {
     id: 'suggestion-records-never-readable-from-line',
@@ -1167,7 +1417,8 @@ for (const testCase of cases) {
     const event = { source: { userId: testCase.user } };
     const answer = ctx.finalizeAnswer_({
       text: ctx.followWelcomeReply_(),
-      diseaseName: '閒聊',
+      diseaseName: '身分設定',
+      identityPrompt: true,
     }, event, '', '', { skipCount: true });
     const qr = ctx.buildQuickReplyForDisease_(answer.diseaseName, answer);
     result = {
@@ -1210,7 +1461,7 @@ for (const testCase of cases) {
   });
 }
 
-const globalQuickLabels = new Set(['疫情訊息', '評鑑查核', '臨床照護', '滿意度', '🔒滿意度', '感管意見箱']);
+const globalQuickLabels = new Set(['疫情訊息', '評鑑查核', '臨床照護', '滿意度', '🔒滿意度', 'Language', '感管意見箱']);
 const routeCandidates = new Map();
 outputs.forEach((item) => {
   const isAudit = String(item.question || '').startsWith('評鑑查核 ->');
@@ -1328,6 +1579,27 @@ outputs.push({
   wrongQuickTail: null,
   quickReplyLabels: [],
   preview: sanitizedInternalPathSample.replace(/\n/g, ' ').slice(0, 260),
+});
+
+const oddIntroSample = [
+  'Irene(敬伊）您好，我是感染管制檢索助手，協助醫療同仁快速查詢各類感染管制相關資訊，知無不言喔～(moon smile)',
+  '已切換為評鑑查核模式。'
+].join('\n');
+const sanitizedOddIntro = ctx.sanitizeLineText_(oddIntroSample);
+const oddIntroFilterOk = !/感染管制檢索助手|知無不言/.test(sanitizedOddIntro) && sanitizedOddIntro.includes('已切換為評鑑查核模式');
+if (!oddIntroFilterOk) failures += 1;
+outputs.push({
+  id: 'sanitize-odd-self-intro',
+  ok: oddIntroFilterOk,
+  question: '[sanitize odd self intro]',
+  diseaseName: '模式切換',
+  missing: oddIntroFilterOk ? [] : ['mode reply retained'],
+  forbidden: /感染管制檢索助手|知無不言/.test(sanitizedOddIntro) ? ['odd self intro'] : [],
+  missingQuick: [],
+  forbiddenQuick: [],
+  wrongQuickTail: null,
+  quickReplyLabels: [],
+  preview: sanitizedOddIntro.replace(/\n/g, ' ').slice(0, 260),
 });
 
 const originalLoadKb = ctx.loadKb_;

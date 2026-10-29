@@ -1009,7 +1009,7 @@ function doPost(e) {<br>
 
       let mistakesHtml = '';
       if (!r.mistakes || r.mistakes.length === 0) {
-        mistakesHtml = `<div style="background:var(--success-light); border:1.5px solid var(--success); color:#166534; padding:1rem; border-radius:var(--radius-sm); font-weight:700;">🎉 滿分通關！無任何踩雷錯題，專業底氣無懈可擊！</div>`;
+        mistakesHtml = `<div style="background:var(--success-light); border:1.5px solid var(--success); color:#166534; padding:1rem; border-radius:var(--radius-sm); font-weight:700;">🎉 滿分通關！無任何踩雷錯題，專業把關無懈可擊！</div>`;
       } else {
         mistakesHtml = r.mistakes.map((m, i) => `
           <div style="border:1px solid var(--border); border-radius:var(--radius-sm); padding:0.85rem; margin-bottom:0.75rem; background:#fff;">
