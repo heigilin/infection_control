@@ -70,16 +70,16 @@
     }
 
     :root {
-      --night: #090e1a;
-      --slate: #111a2e;
-      --slate-2: #18233c;
+      --night: #f9f6f0;
+      --slate: #ffffff;
+      --slate-2: #fcf9f5;
       --slate-3: #223050;
       --line: #263554;
-      --mint: #2dd4bf;
-      --mint-dk: #0f766e;
+      --mint: #8c674b;
+      --mint-dk: #6e4e37;
       --sun: #f59e0b;
       --berry: #f43f5e;
-      --sky: #38bdf8;
+      --sky: #8c674b;
       --grape: #818cf8;
       --danger: #f43f5e;
       --paper: #f8fafc;
@@ -93,9 +93,9 @@
       --fg: #f8fafc;
       --fg-2: #cbd5e1;
       --fg-3: #94a3b8;
-      --accent: #2dd4bf;
-      --home-bg: linear-gradient(115deg, #090e1a 0%, #0f172a 55%, #131e34 100%);
-      --card-bg: rgba(17, 26, 46, 0.92);
+      --accent: #8c674b;
+      --home-bg: linear-gradient(115deg, #f9f6f0 0%, #0f172a 55%, #131e34 100%);
+      --card-bg: rgba(255, 255, 255, 0.95);
       --font-sans: 'Noto Sans TC', system-ui, -apple-system, sans-serif;
     }
 
@@ -235,9 +235,9 @@
       transform: translateY(-2px);
     }
     .phase-tab.active {
-      background: linear-gradient(135deg, rgba(8, 84, 70, 0.35) 0%, rgba(52, 211, 180, 0.2) 100%);
+      background: linear-gradient(135deg, rgba(8, 84, 70, 0.35) 0%, rgba(140, 103, 75, 0.2) 100%);
       border-color: var(--mint);
-      box-shadow: 0 0 20px rgba(52, 211, 180, 0.25);
+      box-shadow: 0 0 20px rgba(140, 103, 75, 0.25);
     }
     .phase-icon {
       font-size: 30px;
@@ -270,7 +270,7 @@
       margin-bottom: 24px;
     }
     .learn-intro-banner {
-      background: rgba(17, 26, 46, 0.75);
+      background: rgba(255, 255, 255, 0.95);
       border: 1px solid #2d3f63;
       border-left: 4px solid var(--accent);
       border-radius: var(--radius-sm);
@@ -330,7 +330,7 @@
       font-size: 19px;
       font-weight: 900;
       cursor: pointer;
-      box-shadow: 0 8px 24px rgba(52, 211, 180, 0.45);
+      box-shadow: 0 8px 24px rgba(140, 103, 75, 0.45);
       transition: all 0.2s;
       display: flex;
       align-items: center;
@@ -342,7 +342,7 @@
     }
     .cta-go-quiz:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(52, 211, 180, 0.6);
+      box-shadow: 0 12px 30px rgba(140, 103, 75, 0.6);
     }
 
     /* 主格線配置 (7:4 比例，對標 sanjie-growth) */
@@ -446,7 +446,7 @@
     .choice-card.selected {
       background: var(--slate-3);
       border-color: var(--mint);
-      box-shadow: 0 0 14px rgba(52, 211, 180, 0.3);
+      box-shadow: 0 0 14px rgba(140, 103, 75, 0.3);
     }
     .choice-badge {
       display: inline-block;
@@ -576,7 +576,7 @@
       font-size: 1rem;
       font-weight: 900;
       cursor: pointer;
-      box-shadow: 0 4px 15px rgba(52, 211, 180, 0.4);
+      box-shadow: 0 4px 15px rgba(140, 103, 75, 0.4);
       transition: all 0.2s;
       text-align: center;
       display: flex;
@@ -586,7 +586,7 @@
     }
     .main-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(52, 211, 180, 0.55);
+      box-shadow: 0 6px 20px rgba(140, 103, 75, 0.55);
     }
     .ghost-btn {
       background: var(--slate-2);
@@ -723,7 +723,7 @@
       overflow: hidden;
       margin-bottom: 1.25rem;
       background: radial-gradient(circle at center, #111a33 0%, #070d1e 100%);
-      border: 1.5px solid rgba(52, 211, 180, 0.4);
+      border: 1.5px solid rgba(140, 103, 75, 0.4);
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 0 40px rgba(16, 185, 129, 0.08);
       user-select: none;
     }
@@ -786,7 +786,7 @@
       padding: 2px 8px;
       border-radius: 999px;
       font-size: 11.5px;
-      border: 1px solid rgba(52, 211, 180, 0.3);
+      border: 1px solid rgba(140, 103, 75, 0.3);
     }
     .duel-hp-wrapper {
       display: flex;
@@ -818,7 +818,7 @@
     .duel-3d-hint span {
       font-size: 11.5px;
       color: #cbd5e1;
-      background: rgba(15, 23, 42, 0.65);
+      background: #ffffff;
       padding: 3px 10px;
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.08);
@@ -929,7 +929,7 @@
     }
     .option-btn.correct {
       background: #d1fae5 !important;
-      border: 2px solid #059669 !important;
+      border: 2px solid var(--milktea-accent) !important;
       color: #064e3b !important;
       font-weight: 800 !important;
     }
@@ -1155,7 +1155,7 @@
     .site-nav {
       background: rgba(8, 18, 15, 0.96);
       backdrop-filter: blur(14px);
-      border-bottom: 1.5px solid rgba(45, 212, 191, 0.25);
+      border-bottom: 1.5px solid rgba(184, 123, 78, 0.25);
       position: sticky;
       top: 0;
       z-index: 100;
@@ -1183,7 +1183,7 @@
       height: 40px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid #2dd4bf;
+      border: 2px solid var(--milktea-border);
       flex-shrink: 0;
     }
     .nav-brand-text {
@@ -1202,7 +1202,7 @@
     .nav-flow-hint {
       font-size: 0.74rem;
       font-weight: 700;
-      color: #2dd4bf;
+      color: var(--milktea-caramel);
       letter-spacing: 0.3px;
       white-space: nowrap;
     }
@@ -1222,25 +1222,25 @@
       gap: 0.4rem;
       transition: all 0.15s;
       text-decoration: none;
-      border: 1px solid rgba(45, 212, 191, 0.35);
+      border: 1px solid rgba(184, 123, 78, 0.35);
       background: rgba(255, 255, 255, 0.08);
       color: #e2f1ec;
       white-space: nowrap;
     }
     .nav-btn:hover {
-      border-color: #2dd4bf;
+      border-color: var(--milktea-caramel);
       color: #ffffff;
-      background: rgba(45, 212, 191, 0.2);
+      background: rgba(184, 123, 78, 0.2);
     }
     .nav-btn.active {
-      background: #0f766e !important;
+      background: var(--milktea-accent) !important;
       color: #ffffff !important;
-      border-color: #2dd4bf !important;
-      box-shadow: 0 2px 10px rgba(45, 212, 191, 0.3);
+      border-color: var(--milktea-accent) !important;
+      box-shadow: 0 2px 10px rgba(184, 123, 78, 0.3);
     }
     .current-dot {
       font-size: 0.68rem;
-      background: #2dd4bf;
+      background: var(--milktea-accent);
       color: #042f2e;
       padding: 1px 6px;
       border-radius: 999px;
@@ -1248,7 +1248,7 @@
       white-space: nowrap;
     }
     .nav-btn-line {
-      background: #059669;
+      background: var(--milktea-accent);
       color: #ffffff !important;
       border-color: #10b981;
     }
@@ -1301,7 +1301,7 @@
       align-items: center;
       justify-content: center;
       gap: 12px;
-      background: rgba(17, 26, 46, 0.85);
+      background: rgba(255, 255, 255, 0.95);
       border: 1px solid #2d3f63;
       border-radius: 12px;
       padding: 10px 18px;
@@ -1322,7 +1322,7 @@
       background: #0d9488;
       color: #ffffff;
       font-weight: 800;
-      box-shadow: 0 2px 8px rgba(13, 148, 136, 0.3);
+      box-shadow: 0 2px 8px rgba(89, 63, 44, 0.3);
     }
     .flow-active .flow-num {
       background: #ffffff;
@@ -1335,9 +1335,9 @@
       font-weight: 700;
     }
     .flow-prev:hover {
-      border-color: #2dd4bf;
-      color: #2dd4bf;
-      background: rgba(45, 212, 191, 0.1);
+      border-color: var(--milktea-caramel);
+      color: var(--milktea-caramel);
+      background: rgba(184, 123, 78, 0.1);
     }
     .flow-num {
       width: 22px;
@@ -1666,7 +1666,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(15, 23, 42, 0.4);
+      background: #ffffff;
       backdrop-filter: blur(4px);
       z-index: 250;
       display: flex;
@@ -1759,7 +1759,7 @@
         z-index: 100;
         background: rgba(8, 18, 15, 0.96) !important;
         backdrop-filter: blur(12px) !important;
-        border-bottom: 1px solid rgba(45, 212, 191, 0.3) !important;
+        border-bottom: 1px solid rgba(184, 123, 78, 0.3) !important;
       }
       .nav-inner {
         flex-direction: row !important;
@@ -1831,7 +1831,7 @@
       .tagline {
         font-size: 0.8rem !important;
         margin-bottom: 0.75rem !important;
-        color: #99f6e4 !important;
+        color: var(--milktea-muted) !important;
       }
 
       /* 🔥 手機雙軌直覺行動入口 (直覺二選一：讀教材 或 考測驗) */
@@ -1854,12 +1854,12 @@
         transform: scale(0.98);
       }
       .card-learn-portal {
-        background: linear-gradient(135deg, rgba(15, 118, 110, 0.3) 0%, rgba(6, 78, 59, 0.4) 100%);
-        border-color: #2dd4bf;
+        background: linear-gradient(135deg, rgba(89, 63, 44, 0.3) 0%, rgba(6, 78, 59, 0.4) 100%);
+        border-color: var(--milktea-caramel);
       }
       .card-quiz-portal {
-        background: linear-gradient(135deg, rgba(30, 58, 138, 0.35) 0%, rgba(15, 23, 42, 0.6) 100%);
-        border-color: #38bdf8;
+        background: linear-gradient(135deg, rgba(30, 58, 138, 0.35) 0%, #ffffff 100%);
+        border-color: var(--milktea-caramel);
       }
       .action-card-header {
         display: flex;
@@ -1868,7 +1868,7 @@
         margin-bottom: 6px;
       }
       .step-pill-1 {
-        background: #2dd4bf;
+        background: var(--milktea-accent);
         color: #042f2e;
         font-size: 11px;
         font-weight: 900;
@@ -1876,7 +1876,7 @@
         border-radius: 999px;
       }
       .step-pill-2 {
-        background: #38bdf8;
+        background: var(--milktea-caramel);
         color: #082f49;
         font-size: 11px;
         font-weight: 900;
@@ -1917,8 +1917,8 @@
         text-align: center;
       }
       .btn-pill-learn {
-        background: #0f766e;
-        box-shadow: 0 2px 8px rgba(15, 118, 110, 0.4);
+        background: var(--milktea-accent);
+        box-shadow: 0 2px 8px rgba(89, 63, 44, 0.4);
       }
       .btn-pill-quiz {
         background: #0284c7;
@@ -2346,6 +2346,189 @@
       text-decoration: underline;
     }
     
+
+    /* ==========================================================================
+       ☕ 純粹溫暖奶茶色系：收斂按鈕管道、極致護眼、無多重管道凌亂感
+       ========================================================================== */
+    .site-nav {
+      background: rgba(254, 252, 248, 0.96) !important;
+      backdrop-filter: blur(16px) !important;
+      border-bottom: 1.5px solid #e8ded2 !important;
+      padding: 0.65rem clamp(14px, 3vw, 40px) !important;
+      box-shadow: 0 2px 14px rgba(78, 55, 38, 0.05) !important;
+    }
+    .nav-inner {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      gap: 16px !important;
+      max-width: 1220px !important;
+      margin: 0 auto !important;
+    }
+    .nav-brand {
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      text-decoration: none !important;
+    }
+    .nav-logo {
+      width: 38px !important;
+      height: 38px !important;
+      border-radius: 50% !important;
+      border: 1.5px solid var(--milktea-accent) !important;
+    }
+    .nav-brand-text {
+      display: flex !important;
+      flex-direction: column !important;
+    }
+    .nav-title {
+      font-size: 1.05rem !important;
+      font-weight: 900 !important;
+      color: var(--milktea-heading) !important;
+      line-height: 1.2 !important;
+    }
+    .nav-subtitle {
+      font-size: 0.72rem !important;
+      font-weight: 700 !important;
+      color: var(--milktea-muted) !important;
+    }
+    .nav-links {
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important;
+      flex-wrap: wrap !important;
+    }
+    .nav-link-item {
+      padding: 6px 12px !important;
+      border-radius: 8px !important;
+      font-size: 0.88rem !important;
+      font-weight: 700 !important;
+      color: var(--milktea-body) !important;
+      text-decoration: none !important;
+      transition: all 0.15s ease !important;
+    }
+    .nav-link-item:hover {
+      color: var(--milktea-heading) !important;
+      background: rgba(140, 103, 75, 0.08) !important;
+    }
+    .nav-link-admin {
+      background: #f4ede4 !important;
+      border: 1px solid var(--milktea-border) !important;
+      color: var(--milktea-heading) !important;
+    }
+    .nav-link-admin:hover {
+      background: #ede1d2 !important;
+      border-color: var(--milktea-accent) !important;
+    }
+
+    /* Masthead 迎賓卡片：清爽寬闊 */
+    .masthead {
+      margin: 18px 0 24px !important;
+      padding: 24px 28px !important;
+      background: #ffffff !important;
+      border: 1.5px solid var(--milktea-border) !important;
+      border-radius: var(--radius) !important;
+      box-shadow: 0 4px 20px rgba(89, 63, 44, 0.06) !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 20px !important;
+    }
+    .masthead-logo {
+      width: 64px !important;
+      height: 64px !important;
+      border-radius: 50% !important;
+      border: 2px solid var(--milktea-accent) !important;
+      flex-shrink: 0 !important;
+    }
+    .masthead-content {
+      flex: 1 !important;
+    }
+    .kicker {
+      font-size: 0.72rem !important;
+      font-weight: 800 !important;
+      letter-spacing: 1.5px !important;
+      color: var(--milktea-caramel) !important;
+      margin-bottom: 2px !important;
+    }
+    .logo-title {
+      font-size: 1.55rem !important;
+      font-weight: 900 !important;
+      color: var(--milktea-heading) !important;
+      margin-bottom: 4px !important;
+    }
+    .logo-title span {
+      color: var(--milktea-accent) !important;
+    }
+    .tagline {
+      font-size: 0.88rem !important;
+      color: var(--milktea-muted) !important;
+      margin-bottom: 14px !important;
+    }
+    .masthead-links {
+      display: flex !important;
+      align-items: center !important;
+      gap: 10px !important;
+      flex-wrap: wrap !important;
+    }
+    .m-jump-link {
+      font-size: 0.82rem !important;
+      font-weight: 700 !important;
+      padding: 5px 14px !important;
+      border-radius: 999px !important;
+      text-decoration: none !important;
+      background: #f7f0e6 !important;
+      color: var(--milktea-body) !important;
+      border: 1px solid var(--milktea-border) !important;
+      transition: all 0.15s ease !important;
+    }
+    .m-jump-link:hover {
+      background: #ede1d2 !important;
+      color: var(--milktea-heading) !important;
+    }
+    .m-jump-primary {
+      background: var(--milktea-accent) !important;
+      color: #ffffff !important;
+      border-color: var(--milktea-accent-hover) !important;
+    }
+    .m-jump-primary:hover {
+      background: var(--milktea-accent-hover) !important;
+      color: #ffffff !important;
+    }
+
+    /* 隱藏過去殘留的所有按鈕長條樣式 */
+    .site-flow-roadmap, .phase-bar, .mobile-action-hub {
+      display: none !important;
+    }
+
+    /* 手機端自適應 */
+    @media (max-width: 768px) {
+      .site-nav {
+        padding: 0.5rem 10px !important;
+      }
+      .nav-links {
+        gap: 4px !important;
+      }
+      .nav-link-item {
+        padding: 4px 8px !important;
+        font-size: 0.78rem !important;
+      }
+      .masthead {
+        padding: 16px 14px !important;
+        gap: 12px !important;
+      }
+      .masthead-logo {
+        width: 44px !important;
+        height: 44px !important;
+      }
+      .logo-title {
+        font-size: 1.2rem !important;
+      }
+      .tagline {
+        font-size: 0.8rem !important;
+        margin-bottom: 10px !important;
+      }
+    }
+    
 </style>
   <!-- Three.js 3D 引擎 (優先本地 assets，並具備官方 CDN 備援) -->
   <script src="assets/three.min.js"></script>
@@ -2356,32 +2539,22 @@
   </script>
 </head>
 <body>
-  <!-- 全站統一旗艦導覽列 -->
+      <!-- 全站優雅奶茶色極簡導覽列 -->
   <header class="site-nav">
     <div class="nav-inner">
-      <a class="nav-brand" href="#sec-learn">
+      <a class="nav-brand" href="#home" title="回到首頁">
         <img class="nav-logo" src="assets/avatar.jpg" alt="台大感管頭像">
         <div class="nav-brand-text">
           <span class="nav-title">臺大醫院感控不踩雷</span>
-          <span class="nav-flow-hint">學習架構：先閱讀教材 ➔ 後實戰闖關</span>
+          <span class="nav-subtitle">病房最優雅的守護神</span>
         </div>
       </a>
       <nav class="nav-links">
-        <a class="nav-btn" href="#sec-learn" title="直達第一階段：9 大感控實戰指引速查">
-          <span>📖 核心指引</span>
-        </a>
-        <a class="nav-btn" href="#sec-video" title="直達示範影音：標準肥皂水洗手 4 步驟拆解">
-          <span>🎥 洗手影音</span>
-        </a>
-        <a class="nav-btn active" href="#sec-quiz" title="直達第二階段：情境盲盒闖關測驗">
-          <span>⚔️ 實戰闖關</span>
-        </a>
-        <a class="nav-btn" href="#sec-line" title="直達臨床口袋顧問：台大感管 LINE @ntuhic">
-          <span>📱 LINE口袋書</span>
-        </a>
-        <a class="nav-btn" href="admin.html" title="查看全院同仁答題成效與弱點統計">
-          <span>📊 主管看板</span>
-        </a>
+        <a class="nav-link-item" href="#sec-learn">📖 核心指引</a>
+        <a class="nav-link-item" href="#sec-video">🎥 洗手影音</a>
+        <a class="nav-link-item" href="#sec-quiz">⚔️ 實戰闖關</a>
+        <a class="nav-link-item" href="#sec-line">📱 LINE口袋書</a>
+        <a class="nav-link-item nav-link-admin" href="admin.html">📊 主管看板 ↗</a>
       </nav>
     </div>
   </header>
@@ -2411,137 +2584,33 @@
 
   <!-- 主頁面 (首頁模式) -->
   <main id="home">
-        <!-- 學習路徑導引條 -->
-    <div class="site-flow-roadmap">
-      <a class="flow-step flow-prev" href="#sec-learn" title="點此返回步驟 1 閱讀完整投影片">
-        <span class="flow-num">1</span>
-        <span class="flow-text"><strong>【步驟 1：先閱讀教材】</strong> 9 大章節投影片 ＆ LINE 口袋顧問（點此返回 ↗）</span>
-      </a>
-      <div class="flow-arrow">➔</div>
-      <div class="flow-step flow-active">
-        <span class="flow-num">2</span>
-        <span class="flow-text"><strong>【步驟 2：後實戰闖關】</strong> 情境盲盒對決測驗（目前位置 ●）</span>
-      </div>
-    </div>
-    <header class="masthead">
+        
+        <header class="masthead">
       <img class="masthead-logo" src="assets/avatar.jpg" alt="台大感管頭像">
-      <div>
-        <p class="kicker">NTUH INFECTION CONTROL · 3D INTERACTIVE EXP</p>
+      <div class="masthead-content">
+        <p class="kicker">NTUH INFECTION CONTROL · WARM MEDICAL LEARNING</p>
         <h1 class="logo-title">感控不踩雷｜<span>病房最優雅的守護神</span></h1>
-        <p class="tagline">把感染管制做成直覺 · 用最專業的底氣 · 讓臨床工作游刃有餘</p>
+        <p class="tagline">把感染管制做成直覺 · 用最溫暖專業的底氣 · 讓臨床工作游刃有餘</p>
+        <div class="masthead-links">
+          <a href="#sec-learn" class="m-jump-link">📖 閱讀 9 大核心指引 ↓</a>
+          <a href="#sec-video" class="m-jump-link">🎥 標準濕洗手示範影音 ↓</a>
+          <a href="#sec-quiz" class="m-jump-link m-jump-primary">⚔️ 進入臨床情境闖關 ↓</a>
+        </div>
       </div>
     </header>
 
-    <!-- 手機端專屬：雙軌直覺行動入口 (一鍵直達 讀教材 vs 實戰考題) -->
-    <div class="mobile-action-hub">
-      <a class="action-card card-learn-portal" href="#sec-learn" title="開啟步驟 1：10 大核心章節簡報與示範影片">
-        <div class="action-card-header">
-          <span class="step-pill-1">步驟 1</span>
-          <span class="action-badge">核心指引 ＆ 示範影音</span>
-        </div>
-        <div class="action-card-title">📖 閱讀感控簡報教材 ↗</div>
-        <p class="action-card-desc">完整 10 單元標準規範 · 標準肥皂水洗手示範影片</p>
-        <div class="action-btn-pill btn-pill-learn">開啟簡報教材 ➔</div>
-      </a>
-
-      <div class="action-card card-quiz-portal" id="btnHeroQuizStart" style="cursor:pointer;" title="開啟步驟 2：臨床情境盲盒考題對決">
-        <div class="action-card-header">
-          <span class="step-pill-2">步驟 2</span>
-          <span class="action-badge">盲盒對決 ＆ 守護神認證</span>
-        </div>
-        <div class="action-card-title">⚔️ 開始實戰情境闖關</div>
-        <p class="action-card-desc">10 題臨床情境盲盒考驗 · 避開常見地雷 · 領取認證</p>
-        <div class="action-btn-pill btn-pill-quiz">進入實戰測驗 ➔</div>
-      </div>
-    </div>
-
-    <!-- 階段切換導航 (先學習才闖關) -->
-    <div class="phase-bar">
-      <button type="button" class="phase-tab active" id="tabPhaseQuiz">
-        <span class="phase-icon">⚔️</span>
-        <div class="phase-text">
-          <small>步驟 2 核心 · 驗收挑戰</small>
-          <strong>實戰情境闖關（開始對決測驗）</strong>
-        </div>
-      </button>
-      <button type="button" class="phase-tab" id="tabPhaseLearn">
-        <span class="phase-icon">📖</span>
-        <div class="phase-text">
-          <small>步驟 1 摘要 · 重點速查</small>
-          <strong>9 大章節重點速查（觀念複習）</strong>
-        </div>
-      </button>
-    </div>
-
-    <!-- ===== 第一階段：核心學習專區 ===== -->
+    <!-- ===== 第一階段：9 大核心實戰指引速查 ===== -->
     <section class="learn-panel" id="sec-learn">
-      <!-- 一頁式第一區塊標題：9 大核心實戰重點速查 -->
       <div class="onepage-section-header">
         <div>
           <h2 class="onepage-section-title"><span>📖</span> 第一階段：臺大醫院 9 大核心實戰指引速查</h2>
-          <p class="onepage-section-desc">感染管制不是生硬的規定，而是臨床游刃有餘的專業底氣。請先快速複習以下 9 大重點，隨時可順流向下滑動進行實戰闖關：</p>
-        </div>
-        <a href="#sec-quiz" class="main-btn" style="padding:8px 18px; font-size:14px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
-          ⚔️ 略過速查，直接闖關 ➔
-        </a>
-      </div>
-
-      <div style="background: rgba(13, 148, 136, 0.15); border: 1.5px solid #14b8a6; border-radius: var(--radius); padding: 18px 22px; margin-bottom: 22px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;">
-        <div>
-          <strong style="color:var(--milktea-caramel); font-size:16px;">📖 想觀看完整投影片全螢幕放映與精美圖文？</strong>
-          <p style="color:var(--milktea-body); font-size:14px; margin:4px 0 0;">請開啟【步驟 1：先閱讀教材】全功能簡報站（支援全螢幕投影片放映、外籍看護多語專題）：</p>
-        </div>
-        <a href="#sec-learn" style="background:#0f766e; color:#ffffff !important; font-weight:800; font-size:14.5px; padding:9px 20px; border-radius:999px; text-decoration:none; display:inline-flex; align-items:center; gap:6px; box-shadow:0 3px 10px rgba(15,118,110,0.3);">👉 開啟【步驟 1：完整簡報教材】 ↗</a>
-      </div>
-
-      <div class="learn-intro-banner">
-        <span class="icon">💡</span>
-        <div>
-          <h3>臺大醫院最新版 P&P 感染管制規範 · 9 大核心實戰重點</h3>
-          <p>感染管制不是生硬的規定，而是臨床游刃有餘的專業底氣。請先詳閱以下 9 大臨床實戰章節，內化為臨床直覺後再進行闖關驗收：</p>
+          <p class="onepage-section-desc">感染管制不是生硬的規定，而是臨床游刃有餘的專業底氣。請詳閱以下 9 大重點，順流向下滑動即可進行實戰闖關：</p>
         </div>
       </div>
 
-      <!-- 臨床口袋神隊友：台大感管 LINE 官方帳號 (@ntuhic) -->
-      <div id="sec-line" style="background: #ffffff; border: 1.5px solid var(--milktea-border); border-radius: var(--radius); padding: 22px 24px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:14px; border-bottom:1.5px solid var(--milktea-border-light); padding-bottom:10px;">
-          <h3 style="margin:0; font-size:1.2rem; font-weight:800; color:var(--milktea-caramel); display:flex; align-items:center; gap:8px;">
-            <span>📱</span> 臨床口袋神隊友：為什麼全院同仁都加入「台大感管 LINE 官方帳號」？
-          </h3>
-          <span style="background:#527961; color:#ffffff; font-size:12.5px; font-weight:700; padding:4px 12px; border-radius:999px;">LINE ID: @ntuhic ✦ 24hr 口袋感控顧問</span>
-        </div>
-        <p style="color:var(--milktea-body); font-size:14.5px; line-height:1.7; margin-bottom:14px;">
-          病房分秒必爭，感管室電話常佔線、大夜班無人能問？「台大感管 LINE 官方帳號（@ntuhic）」是臨床值班最強智囊，為醫師、護理師、外籍看護與清潔同仁掃除焦慮：
-        </p>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px; margin-bottom:16px;">
-          <div style="background:#fbf7f1; border-radius:10px; padding:12px 14px; border:1px solid var(--milktea-border-light);">
-            <div style="font-weight:800; color:var(--milktea-caramel); margin-bottom:4px;">⚡ 1. 秒查隔離醫囑與規範</div>
-            <div style="font-size:13px; color:var(--milktea-body); line-height:1.5;">輸入 CRE、MRSA、C. diff，立即跳出 HIS 隔離醫囑代碼與解隔條件，查房不再卡關。</div>
-          </div>
-          <div style="background:#fbf7f1; border-radius:10px; padding:12px 14px; border:1px solid var(--milktea-border-light);">
-            <div style="font-weight:800; color:var(--milktea-caramel); margin-bottom:4px;">🛡️ 2. 口袋 PPE 防呆指南</div>
-            <div style="font-size:13px; color:var(--milktea-body); line-height:1.5;">進房前 3 秒快速確認防護衣、手套、護目鏡或 N95，夜班巡房不踩雷、不怕穿錯。</div>
-          </div>
-          <div style="background:#fbf7f1; border-radius:10px; padding:12px 14px; border:1px solid var(--milktea-border-light);">
-            <div style="font-weight:800; color:var(--milktea-caramel); margin-bottom:4px;">⏱️ 3. 法傳通報時限與採檢防呆</div>
-            <div style="font-size:13px; color:var(--milktea-body); line-height:1.5;">24h/1週通報時限倒數防呆，專用採檢試管與運送規定一清二楚，不漏通報被罰。</div>
-          </div>
-          <div style="background:#fbf7f1; border-radius:10px; padding:12px 14px; border:1px solid var(--milktea-border-light);">
-            <div style="font-weight:800; color:var(--milktea-caramel); margin-bottom:4px;">📱 4. 衛教單張一鍵看免等電話</div>
-            <div style="font-size:13px; color:var(--milktea-body); line-height:1.5;">向家屬衛教手機直接調閱；大夜班或電話佔線時，24 小時隨身待命即問即答！</div>
-          </div>
-          <div style="background:rgba(20, 184, 166, 0.08); border-radius:8px; padding:12px 14px; border:1px solid rgba(20, 184, 166, 0.3);">
-            <div style="font-weight:800; color:var(--milktea-caramel); margin-bottom:4px;">🌐 5. 外籍看護多語一鍵切換</div>
-            <div style="font-size:13px; color:var(--milktea-body); line-height:1.5;">支援越、泰、印、英等母語圖文衛教，床邊外籍看護溝通防護零死角，減輕護理負擔！</div>
-          </div>
-        </div>
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; background:rgba(0,0,0,0.3); padding:10px 16px; border-radius:8px; border:1px solid #1e293b;">
-          <span style="font-size:13.5px; color:var(--milktea-body);">加入好友：搜尋 LINE ID <strong style="color:var(--milktea-caramel);">@ntuhic</strong>（支援越泰印英多語）或點擊按鈕：</span>
-          <a href="https://line.me/R/ti/p/@ntuhic" target="_blank" rel="noopener" style="background:#059669; color:#ffffff !important; font-weight:800; font-size:13.5px; padding:7px 16px; border-radius:999px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">👉 立即加入台大感管 LINE 帳號 ↗</a>
-        </div>
-      </div>
+    
 
-      <div class="learn-cards-grid">
+            <div class="learn-cards-grid">
         <!-- 章節 01 -->
         <article class="learn-card">
           <h4><span>🚪</span> 章節 01：感染管制隔離防護規範</h4>
@@ -2586,7 +2655,7 @@
         </article>
 
         <!-- 章節 04 (手部衛生三大實戰核心 ＆ 標準示範影片) -->
-        <article class="learn-card" style="grid-column: 1 / -1; border: 2px solid var(--accent); background: linear-gradient(180deg, #0f241f 0%, #091310 100%); box-shadow: 0 8px 30px rgba(15,118,110,0.3);">
+        <article class="learn-card" id="sec-video" style="grid-column: 1 / -1; border: 2px solid var(--milktea-border); background: #ffffff; box-shadow: 0 8px 28px rgba(89, 63, 44, 0.08);">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
             <h4 style="margin:0; font-size:18px;"><span>🚨</span> 章節 04：手部衛生核心規範 ＆ 標準濕洗手示範影片</h4>
             <span style="background:var(--accent); color:#fff; font-size:12.5px; font-weight:800; padding:4px 12px; border-radius:999px;">
@@ -2602,7 +2671,7 @@
           </p>
 
           <!-- 實境示範影音區塊 (完整支援 GitHub 雲端串流與本地雙線路) -->
-          <div style="background:#040d0b; border:1.5px solid #14b8a6; border-radius:12px; padding:18px; margin-bottom:16px;">
+          <div style="background:#faf6f0; border:1.5px solid var(--milktea-border); border-radius:12px; padding:18px; margin-bottom:16px;">
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:8px;">
               <div style="display:flex; align-items:center; gap:8px;">
                 <span style="font-size:22px;">🎬</span>
@@ -2612,7 +2681,7 @@
                 </div>
               </div>
               <div style="display:flex; align-items:center; gap:8px;">
-                <a href="https://heigilin.github.io/HH/" target="_blank" rel="noopener" style="background:#0f766e; color:#ccfbf1; font-size:12px; font-weight:700; padding:4px 12px; border-radius:999px; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
+                <a href="https://heigilin.github.io/HH/" target="_blank" rel="noopener" style="background:var(--milktea-accent); color:#ffffff; font-size:12px; font-weight:700; padding:4px 12px; border-radius:999px; text-decoration:none; display:inline-flex; align-items:center; gap:4px;">
                   🌐 互動教學站 ↗
                 </a>
               </div>
@@ -2919,6 +2988,47 @@
         </div>
       </aside>
     </div>
+
+    <!-- ===== 第四階段：LINE 官方帳號口袋書 ===== -->
+    <!-- 臨床口袋神隊友：台大感管 LINE 官方帳號 (@ntuhic) -->
+      <div id="sec-line" style="background: #ffffff; border: 1.5px solid var(--milktea-border); border-radius: var(--radius); padding: 22px 24px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:14px; border-bottom:1.5px solid var(--milktea-border-light); padding-bottom:10px;">
+          <h3 style="margin:0; font-size:1.2rem; font-weight:800; color:var(--milktea-caramel); display:flex; align-items:center; gap:8px;">
+            <span>📱</span> 臨床口袋神隊友：為什麼全院同仁都加入「台大感管 LINE 官方帳號」？
+          </h3>
+          <span style="background:#527961; color:#ffffff; font-size:12.5px; font-weight:700; padding:4px 12px; border-radius:999px;">LINE ID: @ntuhic ✦ 24hr 口袋感控顧問</span>
+        </div>
+        <p style="color:var(--milktea-body); font-size:14.5px; line-height:1.7; margin-bottom:14px;">
+          病房分秒必爭，感管室電話常佔線、大夜班無人能問？「台大感管 LINE 官方帳號（@ntuhic）」是臨床值班最強智囊，為醫師、護理師、外籍看護與清潔同仁掃除焦慮：
+        </p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px; margin-bottom:16px;">
+          <div style="background:#fbf7f1; border-radius:10px; padding:12px 14px; border:1px solid var(--milktea-border-light);">
+            <div style="font-weight:800; color:var(--milktea-caramel); margin-bottom:4px;">⚡ 1. 秒查隔離醫囑與規範</div>
+            <div style="font-size:13px; color:var(--milktea-body); line-height:1.5;">輸入 CRE、MRSA、C. diff，立即跳出 HIS 隔離醫囑代碼與解隔條件，查房不再卡關。</div>
+          </div>
+          <div style="background:#fbf7f1; border-radius:10px; padding:12px 14px; border:1px solid var(--milktea-border-light);">
+            <div style="font-weight:800; color:var(--milktea-caramel); margin-bottom:4px;">🛡️ 2. 口袋 PPE 防呆指南</div>
+            <div style="font-size:13px; color:var(--milktea-body); line-height:1.5;">進房前 3 秒快速確認防護衣、手套、護目鏡或 N95，夜班巡房不踩雷、不怕穿錯。</div>
+          </div>
+          <div style="background:#fbf7f1; border-radius:10px; padding:12px 14px; border:1px solid var(--milktea-border-light);">
+            <div style="font-weight:800; color:var(--milktea-caramel); margin-bottom:4px;">⏱️ 3. 法傳通報時限與採檢防呆</div>
+            <div style="font-size:13px; color:var(--milktea-body); line-height:1.5;">24h/1週通報時限倒數防呆，專用採檢試管與運送規定一清二楚，不漏通報被罰。</div>
+          </div>
+          <div style="background:#fbf7f1; border-radius:10px; padding:12px 14px; border:1px solid var(--milktea-border-light);">
+            <div style="font-weight:800; color:var(--milktea-caramel); margin-bottom:4px;">📱 4. 衛教單張一鍵看免等電話</div>
+            <div style="font-size:13px; color:var(--milktea-body); line-height:1.5;">向家屬衛教手機直接調閱；大夜班或電話佔線時，24 小時隨身待命即問即答！</div>
+          </div>
+          <div style="background:rgba(20, 184, 166, 0.08); border-radius:8px; padding:12px 14px; border:1px solid rgba(20, 184, 166, 0.3);">
+            <div style="font-weight:800; color:var(--milktea-caramel); margin-bottom:4px;">🌐 5. 外籍看護多語一鍵切換</div>
+            <div style="font-size:13px; color:var(--milktea-body); line-height:1.5;">支援越、泰、印、英等母語圖文衛教，床邊外籍看護溝通防護零死角，減輕護理負擔！</div>
+          </div>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; background:rgba(0,0,0,0.3); padding:10px 16px; border-radius:8px; border:1px solid #1e293b;">
+          <span style="font-size:13.5px; color:var(--milktea-body);">加入好友：搜尋 LINE ID <strong style="color:var(--milktea-caramel);">@ntuhic</strong>（支援越泰印英多語）或點擊按鈕：</span>
+          <a href="https://line.me/R/ti/p/@ntuhic" target="_blank" rel="noopener" style="background:var(--milktea-accent); color:#ffffff !important; font-weight:800; font-size:13.5px; padding:7px 16px; border-radius:999px; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">👉 立即加入台大感管 LINE 帳號 ↗</a>
+        </div>
+      </div>
+
     </div> <!-- close #quizSetupSection -->
 
     <!-- 頁尾說明 -->
@@ -3441,7 +3551,7 @@
       switchPhase('quiz');
     }
     if (tabPhaseQuiz) tabPhaseQuiz.addEventListener('click', () => switchPhase('quiz'));
-    if (btnGoToQuiz) btnGoToQuiz.addEventListener('click', () => switchPhase('quiz'));
+    if (btnGoToQuiz) btnGoToQuiz.addEventListener('click', () => { const q = document.getElementById('sec-quiz'); if (q) q.scrollIntoView({ behavior: 'smooth' }); });
     if (btnBackToLearn) btnBackToLearn.addEventListener('click', () => switchPhase('learn'));
 
     const playerNickInput = document.getElementById('playerNick');
@@ -5116,12 +5226,12 @@
     function openHhModal() {
       const hhHtml = `
         <div style="padding:4px 0;">
-          <div style="background:#040d0b; border:1.5px solid #14b8a6; border-radius:12px; padding:16px; margin-bottom:16px;">
+          <div style="background:#faf6f0; border:1.5px solid var(--milktea-border); border-radius:12px; padding:16px; margin-bottom:16px;">
             <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
               <h4 style="margin:0; color:var(--milktea-caramel); font-size:15px; font-weight:800; display:flex; align-items:center; gap:6px;">
                 🎬 標準濕洗手示範影片（線上影音教材）
               </h4>
-              <a href="https://heigilin.github.io/HH/" target="_blank" rel="noopener" style="background:#0f766e; color:#ccfbf1; font-size:12px; font-weight:700; padding:2px 10px; border-radius:999px; text-decoration:none;">
+              <a href="https://heigilin.github.io/HH/" target="_blank" rel="noopener" style="background:var(--milktea-accent); color:#ffffff; font-size:12px; font-weight:700; padding:2px 10px; border-radius:999px; text-decoration:none;">
                 🌐 GitHub 原站 ↗
               </a>
             </div>
